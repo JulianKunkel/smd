@@ -1,0 +1,2 @@
+# smd
+Smarter datatype handling
