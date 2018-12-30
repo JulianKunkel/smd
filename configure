@@ -1,0 +1,93 @@
+#!/bin/bash
+
+PARAMETERS="$0 $*"
+CMAKEFLAGS=
+SRCDIR=$(dirname $(readlink -f $0))/
+CURPATH="$PWD"
+
+function help(){
+	echo ""
+	echo "SMD uses the CMake (http://www.cmake.org) buildsystem instead of configure."
+	echo "CMake uses different options than configure, but you can use this script to "
+	echo "specify them in the traditional way and get the equivalent cmake command."
+	echo "Use the following options to change default paths."
+	echo "--prefix=<dir>           : installation prefix"
+	echo
+	echo "Optional:"
+	echo "--build-dir=<dir>        : directory in which to build"
+	echo "--debug                  : build with debug flags"
+	echo "--verbose                : output the command but do not execute it"
+	echo "--reconfigure            : run configure again with the parameters used the last time"
+	echo "--with-cc=<file>         : path to the C compiler"
+	echo
+}
+
+# Some defaults
+debug=""
+VERBOSE=""
+buildDIR="build"
+
+function reconfigure(){
+	if [[ ! -e "configure.log" ]] ; then
+		echo "Error, didn't run configure before!" ;
+		exit 1
+	fi
+	$(cat configure.log)
+	exit $?
+}
+
+set -- `getopt -u -l "help,version,debug,reconfigure,prefix:,with-cc:,verbose,build-dir:" -o "h" -- "$@"`
+test $# -lt 1  && exit 1
+while test $# -gt 0
+do
+    echo $1 $2
+
+	case "$1" in
+		--help) help; exit;;
+		--reconfigure) reconfigure;;
+		--version) cmake --version; exit;;
+		--prefix) prefix="$2"; shift;;
+		--debug) debug="YES"; ;;
+		--with-cc) ccbin="$2"; shift;;
+		--build-dir) buildDIR="$2"; shift;;
+		--verbose) VERBOSE="YES"; ;;
+		--) shift;;
+		*) echo "Unknown option $1"; exit 1;;
+	esac
+	shift
+done
+
+echo $PARAMETERS > configure.log
+
+TARGET_DIR="/usr/local"
+
+if test -n "$debug"; then
+	CMAKEFLAGS="$CMAKEFLAGS -DCMAKE_BUILD_TYPE:STRING=Debug"
+else
+	CMAKEFLAGS="$CMAKEFLAGS -DCMAKE_BUILD_TYPE:STRING=Release"
+fi
+
+if test -n "$prefix"; then
+	CMAKEFLAGS="$CMAKEFLAGS -DCMAKE_INSTALL_PREFIX:PATH=$prefix"
+	TARGET_DIR="$prefix"
+fi
+if test -n "$ccbin"; then
+	CMAKEFLAGS="$CMAKEFLAGS -DCMAKE_C_COMPILER:FILEPATH=$ccbin"
+fi
+
+COMMAND="mkdir -p $buildDIR && cd $buildDIR && echo $PARAMETERS > configure.log ; rm CMakeCache.txt 2>/dev/null; cmake $CMAKEFLAGS $SRCDIR"
+
+echo $COMMAND
+
+if [[ "$VERBOSE" == "YES" ]] ; then
+	echo "Your current configure options translate to:"
+	echo "$COMMAND"
+	exit 0
+else
+	eval "$COMMAND"
+	ERROR="$?"
+	if [[ "$ERROR" != 0 ]] ; then
+		echo "An error occurred during the configuration, aborting!"
+		exit 1
+	fi
+fi
