@@ -6,7 +6,7 @@
 
 
 // Native Datatypes ///////////////////////////////////////////////////////////
-size_t smd_sizeof(smd_type_t type) {
+static size_t smd_sizeof(smd_basic_type_t type) {
 	switch (type) {
 		case SMD_TYPE_INT8:
 		//case SMD_TYPE_CHAR_UTF8:
@@ -34,6 +34,7 @@ size_t smd_sizeof(smd_type_t type) {
 			return sizeof(double);
 
 		default:
+			assert(0 && "NOT IMPLEMENTED DTYPE size");
 			return 1;
 	}
 }
@@ -56,7 +57,8 @@ int smd_find_position_by_id(const smd_attr_t * attr, int id){
 	return -1;
 }
 
-static void smd_attr_copy_val_to_internal(void ** out, smd_type_t type, const void * val){
+static void smd_attr_copy_val_to_internal(void ** out, smd_dtype_t * dtype, const void * val){
+	smd_basic_type_t type = dtype->type;
 	switch(type){
 			case(SMD_TYPE_INT8):{
 				int8_t * p = (int8_t*) out;
@@ -111,7 +113,9 @@ static void smd_attr_copy_val_to_internal(void ** out, smd_type_t type, const vo
 }
 
 
-static void smd_attr_copy_val_to_external(void ** out, smd_type_t type, const void * val){
+static void smd_attr_copy_val_to_external(void ** out, smd_dtype_t * dtype, const void * val){
+	smd_basic_type_t type = dtype->type;
+
 	switch(type){
 		  case(SMD_TYPE_INT8):{
 		    int8_t * p = (int8_t*) & val;
@@ -165,7 +169,9 @@ static void smd_attr_copy_val_to_external(void ** out, smd_type_t type, const vo
 	}
 }
 
-static void smd_attr_free_value(void * val, smd_type_t type){
+static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
+	smd_basic_type_t type = dtype->type;
+
 	switch(type){
 			case(SMD_TYPE_INT8):
 			case(SMD_TYPE_INT16):
@@ -187,7 +193,7 @@ static void smd_attr_free_value(void * val, smd_type_t type){
 	}
 }
 
-smd_attr_t * smd_attr_new(const char* name, smd_type_t type, const void * val, int * out_id){
+smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val, int * out_id){
 	static int id = 0;
 
 	smd_attr_t * attr = malloc(sizeof(smd_attr_t));

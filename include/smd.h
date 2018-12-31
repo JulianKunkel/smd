@@ -1,6 +1,8 @@
 #ifndef HSMD_HEADER_H_
 #define HSMD_HEADER_H_
 
+#include <smd-datatype.h>
+
 /**
  * The SMD library is intented for two purposes:
  * 1) An annotation mechanism allowing to annotate any existing primitive and complex data structures with attributes; allowing to traverse and access the original data.
@@ -15,37 +17,15 @@
  * The key is always a unique string as part of an attribute, the value can be of any supported datatype.
  */
 
-typedef enum smd_type_t{
-	SMD_TYPE_INT8,
-	SMD_TYPE_INT16,
-	SMD_TYPE_INT32,
-	SMD_TYPE_INT64,
-
-	SMD_TYPE_UINT8,
-	SMD_TYPE_UINT16,
-	SMD_TYPE_UINT32,
-	SMD_TYPE_UINT64,
-
-	SMD_TYPE_FLOAT,			// if IEEE 754 (32bit)
-	SMD_TYPE_DOUBLE,		// if IEEE 754 (64bit)
-
-	SMD_TYPE_CHAR,		  	// 1 byte
-	//SMD_TYPE_CHAR_UTF8,
-	//SMD_TYPE_CHAR_UTF16,
-	//SMD_TYPE_CHAR_UTF32,
-	SMD_TYPE_STRING,
-	SMD_TYPE_DERIVED, // a derived datatype
-	SMD_TYPE_UNKNOWN
-} smd_type_t;
 
 typedef struct smd_attr_t smd_attr_t;
 
 
 struct smd_attr_t{
 	int id;
-  const char * name;
-  smd_type_t type;
-	void * value; // if value != NULL, we are the owner of the data
+  const char 	* name;
+  smd_dtype_t * type;
+	void 				* value; // if value != NULL, we are the owner of the data
 
 	int children; // number of child attributes
 	int childSlots;
@@ -61,7 +41,8 @@ struct smd_attr_t{
 
 /**
  */
-smd_attr_t * smd_attr_new(const char * name, smd_type_t type, const void * val, int * out_id);
+smd_attr_t * smd_attr_new(const char * name, smd_dtype_t *type, const void * val, int * out_id);
+
 
 /**
  */
@@ -109,20 +90,6 @@ const char * smd_attr_get_name(smd_attr_t * attr);
  */
 int    smd_attr_count    (const smd_attr_t * attr);
 
-
-// TODO => rephrase
-/**
- */
-int smd_attr_inq_by_name(const smd_attr_t * attr, const char * key, smd_type_t * out_type, int * id);
-/**
- */
-int smd_attr_get_by_name(const smd_attr_t * attr, const char * key, smd_type_t * out_type, void ** out_val);
-/**
- */
-int smd_attr_get_by_id(const smd_attr_t * attr, int id, char * out_key, smd_type_t * out_type, void ** out_val);
-/**
- */
-smd_type_t      smd_attr_get_type (const smd_attr_t * attr, const char * key);
 
 
 

@@ -5,8 +5,11 @@
 
 #include <smd.h>
 
+static int count;
+
 static void iter(int id, const char*name){
   printf("%d: %s\n", id, name);
+  count++;
 }
 
 
@@ -14,13 +17,13 @@ int main(){
   int id;
   int id2;
   int ret;
-  smd_attr_t * attr = smd_attr_new("root", SMD_TYPE_STRING, "this is a test", & id);
+  smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, "this is a test", & id);
 
   for(int i= 0; i < 100; i++){
     int a = i;
     char buff[100];
     sprintf(buff, "child%d", i);
-    smd_attr_t * attr2 = smd_attr_new(buff, SMD_TYPE_INT32, & a, & id2);
+    smd_attr_t * attr2 = smd_attr_new(buff, SMD_DTYPE_INT32, & a, & id2);
     ret = smd_attr_link(attr, attr2, 0);
     assert(ret == SMD_ATTR_LINKED);
 
@@ -49,8 +52,12 @@ int main(){
     smd_attr_unlink_pos(attr, pos);
   }
 
+  count = 0;
   smd_iterate(attr, iter);
+  assert( count == 51 );
   smd_attr_destroy(attr);
+
+  printf("OK\n");
 
   return 0;
 }
