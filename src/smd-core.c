@@ -38,7 +38,7 @@ size_t smd_sizeof(smd_type_t type) {
 	}
 }
 
-static int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
+int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
 	for(int i=0; i < attr->children; i++){
 		if(strcmp(attr->childs[i]->name, name) == 0){
 			return i;
@@ -47,7 +47,7 @@ static int smd_find_position_by_name(const smd_attr_t * attr, const char * name)
 	return -1;
 }
 
-static int smd_find_position_by_id(const smd_attr_t * attr, int id){
+int smd_find_position_by_id(const smd_attr_t * attr, int id){
 	for(int i=0; i < attr->children; i++){
 		if(attr->childs[i]->id == id){
 			return i;
@@ -209,6 +209,15 @@ smd_attr_t * smd_attr_new(const char* name, smd_type_t type, const void * val, i
 	return attr;
 }
 
+void smd_attr_unlink_pos(smd_attr_t * p, int pos){
+	assert(p->children > pos);
+	smd_attr_t * c = p->childs[pos];
+	c->parent = NULL;
+
+	p->childs[pos] = p->childs[p->children - 1];
+	p->children--;
+}
+
 smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_replace){
 	assert(child->parent == NULL);
 	assert(child->name != NULL);
@@ -267,7 +276,21 @@ void * smd_attr_get_value(smd_attr_t * attr){
 	return attr->value;
 }
 
+const char * smd_attr_get_name(smd_attr_t * attr){
+	return attr->name;
+}
+
 void smd_attr_copy_value(smd_attr_t * attr, void ** out_val){
 	assert(attr != NULL);
 	smd_attr_copy_val_to_external(out_val, attr->type, attr->value);
+}
+
+
+int    smd_attr_count    (const smd_attr_t * attr){
+  return attr->children;
+}
+
+smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, int child){
+  assert(child < attr->children);
+  return attr->childs[child];
 }

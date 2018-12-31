@@ -81,6 +81,16 @@ typedef enum{
  */
 smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_replace);
 
+void smd_attr_unlink_pos(smd_attr_t * parent, int pos);
+
+/**
+ * Retrieve a position for an attribute to manipulate the attribute
+ */
+int smd_find_position_by_id(const smd_attr_t * attr, int id);
+int smd_find_position_by_name(const smd_attr_t * attr, const char * name);
+
+smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, int pos);
+
 /**
  * The function copies the value of the attribute into the pointer of out_val
  * if out_val is of primitive type, then out_val is expected to point to a variable of a primitive.
@@ -93,23 +103,26 @@ void smd_attr_copy_value(smd_attr_t * attr, void ** out_val);
  */
 void * smd_attr_get_value(smd_attr_t * attr);
 
+const char * smd_attr_get_name(smd_attr_t * attr);
 
 /**
  */
-int smd_attr_inq_by_name(const smd_attr_t * grp, const char * key, smd_type_t * out_type, int * id);
-/**
- */
-int smd_attr_get_by_name(const smd_attr_t * grp, const char * key, smd_type_t * out_type, void ** out_val);
-/**
- */
-int smd_attr_get_by_id(const smd_attr_t * grp, int id, char * out_key, smd_type_t * out_type, void ** out_val);
+int    smd_attr_count    (const smd_attr_t * attr);
 
+
+// TODO => rephrase
 /**
  */
-smd_type_t      smd_attr_get_type (const smd_attr_t * grp, const char * key);
+int smd_attr_inq_by_name(const smd_attr_t * attr, const char * key, smd_type_t * out_type, int * id);
 /**
  */
-int             smd_attr_count    (const smd_attr_t * grp);
+int smd_attr_get_by_name(const smd_attr_t * attr, const char * key, smd_type_t * out_type, void ** out_val);
+/**
+ */
+int smd_attr_get_by_id(const smd_attr_t * attr, int id, char * out_key, smd_type_t * out_type, void ** out_val);
+/**
+ */
+smd_type_t      smd_attr_get_type (const smd_attr_t * attr, const char * key);
 
 
 
