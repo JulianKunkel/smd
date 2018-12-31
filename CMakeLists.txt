@@ -35,12 +35,11 @@ set(DEPS_DIR "${CMAKE_SOURCE_DIR}/deps")
 # BUILD SETTINGS
 # _____________________________________________________________________________
 
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -pedantic -Wall -Wdouble-promotion -Wfloat-equal -flto -fdata-sections -ffunction-sections -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,--retain-symbols-file=${CMAKE_SOURCE_DIR}/dev/symbols.txt -pedantic-errors")
- # -fvisibility=hidden -fvisibility-inlines-hidden
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11 -pedantic -Wall -Wdouble-promotion -Wfloat-equal -flto -fdata-sections -ffunction-sections -Wl,--gc-sections -Wl,--allow-shlib-undefined -pedantic-errors") #
+ #  -Wl,--retain-symbols-file=${CMAKE_SOURCE_DIR}/dev/symbols.txt
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wdouble-promotion -Wfloat-equal -flto -fdata-sections -ffunction-sections -Wl,--gc-sections -Wl,--allow-shlib-undefined -pedantic-errors")
 
-#-fvisibility=hidden -fvisibility-inlines-hidden
 set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 -g3")
 set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3")
 

@@ -9,7 +9,7 @@ foreach(TESTFILE ${TESTFILES})
     STRING(REGEX REPLACE ".c$" "" TESTNAME ${TESTNAME_C})
 
 	# Build, link and add as test
-    add_executable(${TESTNAME} ${TESTFILE} util/test_util.c)
+    add_executable(${TESTNAME} ${TESTFILE})
    	target_link_libraries(${TESTNAME} smd ${MPI_LIBRARIES} -lrt)
     #target_include_directories(${TESTNAME} SYSTEM PRIVATE ${CMAKE_BINARY_DIR})
 
