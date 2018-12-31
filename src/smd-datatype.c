@@ -108,7 +108,6 @@ smd_dtype_t * smd_type_extent(size_t lb, size_t ub, smd_dtype_t * base_type){
 
   smd_dtype_extent_t * new = & t->specifier.u.ext;
   new->base = base_type;
-  new->ub = ub;
   new->lb = lb;
   base_type->refcount++;
 
@@ -140,7 +139,7 @@ smd_dtype_t * smd_type_array(smd_dtype_t * base_type, uint64_t nmeb){
   return t;
 }
 
-smd_dtype_t * smd_type_struct(int nmeb, size_t * offsets, char * const * names, smd_dtype_t ** types){
+smd_dtype_t * smd_type_struct(int nmeb, size_t * offsets, size_t extent, char * const * names, smd_dtype_t ** types){
   assert(nmeb > 0);
   assert(types != NULL);
   assert(offsets != NULL);
@@ -181,7 +180,8 @@ smd_dtype_t * smd_type_struct(int nmeb, size_t * offsets, char * const * names, 
   }
 
   t->size   = size;
-  t->extent = last_offset;
+  assert(last_offset <= extent);
+  t->extent = extent;
 
   return t;
 }

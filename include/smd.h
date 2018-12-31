@@ -77,7 +77,8 @@ smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, int pos);
  * if out_val is of primitive type, then out_val is expected to point to a variable of a primitive.
  * if out_val is a complex type (e.g., string), then provides a pointer to the new value
  */
-void smd_attr_copy_value(smd_attr_t * attr, void ** out_val);
+void smd_attr_copy_value(smd_attr_t * attr, void * out_val);
+
 
 /**
  * Return a pointer to the data value, do not modify it!

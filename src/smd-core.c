@@ -57,8 +57,25 @@ int smd_find_position_by_id(const smd_attr_t * attr, int id){
 	return -1;
 }
 
-static void smd_attr_copy_val_to_internal(void ** out, smd_dtype_t * dtype, const void * val){
+
+static void smd_attr_alloc(void ** out, smd_dtype_t * dtype){
 	smd_basic_type_t type = dtype->type;
+	switch(type){
+		case(SMD_TYPE_EXTENT):
+		case(SMD_TYPE_STRUCT):
+		case(SMD_TYPE_ARRAY):{
+			*out = malloc(dtype->size);
+			//printf("alloced %ld to %ld\n", dtype->size, *out);
+			return;
+		}
+		default:
+			return;
+	}
+}
+
+static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const void * val){
+	smd_basic_type_t type = t->type;
+	//printf("E=>I %d %lld %lld\n", type, out, val);
 	switch(type){
 			case(SMD_TYPE_INT8):{
 				int8_t * p = (int8_t*) out;
@@ -104,66 +121,118 @@ static void smd_attr_copy_val_to_internal(void ** out, smd_dtype_t * dtype, cons
 			  char * p = (char*) out;
 			  *p = *(char*) val;
 			  break;
-			}case(SMD_TYPE_STRING):
-				*out = strdup((char*) val);
+			}case(SMD_TYPE_STRING):{
+				*((char**)out) = strdup((char*) val);
+				//printf("STRING %lld: %s %ld = %s\n", out, val, val, *((char**)out));
 				break;
+			}case(SMD_TYPE_EXTENT):{
+				smd_dtype_extent_t * d = & t->specifier.u.ext;
+				char * pos = (char*) val + d->lb;
+				smd_attr_copy_val_to_internal(out, d->base, pos);
+				return;
+			}case(SMD_TYPE_STRUCT):{
+				smd_dtype_struct_t * d = & t->specifier.u.str;
+				char * out_pos = (char*) out;
+				for(int i = 0; i < d->size; i++){
+					char * val_pos = (char*) val + d->offsets[i];
+					smd_attr_copy_val_to_internal(out_pos, d->types[i], val_pos);
+					out_pos += d->types[i]->size;
+				}
+				return;
+			}case(SMD_TYPE_ARRAY):{
+				smd_dtype_array_t * d = & t->specifier.u.arr;
+				char * val_pos = (char*) val;
+				char * out_pos = (char*) out;
+				for(int i=0; i < d->count; i++){
+					smd_attr_copy_val_to_internal(out_pos, d->base, *(char**)val_pos);
+					out_pos += d->base->size;
+					val_pos += d->base->extent;
+				}
+				return;
+			}
 		default:
 			assert(0 && "SMD cannot copy unknown type");
 	}
 }
 
 
-static void smd_attr_copy_val_to_external(void ** out, smd_dtype_t * dtype, const void * val){
-	smd_basic_type_t type = dtype->type;
+static void smd_attr_copy_val_to_external(char * out, smd_dtype_t * t, char * val){
+	smd_basic_type_t type = t->type;
+	//printf("I=>E %d %lld %lld\n", type, val, out);
 
 	switch(type){
 		  case(SMD_TYPE_INT8):{
-		    int8_t * p = (int8_t*) & val;
+		    int8_t * p = (int8_t*) val;
 		    *(int8_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_INT16):{
-		    int16_t * p = (int16_t*) & val;
+		    int16_t * p = (int16_t*) val;
 		    *(int16_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_INT32):{
-		    int32_t * p = (int32_t*) & val;
+		    int32_t * p = (int32_t*) val;
 		    *(int32_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_INT64):{
-		    int64_t * p = (int64_t*) & val;
+		    int64_t * p = (int64_t*) val;
 		    *(int64_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_UINT8):{
-		    uint8_t * p = (uint8_t*) & val;
+		    uint8_t * p = (uint8_t*) val;
 		    *(uint8_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_UINT16):{
-		    uint16_t * p = (uint16_t*) & val;
+		    uint16_t * p = (uint16_t*) val;
 		    *(uint16_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_UINT32):{
-		    uint32_t * p = (uint32_t*) & val;
+		    uint32_t * p = (uint32_t*) val;
 		    *(uint32_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_UINT64):{
-		    uint64_t * p = (uint64_t*) & val;
+		    uint64_t * p = (uint64_t*) val;
 		    *(uint64_t*) out = *p;
 		    break;
 		  }case(SMD_TYPE_FLOAT):{
-		    float * p = (float*) & val;
+		    float * p = (float*) val;
 		    *(float*) out = *p;
 		    break;
 		  }case(SMD_TYPE_DOUBLE):{
-		    double * p = (double*) & val;
+		    double * p = (double*) val;
 		    *(double*) out = *p;
 		    break;
 		  }case(SMD_TYPE_CHAR):{
-		    char * p = (char*) & val;
+		    char * p = (char*) val;
 		    *(char*) out = *p;
 		    break;
-		  }case(SMD_TYPE_STRING):
-				*out = strdup((char*) val);
+		  }case(SMD_TYPE_STRING):{
+				*(char **) out = *(char**) val;
 				break;
+			}case(SMD_TYPE_EXTENT):{
+				smd_dtype_extent_t * d = & t->specifier.u.ext;
+				char * out_pos = out + d->lb;
+				smd_attr_copy_val_to_external(out_pos, d->base, val);
+				return;
+			}case(SMD_TYPE_STRUCT):{
+				smd_dtype_struct_t * d = & t->specifier.u.str;
+				char * val_pos = val;
+				for(int i = 0; i < d->size; i++){
+					char * out_pos = out + d->offsets[i];
+					smd_attr_copy_val_to_external(out_pos, d->types[i], val_pos);
+					val_pos += d->types[i]->size;
+				}
+				return;
+			}case(SMD_TYPE_ARRAY):{
+				smd_dtype_array_t * d = & t->specifier.u.arr;
+				char * val_pos = val;
+				char * out_pos = (char*) out;
+				for(int i=0; i < d->count; i++){
+					smd_attr_copy_val_to_external(out_pos, d->base, val_pos);
+					out_pos += d->base->extent;
+					val_pos += d->base->size;
+				}
+				return;
+			}
 		default:
 			assert(0 && "SMD cannot copy unknown type");
 	}
@@ -185,6 +254,9 @@ static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 			case(SMD_TYPE_DOUBLE):
 			case(SMD_TYPE_CHAR):
 				break;
+			case(SMD_TYPE_EXTENT):
+			case(SMD_TYPE_STRUCT):
+			case(SMD_TYPE_ARRAY):
 			case(SMD_TYPE_STRING):
 				free(val);
 				break;
@@ -200,12 +272,16 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 	assert(attr != NULL);
 	memset(attr, 0, sizeof(smd_attr_t));
 	attr->id = id;
-	attr->value = (void*) val;
 	attr->type = type;
 	assert(name != NULL);
 	assert(name[0] != 0);
 
-	smd_attr_copy_val_to_internal(& attr->value, type, val);
+	smd_attr_alloc(& attr->value, type);
+	if(attr->type->type < SMD_TYPE_PRIMITIVE_END){
+		smd_attr_copy_val_to_internal((char*) & attr->value, type, val);
+	}else{
+		smd_attr_copy_val_to_internal((char*) attr->value, type, val);
+	}
 
 	attr->name = strdup(name);
 	if(out_id != NULL){
@@ -286,9 +362,13 @@ const char * smd_attr_get_name(smd_attr_t * attr){
 	return attr->name;
 }
 
-void smd_attr_copy_value(smd_attr_t * attr, void ** out_val){
+void smd_attr_copy_value(smd_attr_t * attr, void * out_val){
 	assert(attr != NULL);
-	smd_attr_copy_val_to_external(out_val, attr->type, attr->value);
+	if(attr->type->type < SMD_TYPE_PRIMITIVE_END){
+		smd_attr_copy_val_to_external(out_val, attr->type, (char*) & attr->value);
+	}else{
+		smd_attr_copy_val_to_external(out_val, attr->type, attr->value);
+	}
 }
 
 

@@ -40,7 +40,7 @@ typedef struct{
 typedef struct{
 	smd_dtype_t * base;
   size_t lb; // lower bound, indicates when the datatype starts
-  size_t ub; // upper bound
+  //size_t ub; // upper bound, implicitly stored in extent
 } smd_dtype_extent_t;
 
 typedef struct{
@@ -100,7 +100,7 @@ smd_dtype_t * smd_type_array(smd_dtype_t * base_type, uint64_t nmeb);
  */
 smd_dtype_t * smd_type_extent(size_t lb, size_t ub, smd_dtype_t * base_type);
 
-smd_dtype_t * smd_type_struct(int nmeb, size_t * offsets, char * const * names, smd_dtype_t ** types);
+smd_dtype_t * smd_type_struct(int nmeb, size_t * offsets, size_t extent, char * const * names, smd_dtype_t ** types);
 
 /**
  * Decrement the reference counter by 1 and free the datatype if not further needed

@@ -18,6 +18,9 @@ int main(){
   int id2;
   int ret;
   smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, "this is a test", & id);
+  char * ptr = 0;
+  smd_attr_copy_value(attr, (void*) & ptr);
+  assert(strcmp(ptr, "this is a test") == 0);
 
   for(int i= 0; i < 100; i++){
     int a = i;
@@ -40,7 +43,7 @@ int main(){
     smd_attr_t * attr3 = smd_attr_get_child(attr, i);
     const char * n = smd_attr_get_name(attr3);
     int32_t b = -1;
-    smd_attr_copy_value(attr3, (void**) & b);
+    smd_attr_copy_value(attr3, (void*) & b);
     assert(b == i);
     char buff[100];
     sprintf(buff, "child%d", i);
