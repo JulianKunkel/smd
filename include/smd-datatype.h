@@ -24,32 +24,47 @@ typedef enum smd_type_t{
 	SMD_TYPE_PRIMITIVE_END, // marker
 	SMD_TYPE_ARRAY,
 	SMD_TYPE_STRUCT,
+  SMD_TYPE_EXTENT,
+  SMD_TYPE_LB,
+  SMD_TYPE_UB,
 	SMD_TYPE_DERIVED_END 		// marker
 } smd_basic_type_t;
 
 typedef struct smd_dtype_t smd_dtype_t;
 
 typedef struct{
-	uint64_t size;
-	smd_dtype_t * type;
+	uint64_t count;
+	smd_dtype_t * base;
 } smd_dtype_array_t;
+
+typedef struct{
+	smd_dtype_t * base;
+  size_t lb; // lower bound, indicates when the datatype starts
+  size_t ub; // upper bound
+} smd_dtype_extent_t;
 
 typedef struct{
 	int size;
 
-  smd_dtype_t * type;
+  const char ** names;
+  smd_dtype_t ** types;
+  size_t * offsets;
 }smd_dtype_struct_t;
 
 typedef struct{
 	union {
 		smd_dtype_array_t arr;
 		smd_dtype_struct_t str;
+    smd_dtype_extent_t ext;
 	} u;
 } smd_dtype_derived_t;
 
 // derived data types
 struct smd_dtype_t{
+  int refcount;
 	smd_basic_type_t type;
+  uint64_t size;
+  uint64_t extent;
 	smd_dtype_derived_t specifier;
 };
 
@@ -69,10 +84,32 @@ extern smd_dtype_t * SMD_DTYPE_FLOAT;
 extern smd_dtype_t * SMD_DTYPE_DOUBLE;
 extern smd_dtype_t * SMD_DTYPE_CHAR;
 extern smd_dtype_t * SMD_DTYPE_STRING;
+extern smd_dtype_t * SMD_DTYPE_LB;
+extern smd_dtype_t * SMD_DTYPE_UB;
+
+size_t smd_type_get_size(smd_dtype_t * type);
+size_t smd_type_get_extent(smd_dtype_t * type);
 
 /**
  *
  */
 smd_dtype_t * smd_type_array(smd_dtype_t * base_type, uint64_t nmeb);
+
+/**
+ *
+ */
+smd_dtype_t * smd_type_extent(size_t lb, size_t ub, smd_dtype_t * base_type);
+
+smd_dtype_t * smd_type_struct(int nmeb, size_t * offsets, char * const * names, smd_dtype_t ** types);
+
+/**
+ * Decrement the reference counter by 1 and free the datatype if not further needed
+ */
+void smd_type_unref(smd_dtype_t ** type);
+
+/**
+ * Free the datatype, only call this if the datatype is not any more in use!
+ */
+void smd_type_destroy(smd_dtype_t * type);
 
 #endif
