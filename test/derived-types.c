@@ -51,10 +51,14 @@ int main(){
   struct test h = {4722, {NULL, NULL, NULL, NULL}, 3434};
   smd_attr_copy_value(attr, & h);
   printf("%d %d %s %s %s %s\n", h.val, h.val2,  h.names[0], h.names[1], h.names[2], h.names[3]);
-  smd_attr_destroy(attr);
   assert(h.val == v.val);
   assert(h.val2 == v.val2);
   assert(strcmp(h.names[1], v.names[1]) == 0);
+
+  smd_attr_destroy(attr);
+
+  smd_type_printer(t_struct);
+  printf("\n");
 
   smd_type_unref(& t_struct);
   smd_type_unref(& t_arr);

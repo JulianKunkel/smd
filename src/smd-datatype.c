@@ -97,6 +97,75 @@ void smd_type_unref(smd_dtype_t ** type){
   }
 }
 
+void smd_type_printer(smd_dtype_t * t){
+    smd_basic_type_t type = t->type;
+  	switch(type){
+  		case(SMD_TYPE_INT8):
+        printf("INT8");
+        break;
+  		case(SMD_TYPE_INT16):
+        printf("INT16");
+        break;
+  		case(SMD_TYPE_INT32):
+        printf("INT32");
+        break;
+  		case(SMD_TYPE_INT64):
+        printf("INT64");
+        break;
+  		case(SMD_TYPE_UINT8):
+        printf("UINT8");
+        break;
+  		case(SMD_TYPE_UINT16):
+        printf("UINT16");
+        break;
+  		case(SMD_TYPE_UINT32):
+        printf("UINT32");
+        break;
+  		case(SMD_TYPE_UINT64):
+        printf("UINT64");
+        break;
+  		case(SMD_TYPE_FLOAT):
+        printf("FLOAT");
+        break;
+  		case(SMD_TYPE_DOUBLE):
+        printf("DOUBLE");
+        break;
+  		case(SMD_TYPE_CHAR):
+        printf("CHAR");
+        break;
+  		case(SMD_TYPE_EXTENT):{
+        smd_dtype_extent_t * d = & t->specifier.u.ext;
+        printf("EXTENT");
+        printf("(%zu,", d->lb);
+        smd_type_printer(d->base);
+        printf(")");
+        break;
+  		}case(SMD_TYPE_STRUCT):{
+        smd_dtype_struct_t * d = & t->specifier.u.str;
+        printf("STRUCT");
+        printf("(%d, [", d->size);
+        smd_type_printer(d->types[0]);
+        for(int i = 1; i < d->size; i++){
+          printf(",");
+          smd_type_printer(d->types[i]);
+        }
+        printf("])");
+        break;
+  		}case(SMD_TYPE_ARRAY):{
+        smd_dtype_array_t * d = & t->specifier.u.arr;
+        printf("ARRAY");
+        printf("(%zu,", d->count);
+        smd_type_printer(d->base);
+        printf(")");
+        break;
+  		}case(SMD_TYPE_STRING):
+        printf("STRING");
+        break;
+  		default:
+  			assert(0 && "SMD cannot print unknown type");
+  	}
+}
+
 
 void smd_type_iterate(smd_dtype_t * t, char * buff, void (*iter)(smd_dtype_t * t, void * buff)){
 	smd_basic_type_t type = t->type;

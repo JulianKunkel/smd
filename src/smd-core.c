@@ -240,6 +240,7 @@ static void smd_attr_copy_val_to_external(char * out, smd_dtype_t * t, char * va
 
 static void smd_free_type_str(smd_dtype_t * t, void * buff){
 	if(t->type == SMD_TYPE_STRING){
+		//printf("FREE: %p - %s\n", *(char**) buff, *(char**) buff);
 		free(*(char**) buff);
 	}
 }

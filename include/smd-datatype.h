@@ -112,6 +112,7 @@ void smd_type_unref(smd_dtype_t ** type);
  */
 void smd_type_destroy(smd_dtype_t * type);
 
+void smd_type_printer(smd_dtype_t * type);
 
 void smd_type_iterate(smd_dtype_t * type, char * buff, void (*iter)(smd_dtype_t * t, void * buff));
 #endif
