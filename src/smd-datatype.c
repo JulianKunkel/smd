@@ -97,6 +97,49 @@ void smd_type_unref(smd_dtype_t ** type){
   }
 }
 
+
+void smd_type_iterate(smd_dtype_t * t, char * buff, void (*iter)(smd_dtype_t * t, void * buff)){
+	smd_basic_type_t type = t->type;
+  iter(t, buff);
+	switch(type){
+			case(SMD_TYPE_INT8):
+			case(SMD_TYPE_INT16):
+			case(SMD_TYPE_INT32):
+			case(SMD_TYPE_INT64):
+			case(SMD_TYPE_UINT8):
+			case(SMD_TYPE_UINT16):
+			case(SMD_TYPE_UINT32):
+			case(SMD_TYPE_UINT64):
+			case(SMD_TYPE_FLOAT):
+			case(SMD_TYPE_DOUBLE):
+			case(SMD_TYPE_CHAR):
+      case(SMD_TYPE_STRING):
+				return;
+			case(SMD_TYPE_EXTENT):{
+        smd_dtype_extent_t * d = & t->specifier.u.ext;
+        smd_type_iterate(d->base, buff, iter);
+        return;
+			}case(SMD_TYPE_STRUCT):{
+				smd_dtype_struct_t * d = & t->specifier.u.str;
+				char * val_pos = buff;
+				for(int i = 0; i < d->size; i++){
+          smd_type_iterate(d->types[i], val_pos, iter);
+					val_pos += d->types[i]->size;
+				}
+				return;
+			}case(SMD_TYPE_ARRAY):{
+				smd_dtype_array_t * d = & t->specifier.u.arr;
+				char * val_pos = buff;
+				for(int i=0; i < d->count; i++){
+          smd_type_iterate(d->base, val_pos, iter);
+					val_pos += d->base->size;
+				}
+				return;
+      }default:
+			   assert(0 && "SMD cannot free unknown type");
+	}
+}
+
 smd_dtype_t * smd_type_extent(size_t lb, size_t ub, smd_dtype_t * base_type){
   assert(base_type != NULL);
 

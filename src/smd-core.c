@@ -238,6 +238,12 @@ static void smd_attr_copy_val_to_external(char * out, smd_dtype_t * t, char * va
 	}
 }
 
+static void smd_free_type_str(smd_dtype_t * t, void * buff){
+	if(t->type == SMD_TYPE_STRING){
+		free(*(char**) buff);
+	}
+}
+
 static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 	smd_basic_type_t type = dtype->type;
 
@@ -257,6 +263,8 @@ static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 			case(SMD_TYPE_EXTENT):
 			case(SMD_TYPE_STRUCT):
 			case(SMD_TYPE_ARRAY):
+				// find all strings and free them.
+				smd_type_iterate(dtype, (char*) val, smd_free_type_str);
 			case(SMD_TYPE_STRING):
 				free(val);
 				break;
