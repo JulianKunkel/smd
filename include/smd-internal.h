@@ -5,4 +5,10 @@
 #include <assert.h>
 #include <string.h>
 
+
+/*
+ * Duplicate the string, removing all invalid characters
+ */
+char * smd_dup_escaped_varname(const char * name);
+
 #endif

@@ -39,6 +39,24 @@ static size_t smd_sizeof(smd_basic_type_t type) {
 	}
 }
 
+char * smd_dup_escaped_varname(const char * name){
+  //Generate a conform variable name removing all non-printable characters
+	int len = strlen(name);// max length
+	char * buff = malloc(len + 1);
+	int i;
+	char * orig = buff;
+  for(i=0; name[i] != 0; i++){
+		char c = name[i];
+		if(c < 32 || c > 127 || c == 92 || c == 34 || c == 64 ){
+			continue;
+		}
+    *buff = name[i];
+		buff++;
+  }
+	*buff = 0;
+  return orig;
+}
+
 int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
 	for(int i=0; i < attr->children; i++){
 		if(strcmp(attr->childs[i]->name, name) == 0){
@@ -292,7 +310,7 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 		smd_attr_copy_val_to_internal((char*) attr->value, type, val);
 	}
 
-	attr->name = strdup(name);
+	attr->name = smd_dup_escaped_varname(name);
 	if(out_id != NULL){
 		*out_id = id;
 	}
@@ -343,6 +361,11 @@ smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_
 	parent->children++;
 	return SMD_ATTR_LINKED;
 }
+
+size_t smd_attr_print(char * buff, smd_attr_t * attr){
+
+}
+
 
 void smd_iterate(smd_attr_t * attr, void (*iter)(int id, const char*name)){
 	iter(attr->id, attr->name);

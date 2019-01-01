@@ -113,7 +113,14 @@ void smd_type_unref(smd_dtype_t ** type);
  */
 void smd_type_destroy(smd_dtype_t * type);
 
-void smd_type_printer(smd_dtype_t * type);
+/**
+ * @Return the number of bytes written to out_buff
+ */
+size_t smd_type_print(char * out_buff, smd_dtype_t * type);
+
+size_t smd_type_ser(char * out_buff, smd_dtype_t * type);
+
+smd_dtype_t * smd_type_from_ser(char * str);
 
 void smd_type_iterate(smd_dtype_t * type, char * buff, void (*iter)(smd_dtype_t * t, void * buff));
 #endif

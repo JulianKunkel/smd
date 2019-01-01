@@ -22,10 +22,10 @@ typedef struct smd_attr_t smd_attr_t;
 
 
 struct smd_attr_t{
-	int id;
   const char 	* name;
   smd_dtype_t * type;
 	void 				* value; // if value != NULL, we are the owner of the data
+	int id;
 
 	int children; // number of child attributes
 	int childSlots;
@@ -90,7 +90,9 @@ const char * smd_attr_get_name(smd_attr_t * attr);
  */
 int    smd_attr_count    (const smd_attr_t * attr);
 
-
+/**
+ */
+size_t smd_attr_print(char * buff, smd_attr_t * attr);
 
 
 #endif
