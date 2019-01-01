@@ -93,6 +93,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_subdirectory(src)
 add_subdirectory(test)
+install(FILES "./include/smd-datatype.h" DESTINATION include)
 install(FILES "./include/smd.h" DESTINATION include)
 
 feature_summary(WHAT ALL)
