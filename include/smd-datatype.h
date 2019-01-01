@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdint.h>
 
 typedef enum smd_type_t{
 	SMD_TYPE_UNKNOWN = 0,
