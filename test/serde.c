@@ -7,18 +7,7 @@
 
 #include <smd.h>
 
-static int count;
-
-static void iter(int id, const char*name){
-  printf("%d: %s\n", id, name);
-  count++;
-}
-
 int main(){
-  int id;
-  int id2;
-  int ret;
-
   smd_dtype_t * t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
 
   printf("size: %zu extent: %zu\n", smd_type_get_size(t_arr), smd_type_get_extent(t_arr));
@@ -27,11 +16,6 @@ int main(){
     int16_t val;
     char * names[4];
     int32_t val2[3];
-  };
-
-  struct test v = {4711,
-    {"hans", "fritz", "rudolf", "mayer"},
-    {11,48812,22}
   };
 
   size_t offsets[3] = {

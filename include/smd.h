@@ -41,7 +41,7 @@ struct smd_attr_t{
 
 /**
  */
-smd_attr_t * smd_attr_new(const char * name, smd_dtype_t *type, const void * val, int * out_id);
+smd_attr_t * smd_attr_new(const char * name, smd_dtype_t *type, const void * val, int id);
 
 
 /**

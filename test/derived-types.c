@@ -46,7 +46,7 @@ int main(){
   printf("struct size: %zu extent: %zu\n", smd_type_get_size(t_struct), smd_type_get_extent(t_struct));
 
 
-  smd_attr_t * attr = smd_attr_new("root", t_struct, & v, & id);
+  smd_attr_t * attr = smd_attr_new("root", t_struct, & v, id);
 
   struct test h = {4722, {NULL, NULL, NULL, NULL}, 3434};
   smd_attr_copy_value(attr, & h);

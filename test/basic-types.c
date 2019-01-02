@@ -18,10 +18,10 @@ int main(){
   int id2;
   int ret;
   int v2 = 5;
-  smd_attr_t * attr5 = smd_attr_new("name", SMD_DTYPE_INT32, & id2, & id);
+  smd_attr_t * attr5 = smd_attr_new("name", SMD_DTYPE_INT32, & id2, id);
 
   char * name = "this is a test";
-  smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, name, & id);
+  smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, name, id);
   char * ptr = (char*) 16;
   smd_attr_copy_value(attr, & ptr);
   assert(strcmp(ptr, "this is a test") == 0);
@@ -30,7 +30,7 @@ int main(){
     int a = i;
     char buff[100];
     sprintf(buff, "child%d", i);
-    smd_attr_t * attr2 = smd_attr_new(buff, SMD_DTYPE_INT32, & a, & id2);
+    smd_attr_t * attr2 = smd_attr_new(buff, SMD_DTYPE_INT32, & a, id2);
     ret = smd_attr_link(attr, attr2, 0);
     assert(ret == SMD_ATTR_LINKED);
 

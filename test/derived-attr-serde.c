@@ -40,19 +40,19 @@ int main(){
   smd_dtype_t * types[3] = { SMD_DTYPE_INT16, t_arr, SMD_DTYPE_INT32};
   smd_dtype_t * t_struct = smd_type_struct(3, offsets, sizeof(struct test), names, types);
 
-  smd_attr_t * attr = smd_attr_new("root", t_struct, & v, & id);
+  smd_attr_t * attr = smd_attr_new("root", t_struct, & v, 1);
   char * name = "this is a test";
-  smd_attr_t * attr2 = smd_attr_new("child", SMD_DTYPE_STRING, name, & id);
+  smd_attr_t * attr2 = smd_attr_new("child", SMD_DTYPE_STRING, name, 2);
   ret = smd_attr_link(attr, attr2, 0);
 
-  smd_attr_t * attr4 = smd_attr_new("unknown", SMD_DTYPE_EMPTY, NULL, & id);
+  smd_attr_t * attr4 = smd_attr_new("unknown", SMD_DTYPE_EMPTY, NULL, 3);
   ret = smd_attr_link(attr, attr4, 0);
 
 
   smd_dtype_t * t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
 
   int32_t val[3] = {11,22,33};
-  smd_attr_t * attr3 = smd_attr_new("subchild", t_ext, val, & id);
+  smd_attr_t * attr3 = smd_attr_new("subchild", t_ext, val, 4);
   ret = smd_attr_link(attr2, attr3, 0);
 
   count = 0;

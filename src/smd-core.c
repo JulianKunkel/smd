@@ -300,9 +300,7 @@ static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 	}
 }
 
-smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val, int * out_id){
-	static int id = 0;
-
+smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val, int id){
 	smd_attr_t * attr = malloc(sizeof(smd_attr_t));
 	assert(attr != NULL);
 	memset(attr, 0, sizeof(smd_attr_t));
@@ -322,10 +320,6 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 	}
 
 	attr->name = smd_dup_escaped_varname(name);
-	if(out_id != NULL){
-		*out_id = id;
-	}
-	id++;
 	return attr;
 }
 
@@ -765,7 +759,7 @@ char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
 	str +=9;
 
 	smd_attr_t * attr;
-	attr = smd_attr_new(aname, type, NULL, NULL);
+	attr = smd_attr_new(aname, type, NULL, 0);
 
 	void * val;
 	if(use_type_ptr(attr->type)){
