@@ -4,6 +4,7 @@
 
 #include <smd-internal.h>
 
+#define use_type_ptr(t) (t->type < SMD_TYPE_PRIMITIVE_END || (t->type == SMD_TYPE_EXTENT && t->specifier.u.ext.base->type < SMD_TYPE_PRIMITIVE_END))
 
 // Native Datatypes ///////////////////////////////////////////////////////////
 static size_t smd_sizeof(smd_basic_type_t type) {
@@ -283,6 +284,9 @@ static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 			case(SMD_TYPE_CHAR):
 				break;
 			case(SMD_TYPE_EXTENT):
+				if(use_type_ptr(dtype)){
+					break;
+				}
 			case(SMD_TYPE_STRUCT):
 			case(SMD_TYPE_ARRAY):
 				// find all strings and free them.
@@ -307,7 +311,8 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 	assert(name[0] != 0);
 
 	if(val != NULL){
-		if(attr->type->type < SMD_TYPE_PRIMITIVE_END){
+		smd_dtype_t * t = attr->type;
+		if(use_type_ptr(t)){
 			smd_attr_copy_val_to_internal((char*) & attr->value, type, val);
 		}else{
 			smd_attr_alloc(& attr->value, type);
@@ -532,7 +537,7 @@ static size_t smd_attr_ser_json_i(char * buff, smd_attr_t * attr){
 	buff += sprintf(buff, "\"");
 
 	buff += sprintf(buff, ",\"data\":");
-	if(attr->type->type < SMD_TYPE_PRIMITIVE_END){
+	if(use_type_ptr(attr->type)){
 		buff += smd_attr_ser_json_val(buff, (char*) & attr->value, attr->type);
 	}else{
 		buff += smd_attr_ser_json_val(buff, attr->value, attr->type);
@@ -757,7 +762,7 @@ char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
 	attr = smd_attr_new(aname, type, NULL, NULL);
 
 	void * val;
-	if(attr->type->type < SMD_TYPE_PRIMITIVE_END){
+	if(use_type_ptr(attr->type)){
 		str = smd_attr_val_from_json((char*) & val, type, str);
 	}else{
 		smd_attr_alloc(& val, type);
@@ -828,7 +833,7 @@ const char * smd_attr_get_name(smd_attr_t * attr){
 
 void smd_attr_copy_value(smd_attr_t * attr, void * out_val){
 	assert(attr != NULL);
-	if(attr->type->type < SMD_TYPE_PRIMITIVE_END){
+	if(use_type_ptr(attr->type)){
 		smd_attr_copy_val_to_external(out_val, attr->type, (char*) & attr->value);
 	}else{
 		smd_attr_copy_val_to_external(out_val, attr->type, attr->value);

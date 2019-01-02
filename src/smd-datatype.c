@@ -226,7 +226,7 @@ size_t smd_type_ser_i(char * buff, smd_dtype_t * t){
         buff++;
         smd_dtype_extent_t * d = & t->specifier.u.ext;
         buff += sprintf(buff, "%zu@%zu,", d->lb, t->extent);
-        buff += smd_type_ser(buff, d->base);
+        buff += smd_type_ser_i(buff, d->base);
         return buff - oldb;
   		}case(SMD_TYPE_STRUCT):{
         char * oldb = buff;
@@ -371,6 +371,7 @@ void smd_type_iterate(smd_dtype_t * t, char * buff, void (*iter)(smd_dtype_t * t
 
 smd_dtype_t * smd_type_extent(size_t lb, size_t ub, smd_dtype_t * base_type){
   assert(base_type != NULL);
+  assert(base_type->type != SMD_TYPE_EXTENT);
 
   smd_dtype_t * t = malloc(sizeof(smd_dtype_t));
   memset(t, 0, sizeof(smd_dtype_t));
@@ -447,7 +448,7 @@ smd_dtype_t * smd_type_struct(int nmeb, size_t * offsets, size_t extent, char * 
     types[i]->refcount++;
   }
 
-  t->size   = size;
+  t->size  = size;
   assert(last_offset <= extent);
   t->extent = extent;
 

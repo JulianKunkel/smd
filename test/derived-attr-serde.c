@@ -44,8 +44,11 @@ int main(){
   char * name = "this is a test";
   smd_attr_t * attr2 = smd_attr_new("child", SMD_DTYPE_STRING, name, & id);
   ret = smd_attr_link(attr, attr2, 0);
-  int32_t val = 32;
-  smd_attr_t * attr3 = smd_attr_new("subchild", SMD_DTYPE_INT32, & val, & id);
+
+  smd_dtype_t * t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
+
+  int32_t val[3] = {11,22,33};
+  smd_attr_t * attr3 = smd_attr_new("subchild", t_ext, val, & id);
   ret = smd_attr_link(attr2, attr3, 0);
 
   count = 0;

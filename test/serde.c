@@ -26,12 +26,12 @@ int main(){
   struct test{
     int16_t val;
     char * names[4];
-    int32_t val2;
+    int32_t val2[3];
   };
 
   struct test v = {4711,
     {"hans", "fritz", "rudolf", "mayer"},
-    48812
+    {11,48812,22}
   };
 
   size_t offsets[3] = {
@@ -40,7 +40,9 @@ int main(){
       offsetof(struct test, val2)
   };
   char * names[3] = {"testvalvaltest", "nameemam\n", "v12321v"};
-  smd_dtype_t * types[3] = {SMD_DTYPE_INT16, t_arr, SMD_DTYPE_INT32};
+  smd_dtype_t * t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
+
+  smd_dtype_t * types[3] = {SMD_DTYPE_INT16, t_arr, t_ext};
   smd_dtype_t * t_struct = smd_type_struct(3, offsets, sizeof(struct test), names, types);
 
   char buff[1024];
@@ -48,8 +50,8 @@ int main(){
   count = smd_type_ser(buff, t_struct);
   printf("%zu: %s\n", count, buff);
   smd_dtype_t * t_deser = smd_type_from_ser(buff);
-  count = smd_type_print(buff, t_struct);
-  printf("%zu: %s\n", count, buff);
+  count = smd_type_print(buff, t_deser);
+  printf("SerDe: %zu: %s\n", count, buff);
 
   char buff2[1024];
   size_t count2;
