@@ -271,6 +271,7 @@ static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 	smd_basic_type_t type = dtype->type;
 
 	switch(type){
+			case(SMD_TYPE_EMPTY):
 			case(SMD_TYPE_INT8):
 			case(SMD_TYPE_INT16):
 			case(SMD_TYPE_INT32):
@@ -442,6 +443,8 @@ static size_t smd_attr_ser_json_i(char * buff, smd_attr_t * attr);
 
 static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 	switch(t->type){
+			case(SMD_TYPE_EMPTY):
+				return sprintf(buff, "null");
 			case(SMD_TYPE_INT8):
 				return sprintf(buff, "%d", *(int8_t*) val);
 			case(SMD_TYPE_INT16):
@@ -618,7 +621,10 @@ static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
 	//printf("%d: %s\n", __LINE__, str);
 	int c;
 	switch(t->type){
-			case(SMD_TYPE_UINT64):{
+			case(SMD_TYPE_EMPTY):{
+				if(strncmp("null", str, 4) != 0) return NULL;
+				return str + 4;
+			}case(SMD_TYPE_UINT64):{
 				uint64_t v;
 				sscanf(str, "%lu%n", &v, &c);
 				smd_attr_copy_val_to_internal((char*) val, t, &v);
@@ -729,7 +735,7 @@ static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
 				return str;
 			}
 		default:
-			assert(0 && "SMD cannot free unknown type");
+			assert(0 && "SMD cannot convert unknown type from json");
 	}
 
 	return str;

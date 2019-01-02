@@ -10,6 +10,9 @@
 
 static smd_dtype_t SMD_DTYPE_UNKNOWN_d = {.type = SMD_TYPE_UNKNOWN, .refcount = 1, .size = -1, .extent = -1};
 smd_dtype_t * SMD_DTYPE_UNKNOWN = & SMD_DTYPE_UNKNOWN_d;
+static smd_dtype_t SMD_DTYPE_EMPTY_d = {.type = SMD_TYPE_EMPTY, .refcount = 1, .size = 0, .extent = 0};
+smd_dtype_t * SMD_DTYPE_EMPTY = & SMD_DTYPE_EMPTY_d;
+
 
 static smd_dtype_t SMD_DTYPE_INT8_d = {.type = SMD_TYPE_INT8, .refcount = 1, .size = sizeof(int8_t), .extent = sizeof(int8_t)};
 smd_dtype_t * SMD_DTYPE_INT8 = & SMD_DTYPE_INT8_d;
@@ -118,6 +121,8 @@ smd_dtype_t * smd_type_from_ser_i(char ** str){
   char type = **str - 'a';
   (*str)++;
   switch(type){
+    case(SMD_TYPE_EMPTY):
+      return SMD_DTYPE_EMPTY;
     case(SMD_TYPE_INT8):
       return SMD_DTYPE_INT8;
     case(SMD_TYPE_INT16):
@@ -208,6 +213,7 @@ size_t smd_type_ser_i(char * buff, smd_dtype_t * t){
     smd_basic_type_t type = t->type;
     *buff = type + 'a';
   	switch(type){
+      case(SMD_TYPE_EMPTY):
       case(SMD_TYPE_INT16):
       case(SMD_TYPE_INT32):
       case(SMD_TYPE_INT64):
@@ -248,7 +254,7 @@ size_t smd_type_ser_i(char * buff, smd_dtype_t * t){
         buff += smd_type_ser_i(buff, d->base);
         return buff - oldb;
   		}default:
-  			assert(0 && "SMD cannot print unknown type");
+  			assert(0 && "SMD cannot serialize unknown type");
   	}
 }
 
@@ -261,6 +267,8 @@ size_t smd_type_ser(char * buff, smd_dtype_t * t){
 static size_t smd_type_print_i(char * buff, smd_dtype_t * t){
     smd_basic_type_t type = t->type;
   	switch(type){
+      case(SMD_TYPE_EMPTY):
+        return sprintf(buff, "NUL");
       case(SMD_TYPE_INT8):
         return sprintf(buff, "I08");
       case(SMD_TYPE_INT16):
@@ -331,6 +339,7 @@ void smd_type_iterate(smd_dtype_t * t, char * buff, void (*iter)(smd_dtype_t * t
 	smd_basic_type_t type = t->type;
   iter(t, buff);
 	switch(type){
+      case(SMD_TYPE_EMPTY):
 			case(SMD_TYPE_INT8):
 			case(SMD_TYPE_INT16):
 			case(SMD_TYPE_INT32):

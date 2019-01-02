@@ -45,6 +45,10 @@ int main(){
   smd_attr_t * attr2 = smd_attr_new("child", SMD_DTYPE_STRING, name, & id);
   ret = smd_attr_link(attr, attr2, 0);
 
+  smd_attr_t * attr4 = smd_attr_new("unknown", SMD_DTYPE_EMPTY, NULL, & id);
+  ret = smd_attr_link(attr, attr4, 0);
+
+
   smd_dtype_t * t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
 
   int32_t val[3] = {11,22,33};
