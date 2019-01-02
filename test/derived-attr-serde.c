@@ -16,7 +16,6 @@ static void iter(int id, const char*name){
 
 int main(){
   int id;
-  int id2;
   int ret;
 
   smd_dtype_t * t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
@@ -43,27 +42,33 @@ int main(){
 
   smd_attr_t * attr = smd_attr_new("root", t_struct, & v, & id);
   char * name = "this is a test";
-  smd_attr_t * attr2 = smd_attr_new("child", SMD_DTYPE_STRING, & name, & id);
+  smd_attr_t * attr2 = smd_attr_new("child", SMD_DTYPE_STRING, name, & id);
   ret = smd_attr_link(attr, attr2, 0);
+  int32_t val = 32;
+  smd_attr_t * attr3 = smd_attr_new("subchild", SMD_DTYPE_INT32, & val, & id);
+  ret = smd_attr_link(attr2, attr3, 0);
 
   count = 0;
   smd_iterate(attr, iter);
 
   char buff[1024];
   size_t size;
+  //size = smd_attr_ser_json(buff, attr2);
   size = smd_attr_ser_json(buff, attr);
   printf("ATTR SER: %zu: %s\n", size, buff);
 
-  struct test h = {4722, {NULL, NULL, NULL, NULL}, 3434};
-  printf("%d %d %s %s %s %s\n", h.val, h.val2,  h.names[0], h.names[1], h.names[2], h.names[3]);
-  assert(h.val == v.val);
-  assert(h.val2 == v.val2);
-  assert(strcmp(h.names[1], v.names[1]) == 0);
+
+  char buff2[1024];
+  smd_attr_t * attr_deser = smd_attr_create_from_json(buff);
+  size_t size2;
+  size2 = smd_attr_ser_json(buff2, attr_deser);
+  printf("ATTR SER: %zu: %s\n", size2, buff2);
+  assert(size == size2);
+  assert(strcmp(buff, buff2) == 0);
 
   smd_attr_destroy(attr);
   smd_type_unref(& t_struct);
   smd_type_unref(& t_arr);
-
 
   printf("OK\n");
 

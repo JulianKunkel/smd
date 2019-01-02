@@ -17,10 +17,13 @@ int main(){
   int id;
   int id2;
   int ret;
+  int v2 = 5;
+  smd_attr_t * attr5 = smd_attr_new("name", SMD_DTYPE_INT32, & id2, & id);
+
   char * name = "this is a test";
-  smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, & name, & id);
-  char * ptr = 0;
-  smd_attr_copy_value(attr, (void*) & ptr);
+  smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, name, & id);
+  char * ptr = (char*) 16;
+  smd_attr_copy_value(attr, & ptr);
   assert(strcmp(ptr, "this is a test") == 0);
 
   for(int i= 0; i < 100; i++){

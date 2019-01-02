@@ -54,6 +54,7 @@ char * smd_dup_escaped_varname(const char * name){
 		buff++;
   }
 	*buff = 0;
+	char * cur = orig;
   return orig;
 }
 
@@ -140,7 +141,8 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 			  *p = *(char*) val;
 			  break;
 			}case(SMD_TYPE_STRING):{
-				*((char**)out) = strdup((char*) val);
+				char ** p = (char **) out;
+				*p = strdup((char*) val);
 				//printf("STR %lld: %s %ld = %s\n", out, val, val, *((char**)out));
 				break;
 			}case(SMD_TYPE_EXTENT):{
@@ -224,7 +226,9 @@ static void smd_attr_copy_val_to_external(char * out, smd_dtype_t * t, char * va
 		    *(char*) out = *p;
 		    break;
 		  }case(SMD_TYPE_STRING):{
-				*(char **) out = *(char**) val;
+				char ** p = (char**) val;
+				printf("RETRIEVE: %s: %lld\n", *p, val);
+				*(char**) out = *p;
 				break;
 			}case(SMD_TYPE_EXTENT):{
 				smd_dtype_extent_t * d = & t->specifier.u.ext;
@@ -363,6 +367,11 @@ smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_
 }
 
 static size_t smd_attr_ser_json_str(char * buff, const char * str){
+	//const char * cur = str;
+	//while(*cur != 0){
+	//	printf("STR: %d %c\n", cur - str, *cur);
+	//	cur++;
+	//}
 	char c;
 	char * buff_p = buff;
 	*buff = '"';
@@ -469,8 +478,7 @@ static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 						return sprintf(buff, "\"%c\"", c);
 				}
 			}case(SMD_TYPE_STRING):{
-				//printf("XUL: %lld %s\n", val, *(char**) val);
-				return smd_attr_ser_json_str(buff, *((char**) val));
+				return smd_attr_ser_json_str(buff, *(char**) val);
 			}case(SMD_TYPE_EXTENT):{
 				smd_dtype_extent_t * d = & t->specifier.u.ext;
 				return smd_attr_ser_json_val(buff, val, d->base);
@@ -516,20 +524,37 @@ static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 
 static size_t smd_attr_ser_json_i(char * buff, smd_attr_t * attr){
 	char * buff_p = buff;
+	//buff += sprintf(buff, "{");
 	buff += smd_attr_ser_json_str(buff, attr->name);
-	buff += sprintf(buff, ":");
-	buff += smd_attr_ser_json_val(buff, attr->value, attr->type);
-	for(int i=0; i < attr->children; i++){
-		buff += sprintf(buff, ",");
-		buff += smd_attr_ser_json_i(buff, attr->childs[i]);
+	buff += sprintf(buff, ": { \"data\" : ");
+	if(attr->type->type < SMD_TYPE_PRIMITIVE_END){
+		buff += smd_attr_ser_json_val(buff, (char*) & attr->value, attr->type);
+	}else{
+		buff += smd_attr_ser_json_val(buff, attr->value, attr->type);
 	}
+	if(attr->children){
+		buff += sprintf(buff, ", \"childs\" : {");
+		buff += smd_attr_ser_json_i(buff, attr->childs[0]);
+		for(int i=1; i < attr->children; i++){
+			buff += sprintf(buff, ",");
+			buff += smd_attr_ser_json_i(buff, attr->childs[i]);
+		}
+		buff += sprintf(buff, "}");
+	}
+	buff += sprintf(buff, "}");
+	//buff += sprintf(buff, "}");
 	return buff - buff_p;
 }
 
 size_t smd_attr_ser_json(char * buff, smd_attr_t * attr){
+	assert(attr != NULL);
 	size_t size = smd_attr_ser_json_i(buff, attr);
 	buff[size] = 0;
 	return size + 1;
+}
+
+smd_attr_t * smd_attr_create_from_json(char * str){
+	return NULL;
 }
 
 void smd_iterate(smd_attr_t * attr, void (*iter)(int id, const char*name)){
