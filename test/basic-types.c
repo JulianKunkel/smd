@@ -17,7 +17,8 @@ int main(){
   int id;
   int id2;
   int ret;
-  smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, "this is a test", & id);
+  char * name = "this is a test";
+  smd_attr_t * attr = smd_attr_new("root", SMD_DTYPE_STRING, & name, & id);
   char * ptr = 0;
   smd_attr_copy_value(attr, (void*) & ptr);
   assert(strcmp(ptr, "this is a test") == 0);
