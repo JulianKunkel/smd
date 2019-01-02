@@ -4,7 +4,6 @@
 
 #include <smd-internal.h>
 
-
 /**
  * Primitive datatypes
  */
@@ -115,7 +114,7 @@ static size_t smd_escaped_str(char * buff, const char * name){
 }
 
 
-static smd_dtype_t * smd_type_from_ser_i(char ** str){
+smd_dtype_t * smd_type_from_ser_i(char ** str){
   char type = **str - 'a';
   (*str)++;
   switch(type){
@@ -205,7 +204,7 @@ smd_dtype_t * smd_type_from_ser(char * str){
   return smd_type_from_ser_i(& str);
 }
 
-static size_t smd_type_ser_i(char * buff, smd_dtype_t * t){
+size_t smd_type_ser_i(char * buff, smd_dtype_t * t){
     smd_basic_type_t type = t->type;
     *buff = type + 'a';
   	switch(type){
