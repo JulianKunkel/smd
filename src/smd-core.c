@@ -324,7 +324,7 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 }
 
 void smd_attr_unlink_pos(smd_attr_t * p, int pos){
-	assert(p->children > pos);
+	assert(p->children > pos && pos >= 0);
 	smd_attr_t * c = p->childs[pos];
 	c->parent = NULL;
 
@@ -846,6 +846,6 @@ int    smd_attr_count    (const smd_attr_t * attr){
 }
 
 smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, int child){
-  assert(child < attr->children);
+  assert(attr->children > child && child >= 0);
   return attr->childs[child];
 }
