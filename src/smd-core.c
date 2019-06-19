@@ -4,6 +4,7 @@
 
 #include <smd-internal.h>
 
+
 #define use_type_ptr(t) (t->type < SMD_TYPE_PRIMITIVE_END || (t->type == SMD_TYPE_EXTENT && t->specifier.u.ext.base->type < SMD_TYPE_PRIMITIVE_END))
 
 // Native Datatypes ///////////////////////////////////////////////////////////
@@ -163,8 +164,8 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 				smd_dtype_array_t * d = & t->specifier.u.arr;
 				char * val_pos = (char*) val;
 				char * out_pos = (char*) out;
-				for(int i=0; i < d->count; i++){
-					smd_attr_copy_val_to_internal(out_pos, d->base, *(char**)val_pos);
+				for(u_int64_t i=0; i < d->count; i++){
+					smd_attr_copy_val_to_internal(out_pos, d->base, val_pos);
 					out_pos += d->base->size;
 					val_pos += d->base->extent;
 				}
@@ -248,7 +249,7 @@ static void smd_attr_copy_val_to_external(char * out, smd_dtype_t * t, char * va
 				smd_dtype_array_t * d = & t->specifier.u.arr;
 				char * val_pos = val;
 				char * out_pos = (char*) out;
-				for(int i=0; i < d->count; i++){
+				for(u_int64_t i=0; i < d->count; i++){
 					smd_attr_copy_val_to_external(out_pos, d->base, val_pos);
 					out_pos += d->base->extent;
 					val_pos += d->base->size;
@@ -511,7 +512,7 @@ static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 				if( d->count > 0 ){
 					buff += smd_attr_ser_json_val(buff, val_pos, d->base);
 					val_pos += d->base->size;
-					for(int i=1; i < d->count; i++){
+					for(u_int64_t i=1; i < d->count; i++){
 						buff += sprintf(buff, ",");
 						buff += smd_attr_ser_json_val(buff, val_pos, d->base);
 						val_pos += d->base->size;
@@ -715,7 +716,7 @@ static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
 				if(*str != '[') return NULL;
 				str++;
 				if( d->count > 0 ){
-					for(int i=0; i < d->count; i++){
+					for(u_int64_t i=0; i < d->count; i++){
 						if(i > 0){
 							if(*str != ',') return NULL;
 							str++;
