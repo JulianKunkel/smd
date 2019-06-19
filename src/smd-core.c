@@ -143,7 +143,7 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 			  break;
 			}case(SMD_TYPE_STRING):{
 				char ** p = (char **) out;
-				*p = strdup((char*) val);
+				*p = strdup(*(char**) val);
 				//printf("STR %lld: %s %ld = %s\n", out, val, val, *((char**)out));
 				break;
 			}case(SMD_TYPE_EXTENT):{
@@ -312,7 +312,9 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 
 	if(val != NULL){
 		smd_dtype_t * t = attr->type;
-		if(use_type_ptr(t)){
+		if(type->type == SMD_TYPE_STRING){
+			attr->value = strdup((char*) val);
+		}else if(use_type_ptr(t)){
 			smd_attr_copy_val_to_internal((char*) & attr->value, type, val);
 		}else{
 			smd_attr_alloc(& attr->value, type);
