@@ -27,8 +27,8 @@ struct smd_attr_t{
 	void 				* value; // if value != NULL, we are the owner of the data
 	int id;
 
-	int children; // number of child attributes
-	int childSlots;
+	unsigned int children; // number of child attributes
+	unsigned int childSlots;
 	smd_attr_t * parent;
   smd_attr_t ** childs;
 };
@@ -62,7 +62,7 @@ typedef enum{
  */
 smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_replace);
 
-void smd_attr_unlink_pos(smd_attr_t * parent, int pos);
+void smd_attr_unlink_pos(smd_attr_t * parent, unsigned int pos);
 
 /**
  * Retrieve a position for an attribute to manipulate the attribute
@@ -70,7 +70,7 @@ void smd_attr_unlink_pos(smd_attr_t * parent, int pos);
 int smd_find_position_by_id(const smd_attr_t * attr, int id);
 int smd_find_position_by_name(const smd_attr_t * attr, const char * name);
 
-smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, int pos);
+smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, unsigned int pos);
 
 /**
  * The function copies the value of the attribute into the pointer of out_val

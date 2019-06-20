@@ -60,7 +60,7 @@ char * smd_dup_escaped_varname(const char * name){
 }
 
 int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
-	for(int i=0; i < attr->children; i++){
+	for(unsigned  int i=0; i < attr->children; i++){
 		if(strcmp(attr->childs[i]->name, name) == 0){
 			return i;
 		}
@@ -69,7 +69,7 @@ int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
 }
 
 int smd_find_position_by_id(const smd_attr_t * attr, int id){
-	for(int i=0; i < attr->children; i++){
+	for(unsigned int i=0; i < attr->children; i++){
 		if(attr->childs[i]->id == id){
 			return i;
 		}
@@ -326,8 +326,8 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 	return attr;
 }
 
-void smd_attr_unlink_pos(smd_attr_t * p, int pos){
-	assert(p->children > pos && pos >= 0);
+void smd_attr_unlink_pos(smd_attr_t * p, unsigned int pos){
+	assert(p->children > pos);
 	smd_attr_t * c = p->childs[pos];
 	c->parent = NULL;
 
@@ -358,7 +358,7 @@ smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_
 			// need to extend the existing structure
 			parent->childSlots *= 2;
 			smd_attr_t ** new = malloc(sizeof(void*) * parent->childSlots);
-			for(int i=0; i < parent->children; i++){
+			for(unsigned int i=0; i < parent->children; i++){
 				new[i] = parent->childs[i];
 			}
 			free(parent->childs);
@@ -545,7 +545,7 @@ static size_t smd_attr_ser_json_i(char * buff, smd_attr_t * attr){
 	if(attr->children){
 		buff += sprintf(buff, ",\"childs\":{");
 		buff += smd_attr_ser_json_i(buff, attr->childs[0]);
-		for(int i=1; i < attr->children; i++){
+		for(unsigned int i=1; i < attr->children; i++){
 			buff += sprintf(buff, ",");
 			buff += smd_attr_ser_json_i(buff, attr->childs[i]);
 		}
@@ -809,14 +809,14 @@ smd_attr_t * smd_attr_create_from_json(char * str){
 
 void smd_iterate(smd_attr_t * attr, void (*iter)(int id, const char*name)){
 	iter(attr->id, attr->name);
-	for(int i=0; i < attr->children; i++){
+	for(unsigned int i=0; i < attr->children; i++){
 		smd_iterate(attr->childs[i], iter);
 	}
 }
 
 void smd_attr_destroy(smd_attr_t * attr){
 	if(attr->childs){
-		for(int i=0; i < attr->children; i++){
+		for(unsigned int i=0; i < attr->children; i++){
 			smd_attr_destroy(attr->childs[i]);
 		}
 		free(attr->childs);
@@ -848,7 +848,7 @@ int    smd_attr_count    (const smd_attr_t * attr){
   return attr->children;
 }
 
-smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, int child){
-  assert(attr->children > child && child >= 0);
+smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, unsigned int child){
+  assert(attr->children > child);
   return attr->childs[child];
 }
