@@ -164,7 +164,11 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 				char * val_pos = (char*) val;
 				char * out_pos = (char*) out;
 				for(int i=0; i < d->count; i++){
-					smd_attr_copy_val_to_internal(out_pos, d->base, *(char**)val_pos);
+					if(d->base->type == SMD_TYPE_STRING){
+						smd_attr_copy_val_to_internal(out_pos, d->base, *(char**) val_pos);
+					}else{
+						smd_attr_copy_val_to_internal(out_pos, d->base, val_pos);
+					}
 					out_pos += d->base->size;
 					val_pos += d->base->extent;
 				}
@@ -307,7 +311,6 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 	attr->id = id;
 	attr->type = type;
 	assert(name != NULL);
-	assert(name[0] != 0);
 
 	if(val != NULL){
 		smd_dtype_t * t = attr->type;
@@ -735,7 +738,8 @@ static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
 	return str;
 }
 
-char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
+char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out, size_t size){
+	// TODO fix overflow
 	assert(str != NULL);
 	assert(attr_out != NULL);
 	//printf("%d: \"%s\"\n", __LINE__, str);
@@ -783,7 +787,7 @@ char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
 
 		while(*str != '}'){
 			smd_attr_t * child;
-			str = smd_attr_create_from_json_i(str, & child);
+			str = smd_attr_create_from_json_i(str, & child, size);
 			smd_attr_link(attr, child, 0);
 			if(*str == ',') str++;
 		}
@@ -798,9 +802,12 @@ char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
 	return str;
 }
 
-smd_attr_t * smd_attr_create_from_json(char * str){
+smd_attr_t * smd_attr_create_from_json(char * str, size_t length){
+	if(length == 0){
+		return NULL;
+	}
 	smd_attr_t * attr;
-	smd_attr_create_from_json_i(str, & attr);
+	smd_attr_create_from_json_i(str, & attr, length);
 	return attr;
 }
 
