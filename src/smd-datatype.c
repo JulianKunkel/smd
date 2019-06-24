@@ -13,6 +13,8 @@ smd_dtype_t * SMD_DTYPE_UNKNOWN = & SMD_DTYPE_UNKNOWN_d;
 static smd_dtype_t SMD_DTYPE_EMPTY_d = {.type = SMD_TYPE_EMPTY, .refcount = 1, .size = 0, .extent = 0};
 smd_dtype_t * SMD_DTYPE_EMPTY = & SMD_DTYPE_EMPTY_d;
 
+static smd_dtype_t SMD_DTYPE_DTYPE_d = {.type = SMD_TYPE_DTYPE, .refcount = 1, .size = 0, .extent = 0};
+smd_dtype_t * SMD_DTYPE_DTYPE = & SMD_DTYPE_DTYPE_d;
 
 static smd_dtype_t SMD_DTYPE_INT8_d = {.type = SMD_TYPE_INT8, .refcount = 1, .size = sizeof(int8_t), .extent = sizeof(int8_t)};
 smd_dtype_t * SMD_DTYPE_INT8 = & SMD_DTYPE_INT8_d;
@@ -213,6 +215,7 @@ size_t smd_type_ser_i(char * buff, smd_dtype_t * t){
     smd_basic_type_t type = t->type;
     *buff = type + 'a';
   	switch(type){
+      case(SMD_TYPE_DTYPE):
       case(SMD_TYPE_EMPTY):
       case(SMD_TYPE_INT16):
       case(SMD_TYPE_INT32):

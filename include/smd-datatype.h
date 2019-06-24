@@ -8,6 +8,7 @@
 typedef enum smd_type_t{
 	SMD_TYPE_UNKNOWN = 0,
 	SMD_TYPE_EMPTY,
+	SMD_TYPE_DTYPE,
 	SMD_TYPE_INT8,
 	SMD_TYPE_INT16,
 	SMD_TYPE_INT32,
@@ -75,6 +76,7 @@ struct smd_dtype_t{
  */
 extern smd_dtype_t * SMD_DTYPE_UNKNOWN;
 extern smd_dtype_t * SMD_DTYPE_EMPTY;
+extern smd_dtype_t * SMD_DTYPE_DTYPE;
 extern smd_dtype_t * SMD_DTYPE_INT8;
 extern smd_dtype_t * SMD_DTYPE_INT16;
 extern smd_dtype_t * SMD_DTYPE_INT32;

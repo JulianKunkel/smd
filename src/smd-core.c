@@ -9,6 +9,8 @@
 // Native Datatypes ///////////////////////////////////////////////////////////
 static size_t smd_sizeof(smd_basic_type_t type) {
 	switch (type) {
+		case SMD_TYPE_DTYPE:
+			return sizeof(void*);
 		case SMD_TYPE_INT8:
 		//case SMD_TYPE_CHAR_UTF8:
 			return sizeof(int8_t);
@@ -33,7 +35,6 @@ static size_t smd_sizeof(smd_basic_type_t type) {
 			return sizeof(float);
 		case SMD_TYPE_DOUBLE:
 			return sizeof(double);
-
 		default:
 			assert(0 && "NOT IMPLEMENTED DTYPE size");
 			return 1;
@@ -96,7 +97,12 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 	smd_basic_type_t type = t->type;
 	//printf("E=>I %d %lld %lld\n", type, out, val);
 	switch(type){
-			case(SMD_TYPE_INT8):{
+			case(SMD_TYPE_DTYPE):{
+				smd_dtype_t ** p = (smd_dtype_t**) out;
+				*p = (smd_dtype_t*) val;
+				(*p)->refcount++;
+				break;
+			}case(SMD_TYPE_INT8):{
 				int8_t * p = (int8_t*) out;
 				*p = *(int8_t*) val;
 				break;
@@ -275,6 +281,9 @@ static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 	smd_basic_type_t type = dtype->type;
 
 	switch(type){
+			case(SMD_TYPE_DTYPE):
+				smd_type_unref((smd_dtype_t**) & val);
+				break;
 			case(SMD_TYPE_EMPTY):
 			case(SMD_TYPE_INT8):
 			case(SMD_TYPE_INT16):
@@ -440,6 +449,11 @@ static size_t smd_attr_ser_json_i(char * buff, smd_attr_t * attr);
 
 static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 	switch(t->type){
+			case(SMD_TYPE_DTYPE):
+				buff += sprintf(buff, "\"");
+				int count = smd_type_ser(buff, *(smd_dtype_t**) val);
+				buff += sprintf(buff + count -1, "\"");
+				return count + 1;
 			case(SMD_TYPE_EMPTY):
 				return sprintf(buff, "null");
 			case(SMD_TYPE_INT8):
@@ -524,7 +538,7 @@ static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 				return buff - buff_p;
 			}
 		default:
-			assert(0 && "SMD cannot free unknown type");
+			assert(0 && "SMD cannot serialize unknown type");
 	}
 }
 
