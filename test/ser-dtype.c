@@ -18,6 +18,12 @@ int main(){
   char buff[2048];
   count = smd_attr_ser_json(buff, attr);
   printf("Attr: %zu: %s\n", count, buff);
+
+  smd_attr_t * attr_deser = smd_attr_create_from_json(buff, count);
+  smd_dtype_t * orig_dtype = (smd_dtype_t *) smd_attr_get_value(attr_deser);
+  smd_type_print(buff, orig_dtype);
+  printf("Retrieved datatype %s\n", buff);
+
   smd_attr_destroy(attr);
   smd_type_unref(& t_arr);
 

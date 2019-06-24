@@ -123,6 +123,8 @@ smd_dtype_t * smd_type_from_ser_i(char ** str){
   char type = **str - 'a';
   (*str)++;
   switch(type){
+    case(SMD_TYPE_DTYPE):
+      return SMD_DTYPE_DTYPE;
     case(SMD_TYPE_EMPTY):
       return SMD_DTYPE_EMPTY;
     case(SMD_TYPE_INT8):

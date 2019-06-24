@@ -629,10 +629,20 @@ static char * smd_attr_string_from_json(char * out, char * str){
  * Create a packed attribute value from the JSON
  */
 static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
-	//printf("%d: %s\n", __LINE__, str);
 	int c;
 	switch(t->type){
-			case(SMD_TYPE_EMPTY):{
+			case(SMD_TYPE_DTYPE):{
+				if(*str != '"') return str;
+				str++;
+				char * pos = str;
+				for(; *pos != '\"'; pos++);
+				*pos = 0;
+				smd_dtype_t * dtype = smd_type_from_ser(str);
+				*(smd_dtype_t**) val = dtype;
+
+				*pos = '\"';
+				return pos + 1;
+			}case(SMD_TYPE_EMPTY):{
 				if(strncmp("null", str, 4) != 0) return NULL;
 				return str + 4;
 			}case(SMD_TYPE_UINT64):{
