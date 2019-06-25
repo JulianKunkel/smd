@@ -10,6 +10,8 @@
 // Native Datatypes ///////////////////////////////////////////////////////////
 static size_t smd_sizeof(smd_basic_type_t type) {
 	switch (type) {
+		case SMD_TYPE_DTYPE:
+			return sizeof(void*);
 		case SMD_TYPE_INT8:
 		//case SMD_TYPE_CHAR_UTF8:
 			return sizeof(int8_t);
@@ -34,7 +36,6 @@ static size_t smd_sizeof(smd_basic_type_t type) {
 			return sizeof(float);
 		case SMD_TYPE_DOUBLE:
 			return sizeof(double);
-
 		default:
 			assert(0 && "NOT IMPLEMENTED DTYPE size");
 			return 1;
@@ -97,7 +98,12 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 	smd_basic_type_t type = t->type;
 	//printf("E=>I %d %lld %lld\n", type, out, val);
 	switch(type){
-			case(SMD_TYPE_INT8):{
+			case(SMD_TYPE_DTYPE):{
+				smd_dtype_t ** p = (smd_dtype_t**) out;
+				*p = (smd_dtype_t*) val;
+				(*p)->refcount++;
+				break;
+			}case(SMD_TYPE_INT8):{
 				int8_t * p = (int8_t*) out;
 				*p = *(int8_t*) val;
 				break;
@@ -166,6 +172,11 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 				char * out_pos = (char*) out;
 				for(uint64_t i=0; i < d->count; i++){
 					smd_attr_copy_val_to_internal(out_pos, d->base, val_pos);
+					if(d->base->type == SMD_TYPE_STRING){
+						smd_attr_copy_val_to_internal(out_pos, d->base, *(char**) val_pos);
+					}else{
+						smd_attr_copy_val_to_internal(out_pos, d->base, val_pos);
+					}
 					out_pos += d->base->size;
 					val_pos += d->base->extent;
 				}
@@ -272,6 +283,9 @@ static void smd_attr_free_value(void * val, smd_dtype_t * dtype){
 	smd_basic_type_t type = dtype->type;
 
 	switch(type){
+			case(SMD_TYPE_DTYPE):
+				smd_type_unref((smd_dtype_t**) & val);
+				break;
 			case(SMD_TYPE_EMPTY):
 			case(SMD_TYPE_INT8):
 			case(SMD_TYPE_INT16):
@@ -308,7 +322,6 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 	attr->id = id;
 	attr->type = type;
 	assert(name != NULL);
-	assert(name[0] != 0);
 
 	if(val != NULL){
 		smd_dtype_t * t = attr->type;
@@ -440,6 +453,11 @@ static size_t smd_attr_ser_json_i(char * buff, smd_attr_t * attr);
 
 static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 	switch(t->type){
+			case(SMD_TYPE_DTYPE):
+				buff += sprintf(buff, "\"");
+				int count = smd_type_ser(buff, *(smd_dtype_t**) val);
+				buff += sprintf(buff + count -1, "\"");
+				return count + 1;
 			case(SMD_TYPE_EMPTY):
 				return sprintf(buff, "null");
 			case(SMD_TYPE_INT8):
@@ -524,7 +542,7 @@ static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 				return buff - buff_p;
 			}
 		default:
-			assert(0 && "SMD cannot free unknown type");
+			assert(0 && "SMD cannot serialize unknown type");
 	}
 }
 
@@ -615,10 +633,20 @@ static char * smd_attr_string_from_json(char * out, char * str){
  * Create a packed attribute value from the JSON
  */
 static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
-	//printf("%d: %s\n", __LINE__, str);
 	int c;
 	switch(t->type){
-			case(SMD_TYPE_EMPTY):{
+			case(SMD_TYPE_DTYPE):{
+				if(*str != '"') return str;
+				str++;
+				char * pos = str;
+				for(; *pos != '\"'; pos++);
+				*pos = 0;
+				smd_dtype_t * dtype = smd_type_from_ser(str);
+				*(smd_dtype_t**) val = dtype;
+
+				*pos = '\"';
+				return pos + 1;
+			}case(SMD_TYPE_EMPTY):{
 				if(strncmp("null", str, 4) != 0) return NULL;
 				return str + 4;
 			}case(SMD_TYPE_UINT64):{
@@ -738,7 +766,8 @@ static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
 	return str;
 }
 
-char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
+char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out, size_t size){
+	// TODO fix overflow
 	assert(str != NULL);
 	assert(attr_out != NULL);
 	//printf("%d: \"%s\"\n", __LINE__, str);
@@ -786,7 +815,7 @@ char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
 
 		while(*str != '}'){
 			smd_attr_t * child;
-			str = smd_attr_create_from_json_i(str, & child);
+			str = smd_attr_create_from_json_i(str, & child, size);
 			smd_attr_link(attr, child, 0);
 			if(*str == ',') str++;
 		}
@@ -801,9 +830,12 @@ char * smd_attr_create_from_json_i(char * str, smd_attr_t ** attr_out){
 	return str;
 }
 
-smd_attr_t * smd_attr_create_from_json(char * str){
+smd_attr_t * smd_attr_create_from_json(char * str, size_t length){
+	if(length == 0){
+		return NULL;
+	}
 	smd_attr_t * attr;
-	smd_attr_create_from_json_i(str, & attr);
+	smd_attr_create_from_json_i(str, & attr, length);
 	return attr;
 }
 

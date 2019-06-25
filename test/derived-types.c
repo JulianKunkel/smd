@@ -21,27 +21,34 @@ int main(){
 
   smd_dtype_t * t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
 
+  smd_dtype_t * t_arr_ints = smd_type_array(SMD_DTYPE_INT64, 3);
+
   printf("size: %zu extent: %zu\n", smd_type_get_size(t_arr), smd_type_get_extent(t_arr));
+  printf("size: %zu extent: %zu\n", smd_type_get_size(t_arr_ints), smd_type_get_extent(t_arr_ints));
 
   struct test{
     int16_t val;
     char * names[4];
     int32_t val2;
+    int64_t ints[3];
   };
 
   struct test v = {4711,
     {"hans", "fritz", "rudolf", "mayer"},
-    48812
+    48812,
+    {2, 44, 88}
   };
+  smd_attr_t * testArray = smd_attr_new("root", t_arr_ints, v.ints, 0);
 
-  size_t offsets[3] = {
+  size_t offsets[4] = {
       offsetof(struct test, val),
       offsetof(struct test, names),
-      offsetof(struct test, val2)
+      offsetof(struct test, val2),
+      offsetof(struct test, ints)
   };
-  char * names[3] = {"val", "names", "val2"};
-  smd_dtype_t * types[3] = { SMD_DTYPE_INT16, t_arr, SMD_DTYPE_INT32};
-  smd_dtype_t * t_struct = smd_type_struct(3, offsets, sizeof(struct test), names, types);
+  char * names[4] = {"val", "names", "val2", "ints"};
+  smd_dtype_t * types[4] = { SMD_DTYPE_INT16, t_arr, SMD_DTYPE_INT32, t_arr_ints};
+  smd_dtype_t * t_struct = smd_type_struct(4, offsets, sizeof(struct test), names, types);
 
   printf("struct size: %zu extent: %zu\n", smd_type_get_size(t_struct), smd_type_get_extent(t_struct));
 

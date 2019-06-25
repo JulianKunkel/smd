@@ -88,12 +88,12 @@ const char * smd_attr_get_name(smd_attr_t * attr);
 
 /**
  */
-int    smd_attr_count    (const smd_attr_t * attr);
+int    smd_attr_count(const smd_attr_t * attr);
 
 /**
  */
 size_t smd_attr_ser_json(char * buff, smd_attr_t * attr);
 
-smd_attr_t * smd_attr_create_from_json(char * json);
+smd_attr_t * smd_attr_create_from_json(char * json, size_t size);
 
 #endif

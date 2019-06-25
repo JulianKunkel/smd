@@ -66,7 +66,7 @@ int main(){
 
 
   char buff2[1024];
-  smd_attr_t * attr_deser = smd_attr_create_from_json(buff);
+  smd_attr_t * attr_deser = smd_attr_create_from_json(buff, size);
   assert(attr_deser != NULL);
   size_t size2;
   size2 = smd_attr_ser_json(buff2, attr_deser);
