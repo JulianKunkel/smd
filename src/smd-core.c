@@ -4,6 +4,7 @@
 
 #include <smd-internal.h>
 
+
 #define use_type_ptr(t) (t->type < SMD_TYPE_PRIMITIVE_END || (t->type == SMD_TYPE_EXTENT && t->specifier.u.ext.base->type < SMD_TYPE_PRIMITIVE_END))
 
 // Native Datatypes ///////////////////////////////////////////////////////////
@@ -60,7 +61,7 @@ char * smd_dup_escaped_varname(const char * name){
 }
 
 int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
-	for(int i=0; i < attr->children; i++){
+	for(unsigned  int i=0; i < attr->children; i++){
 		if(strcmp(attr->childs[i]->name, name) == 0){
 			return i;
 		}
@@ -69,7 +70,7 @@ int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
 }
 
 int smd_find_position_by_id(const smd_attr_t * attr, int id){
-	for(int i=0; i < attr->children; i++){
+	for(unsigned int i=0; i < attr->children; i++){
 		if(attr->childs[i]->id == id){
 			return i;
 		}
@@ -148,7 +149,7 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 			  break;
 			}case(SMD_TYPE_STRING):{
 				char ** p = (char **) out;
-				*p = strdup((char*) val);
+				*p = strdup(*(char**) val);
 				//printf("STR %lld: %s %ld = %s\n", out, val, val, *((char**)out));
 				break;
 			}case(SMD_TYPE_EXTENT):{
@@ -169,7 +170,8 @@ static void smd_attr_copy_val_to_internal(char * out, smd_dtype_t * t, const voi
 				smd_dtype_array_t * d = & t->specifier.u.arr;
 				char * val_pos = (char*) val;
 				char * out_pos = (char*) out;
-				for(int i=0; i < d->count; i++){
+				for(uint64_t i=0; i < d->count; i++){
+					smd_attr_copy_val_to_internal(out_pos, d->base, val_pos);
 					if(d->base->type == SMD_TYPE_STRING){
 						smd_attr_copy_val_to_internal(out_pos, d->base, *(char**) val_pos);
 					}else{
@@ -258,7 +260,7 @@ static void smd_attr_copy_val_to_external(char * out, smd_dtype_t * t, char * va
 				smd_dtype_array_t * d = & t->specifier.u.arr;
 				char * val_pos = val;
 				char * out_pos = (char*) out;
-				for(int i=0; i < d->count; i++){
+				for(uint64_t i=0; i < d->count; i++){
 					smd_attr_copy_val_to_external(out_pos, d->base, val_pos);
 					out_pos += d->base->extent;
 					val_pos += d->base->size;
@@ -323,7 +325,9 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 
 	if(val != NULL){
 		smd_dtype_t * t = attr->type;
-		if(use_type_ptr(t)){
+		if(type->type == SMD_TYPE_STRING){
+			attr->value = strdup((char*) val);
+		}else if(use_type_ptr(t)){
 			smd_attr_copy_val_to_internal((char*) & attr->value, type, val);
 		}else{
 			smd_attr_alloc(& attr->value, type);
@@ -335,7 +339,7 @@ smd_attr_t * smd_attr_new(const char* name, smd_dtype_t * type, const void * val
 	return attr;
 }
 
-void smd_attr_unlink_pos(smd_attr_t * p, int pos){
+void smd_attr_unlink_pos(smd_attr_t * p, unsigned int pos){
 	assert(p->children > pos);
 	smd_attr_t * c = p->childs[pos];
 	c->parent = NULL;
@@ -367,7 +371,7 @@ smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_
 			// need to extend the existing structure
 			parent->childSlots *= 2;
 			smd_attr_t ** new = malloc(sizeof(void*) * parent->childSlots);
-			for(int i=0; i < parent->children; i++){
+			for(unsigned int i=0; i < parent->children; i++){
 				new[i] = parent->childs[i];
 			}
 			free(parent->childs);
@@ -528,7 +532,7 @@ static size_t smd_attr_ser_json_val(char * buff, void * val, smd_dtype_t * t){
 				if( d->count > 0 ){
 					buff += smd_attr_ser_json_val(buff, val_pos, d->base);
 					val_pos += d->base->size;
-					for(int i=1; i < d->count; i++){
+					for(uint64_t i=1; i < d->count; i++){
 						buff += sprintf(buff, ",");
 						buff += smd_attr_ser_json_val(buff, val_pos, d->base);
 						val_pos += d->base->size;
@@ -559,7 +563,7 @@ static size_t smd_attr_ser_json_i(char * buff, smd_attr_t * attr){
 	if(attr->children){
 		buff += sprintf(buff, ",\"childs\":{");
 		buff += smd_attr_ser_json_i(buff, attr->childs[0]);
-		for(int i=1; i < attr->children; i++){
+		for(unsigned int i=1; i < attr->children; i++){
 			buff += sprintf(buff, ",");
 			buff += smd_attr_ser_json_i(buff, attr->childs[i]);
 		}
@@ -742,7 +746,7 @@ static char * smd_attr_val_from_json(char * val, smd_dtype_t * t, char * str){
 				if(*str != '[') return NULL;
 				str++;
 				if( d->count > 0 ){
-					for(int i=0; i < d->count; i++){
+					for(uint64_t i=0; i < d->count; i++){
 						if(i > 0){
 							if(*str != ',') return NULL;
 							str++;
@@ -837,14 +841,14 @@ smd_attr_t * smd_attr_create_from_json(char * str, size_t length){
 
 void smd_iterate(smd_attr_t * attr, void (*iter)(int id, const char*name)){
 	iter(attr->id, attr->name);
-	for(int i=0; i < attr->children; i++){
+	for(unsigned int i=0; i < attr->children; i++){
 		smd_iterate(attr->childs[i], iter);
 	}
 }
 
 void smd_attr_destroy(smd_attr_t * attr){
 	if(attr->childs){
-		for(int i=0; i < attr->children; i++){
+		for(unsigned int i=0; i < attr->children; i++){
 			smd_attr_destroy(attr->childs[i]);
 		}
 		free(attr->childs);
@@ -876,7 +880,7 @@ int    smd_attr_count    (const smd_attr_t * attr){
   return attr->children;
 }
 
-smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, int child){
-  assert(child < attr->children);
+smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, unsigned int child){
+  assert(attr->children > child);
   return attr->childs[child];
 }
