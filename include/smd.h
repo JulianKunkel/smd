@@ -71,6 +71,7 @@ int smd_find_position_by_id(const smd_attr_t * attr, int id);
 int smd_find_position_by_name(const smd_attr_t * attr, const char * name);
 
 smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, unsigned int pos);
+smd_attr_t * smd_attr_get_child_by_name  (const smd_attr_t * attr, const char * name);
 
 /**
  * The function copies the value of the attribute into the pointer of out_val
@@ -83,6 +84,7 @@ void smd_attr_copy_value(smd_attr_t * attr, void * out_val);
  * Return a pointer to the data value, do not modify it!
  */
 void * smd_attr_get_value(smd_attr_t * attr);
+smd_basic_type_t smd_attr_get_type(smd_attr_t * attr);
 
 const char * smd_attr_get_name(smd_attr_t * attr);
 

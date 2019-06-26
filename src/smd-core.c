@@ -60,6 +60,11 @@ char * smd_dup_escaped_varname(const char * name){
   return orig;
 }
 
+smd_basic_type_t smd_attr_get_type(smd_attr_t * attr){
+	assert(attr);
+	return attr->type->type;
+}
+
 int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
 	for(unsigned  int i=0; i < attr->children; i++){
 		if(strcmp(attr->childs[i]->name, name) == 0){
@@ -67,6 +72,15 @@ int smd_find_position_by_name(const smd_attr_t * attr, const char * name){
 		}
 	}
 	return -1;
+}
+
+smd_attr_t * smd_attr_get_child_by_name  (const smd_attr_t * attr, const char * name){
+		for(unsigned  int i=0; i < attr->children; i++){
+			if(strcmp(attr->childs[i]->name, name) == 0){
+				return attr->childs[i];
+			}
+		}
+		return NULL;
 }
 
 int smd_find_position_by_id(const smd_attr_t * attr, int id){
