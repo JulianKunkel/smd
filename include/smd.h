@@ -77,11 +77,14 @@ smd_attr_t * smd_attr_get_child_by_name  (const smd_attr_t * attr, const char * 
  * The function copies the value of the attribute into the pointer of out_val
  * if out_val is of primitive type, then out_val is expected to point to a variable of a primitive.
  * if out_val is a complex type (e.g., string), then provides a pointer to the new value
+ * TODO clarify semantics, maybe provide a function that copies from one type of attribute to another format of attribute?
  */
 void smd_attr_copy_value(smd_attr_t * attr, void * out_val);
 
 /**
- * Return a pointer to the data value, do not modify it!
+ * @param[in] attr xx
+ * @Return Pointer to the data value, do not modify or free it.
+ * This is
  */
 void * smd_attr_get_value(smd_attr_t * attr);
 smd_basic_type_t smd_attr_get_type(smd_attr_t * attr);
