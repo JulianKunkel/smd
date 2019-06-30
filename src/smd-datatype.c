@@ -9,53 +9,53 @@
  */
 
 static smd_dtype_t SMD_DTYPE_UNKNOWN_d = {.type = SMD_TYPE_UNKNOWN, .refcount = 1, .size = -1, .extent = -1};
-smd_dtype_t *SMD_DTYPE_UNKNOWN         = &SMD_DTYPE_UNKNOWN_d;
-static smd_dtype_t SMD_DTYPE_EMPTY_d   = {.type = SMD_TYPE_EMPTY, .refcount = 1, .size = 0, .extent = 0};
-smd_dtype_t *SMD_DTYPE_EMPTY           = &SMD_DTYPE_EMPTY_d;
+smd_dtype_t *SMD_DTYPE_UNKNOWN = &SMD_DTYPE_UNKNOWN_d;
+static smd_dtype_t SMD_DTYPE_EMPTY_d = {.type = SMD_TYPE_EMPTY, .refcount = 1, .size = 0, .extent = 0};
+smd_dtype_t *SMD_DTYPE_EMPTY = &SMD_DTYPE_EMPTY_d;
 
 static smd_dtype_t SMD_DTYPE_DTYPE_d = {.type = SMD_TYPE_DTYPE, .refcount = 1, .size = 0, .extent = 0};
-smd_dtype_t *SMD_DTYPE_DTYPE         = &SMD_DTYPE_DTYPE_d;
+smd_dtype_t *SMD_DTYPE_DTYPE = &SMD_DTYPE_DTYPE_d;
 
 static smd_dtype_t SMD_DTYPE_INT8_d = {.type = SMD_TYPE_INT8, .refcount = 1, .size = sizeof(int8_t), .extent = sizeof(int8_t)};
-smd_dtype_t *SMD_DTYPE_INT8         = &SMD_DTYPE_INT8_d;
+smd_dtype_t *SMD_DTYPE_INT8 = &SMD_DTYPE_INT8_d;
 
 static smd_dtype_t SMD_DTYPE_INT16_d = {.type = SMD_TYPE_INT16, .refcount = 1, .size = sizeof(int16_t), .extent = sizeof(int16_t)};
-smd_dtype_t *SMD_DTYPE_INT16         = &SMD_DTYPE_INT16_d;
+smd_dtype_t *SMD_DTYPE_INT16 = &SMD_DTYPE_INT16_d;
 
 static smd_dtype_t SMD_DTYPE_INT32_d = {.type = SMD_TYPE_INT32, .refcount = 1, .size = sizeof(int32_t), .extent = sizeof(int32_t)};
-smd_dtype_t *SMD_DTYPE_INT32         = &SMD_DTYPE_INT32_d;
+smd_dtype_t *SMD_DTYPE_INT32 = &SMD_DTYPE_INT32_d;
 
 static smd_dtype_t SMD_DTYPE_INT64_d = {.type = SMD_TYPE_INT64, .refcount = 1, .size = sizeof(int64_t), .extent = sizeof(int64_t)};
-smd_dtype_t *SMD_DTYPE_INT64         = &SMD_DTYPE_INT64_d;
+smd_dtype_t *SMD_DTYPE_INT64 = &SMD_DTYPE_INT64_d;
 
 static smd_dtype_t SMD_DTYPE_UINT8_d = {.type = SMD_TYPE_UINT8, .refcount = 1, .size = sizeof(uint8_t), .extent = sizeof(uint8_t)};
-smd_dtype_t *SMD_DTYPE_UINT8         = &SMD_DTYPE_UINT8_d;
+smd_dtype_t *SMD_DTYPE_UINT8 = &SMD_DTYPE_UINT8_d;
 
 static smd_dtype_t SMD_DTYPE_UINT16_d = {.type = SMD_TYPE_UINT16, .refcount = 1, .size = sizeof(uint16_t), .extent = sizeof(uint16_t)};
-smd_dtype_t *SMD_DTYPE_UINT16         = &SMD_DTYPE_UINT16_d;
+smd_dtype_t *SMD_DTYPE_UINT16 = &SMD_DTYPE_UINT16_d;
 
 static smd_dtype_t SMD_DTYPE_UINT32_d = {.type = SMD_TYPE_UINT32, .refcount = 1, .size = sizeof(uint32_t), .extent = sizeof(uint32_t)};
-smd_dtype_t *SMD_DTYPE_UINT32         = &SMD_DTYPE_UINT32_d;
+smd_dtype_t *SMD_DTYPE_UINT32 = &SMD_DTYPE_UINT32_d;
 
 static smd_dtype_t SMD_DTYPE_UINT64_d = {.type = SMD_TYPE_UINT64, .refcount = 1, .size = sizeof(uint64_t), .extent = sizeof(uint64_t)};
-smd_dtype_t *SMD_DTYPE_UINT64         = &SMD_DTYPE_UINT64_d;
+smd_dtype_t *SMD_DTYPE_UINT64 = &SMD_DTYPE_UINT64_d;
 
 static smd_dtype_t SMD_DTYPE_FLOAT_d = {.type = SMD_TYPE_FLOAT, .refcount = 1, .size = sizeof(float), .extent = sizeof(float)};
-smd_dtype_t *SMD_DTYPE_FLOAT         = &SMD_DTYPE_FLOAT_d;
+smd_dtype_t *SMD_DTYPE_FLOAT = &SMD_DTYPE_FLOAT_d;
 
 static smd_dtype_t SMD_DTYPE_DOUBLE_d = {.type = SMD_TYPE_DOUBLE, .refcount = 1, .size = sizeof(double), .extent = sizeof(double)};
-smd_dtype_t *SMD_DTYPE_DOUBLE         = &SMD_DTYPE_DOUBLE_d;
+smd_dtype_t *SMD_DTYPE_DOUBLE = &SMD_DTYPE_DOUBLE_d;
 
 static smd_dtype_t SMD_DTYPE_CHAR_d = {.type = SMD_TYPE_CHAR, .refcount = 1, .size = sizeof(char), .extent = sizeof(char)};
-smd_dtype_t *SMD_DTYPE_CHAR         = &SMD_DTYPE_CHAR_d;
+smd_dtype_t *SMD_DTYPE_CHAR = &SMD_DTYPE_CHAR_d;
 
 static smd_dtype_t SMD_DTYPE_STRING_d = {.type = SMD_TYPE_STRING, .refcount = 1, .size = sizeof(char *), .extent = sizeof(char *)};
-smd_dtype_t *SMD_DTYPE_STRING         = &SMD_DTYPE_STRING_d;
+smd_dtype_t *SMD_DTYPE_STRING = &SMD_DTYPE_STRING_d;
 
 static smd_dtype_t SMD_DTYPE_UB_d = {.type = SMD_TYPE_UB, .refcount = 1, .size = 0, .extent = 0};
-smd_dtype_t *SMD_DTYPE_UB         = &SMD_DTYPE_UB_d;
+smd_dtype_t *SMD_DTYPE_UB = &SMD_DTYPE_UB_d;
 static smd_dtype_t SMD_DTYPE_LB_d = {.type = SMD_TYPE_LB, .refcount = 1, .size = 0, .extent = 0};
-smd_dtype_t *SMD_DTYPE_LB         = &SMD_DTYPE_LB_d;
+smd_dtype_t *SMD_DTYPE_LB = &SMD_DTYPE_LB_d;
 
 
 void smd_type_destroy(smd_dtype_t *type) {
@@ -171,8 +171,8 @@ smd_dtype_t *smd_type_from_ser_i(char **str) {
       sscanf(*str, "%zu@%zu@%n", &nmeb, &extent, &pos);
       *str += pos;
       if (nmeb < 1 || extent < 1) return NULL;
-      char **names        = malloc(sizeof(char *) * nmeb);
-      size_t *offsets     = malloc(sizeof(size_t) * nmeb);
+      char **names = malloc(sizeof(char *) * nmeb);
+      size_t *offsets = malloc(sizeof(size_t) * nmeb);
       smd_dtype_t **types = malloc(sizeof(char *) * nmeb);
       for (int i = 0; i < nmeb; i++) {
         // name, offset
@@ -180,10 +180,10 @@ smd_dtype_t *smd_type_from_ser_i(char **str) {
         while (*name != 0 && *name != '@')
           name++;
         if (*name == 0) return NULL;
-        *name    = 0;
+        *name = 0;
         names[i] = strdup(*str);
-        *name    = '@';
-        *str     = name + 1;
+        *name = '@';
+        *str = name + 1;
         sscanf(*str, "%zu,%n", &offsets[i], &pos);
         *str += pos;
         types[i] = smd_type_from_ser_i(str);
@@ -220,7 +220,7 @@ smd_dtype_t *smd_type_from_ser(char *str) {
 
 size_t smd_type_ser_i(char *buff, smd_dtype_t *t) {
   smd_basic_type_t type = t->type;
-  *buff                 = type + 'a';
+  *buff = type + 'a';
   switch (type) {
     case (SMD_TYPE_DTYPE):
     case (SMD_TYPE_EMPTY):
@@ -273,7 +273,7 @@ size_t smd_type_ser_i(char *buff, smd_dtype_t *t) {
 
 size_t smd_type_ser(char *buff, smd_dtype_t *t) {
   size_t len = smd_type_ser_i(buff, t);
-  buff[len]  = 0;
+  buff[len] = 0;
   return len + 1;
 }
 
@@ -305,7 +305,7 @@ static size_t smd_type_print_i(char *buff, smd_dtype_t *t) {
     case (SMD_TYPE_CHAR):
       return sprintf(buff, "CHA");
     case (SMD_TYPE_EXTENT): {
-      char *oldb            = buff;
+      char *oldb = buff;
       smd_dtype_extent_t *d = &t->specifier.u.ext;
       buff += sprintf(buff, "EXT");
       buff += sprintf(buff, "(%zu,%zu,", d->lb, t->extent);
@@ -314,7 +314,7 @@ static size_t smd_type_print_i(char *buff, smd_dtype_t *t) {
       return buff - oldb;
     }
     case (SMD_TYPE_STRUCT): {
-      char *oldb            = buff;
+      char *oldb = buff;
       smd_dtype_struct_t *d = &t->specifier.u.str;
       buff += sprintf(buff, "STT");
       buff += sprintf(buff, "(%d,[", d->size);
@@ -328,7 +328,7 @@ static size_t smd_type_print_i(char *buff, smd_dtype_t *t) {
       return buff - oldb;
     }
     case (SMD_TYPE_ARRAY): {
-      char *oldb           = buff;
+      char *oldb = buff;
       smd_dtype_array_t *d = &t->specifier.u.arr;
       buff += sprintf(buff, "ARR");
       buff += sprintf(buff, "(%zu,", d->count);
@@ -345,7 +345,7 @@ static size_t smd_type_print_i(char *buff, smd_dtype_t *t) {
 
 size_t smd_type_print(char *buff, smd_dtype_t *t) {
   size_t len = smd_type_print_i(buff, t);
-  buff[len]  = 0;
+  buff[len] = 0;
   return len + 1;
 }
 
@@ -375,7 +375,7 @@ void smd_type_iterate(smd_dtype_t *t, char *buff, void (*iter)(smd_dtype_t *t, v
     }
     case (SMD_TYPE_STRUCT): {
       smd_dtype_struct_t *d = &t->specifier.u.str;
-      char *val_pos         = buff;
+      char *val_pos = buff;
       for (int i = 0; i < d->size; i++) {
         smd_type_iterate(d->types[i], val_pos, iter);
         val_pos += d->types[i]->size;
@@ -384,7 +384,7 @@ void smd_type_iterate(smd_dtype_t *t, char *buff, void (*iter)(smd_dtype_t *t, v
     }
     case (SMD_TYPE_ARRAY): {
       smd_dtype_array_t *d = &t->specifier.u.arr;
-      char *val_pos        = buff;
+      char *val_pos = buff;
       for (int i = 0; i < d->count; i++) {
         smd_type_iterate(d->base, val_pos, iter);
         val_pos += d->base->size;
@@ -403,16 +403,16 @@ smd_dtype_t *smd_type_extent(size_t lb, size_t ub, smd_dtype_t *base_type) {
   smd_dtype_t *t = malloc(sizeof(smd_dtype_t));
   memset(t, 0, sizeof(smd_dtype_t));
 
-  t->type     = SMD_TYPE_EXTENT;
+  t->type = SMD_TYPE_EXTENT;
   t->refcount = 1;
 
   smd_dtype_extent_t *new = &t->specifier.u.ext;
-  new->base               = base_type;
-  new->lb                 = lb;
+  new->base = base_type;
+  new->lb = lb;
   base_type->refcount++;
 
   assert(ub >= base_type->size + lb);
-  t->size   = base_type->size;
+  t->size = base_type->size;
   t->extent = ub;
 
   return t;
@@ -425,15 +425,15 @@ smd_dtype_t *smd_type_array(smd_dtype_t *base_type, uint64_t nmeb) {
   smd_dtype_t *t = malloc(sizeof(smd_dtype_t));
   memset(t, 0, sizeof(smd_dtype_t));
 
-  t->type     = SMD_TYPE_ARRAY;
+  t->type = SMD_TYPE_ARRAY;
   t->refcount = 1;
 
   smd_dtype_array_t *new = &t->specifier.u.arr;
-  new->base              = base_type;
-  new->count             = nmeb;
+  new->base = base_type;
+  new->count = nmeb;
   base_type->refcount++;
 
-  t->size   = base_type->size * nmeb;
+  t->size = base_type->size * nmeb;
   t->extent = base_type->extent * nmeb;
 
   return t;
@@ -448,23 +448,23 @@ smd_dtype_t *smd_type_struct(int nmeb, size_t *offsets, size_t extent, char *con
   smd_dtype_t *t = malloc(sizeof(smd_dtype_t));
   memset(t, 0, sizeof(smd_dtype_t));
 
-  t->type     = SMD_TYPE_STRUCT;
+  t->type = SMD_TYPE_STRUCT;
   t->refcount = 1;
 
   smd_dtype_struct_t *new = &t->specifier.u.str;
-  new->size               = nmeb;
-  new->names              = malloc(sizeof(void *) * nmeb * 3);
-  new->types              = (smd_dtype_t **)(new->names + nmeb);
-  new->offsets            = (size_t *)(new->names + 2 * nmeb);
+  new->size = nmeb;
+  new->names = malloc(sizeof(void *) * nmeb * 3);
+  new->types = (smd_dtype_t **)(new->names + nmeb);
+  new->offsets = (size_t *)(new->names + 2 * nmeb);
 
   size_t last_offset = 0;
-  size_t size        = 0;
+  size_t size = 0;
 
   for (int i = 0; i < nmeb; i++) {
     assert(types[i] != NULL);
     assert(names[i] != NULL);
-    new->names[i]   = smd_dup_escaped_varname(names[i]);
-    new->types[i]   = types[i];
+    new->names[i] = smd_dup_escaped_varname(names[i]);
+    new->types[i] = types[i];
     new->offsets[i] = offsets[i];
 
     assert(last_offset <= offsets[i]);

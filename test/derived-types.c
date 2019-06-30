@@ -33,7 +33,7 @@ int main() {
     int64_t ints[3];
   };
 
-  struct test v         = {4711,
+  struct test v = {4711,
   {"hans", "fritz", "rudolf", "mayer"},
   48812,
   {2, 44, 88}};
@@ -44,7 +44,7 @@ int main() {
   offsetof(struct test, names),
   offsetof(struct test, val2),
   offsetof(struct test, ints)};
-  char *names[4]        = {"val", "names", "val2", "ints"};
+  char *names[4] = {"val", "names", "val2", "ints"};
   smd_dtype_t *types[4] = {SMD_DTYPE_INT16, t_arr, SMD_DTYPE_INT32, t_arr_ints};
   smd_dtype_t *t_struct = smd_type_struct(4, offsets, sizeof(struct test), names, types);
 

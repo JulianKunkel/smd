@@ -22,7 +22,7 @@ int main() {
   offsetof(struct test, val),
   offsetof(struct test, names),
   offsetof(struct test, val2)};
-  char *names[3]     = {"testvalvaltest", "nameemam\n", "v12321v"};
+  char *names[3] = {"testvalvaltest", "nameemam\n", "v12321v"};
   smd_dtype_t *t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
 
   smd_dtype_t *types[3] = {SMD_DTYPE_INT16, t_arr, t_ext};
@@ -33,7 +33,7 @@ int main() {
   count = smd_type_ser(buff, t_struct);
   printf("%zu: %s\n", count, buff);
   smd_dtype_t *t_deser = smd_type_from_ser(buff);
-  count                = smd_type_print(buff, t_deser);
+  count = smd_type_print(buff, t_deser);
   printf("SerDe: %zu: %s\n", count, buff);
 
   char buff2[1024];
