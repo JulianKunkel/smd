@@ -99,6 +99,6 @@ int    smd_attr_count(const smd_attr_t * attr);
  */
 size_t smd_attr_ser_json(char * buff, smd_attr_t * attr);
 
-smd_attr_t * smd_attr_create_from_json(char * json, size_t size);
+size_t smd_attr_create_from_json(char * json, size_t size, smd_attr_t ** out_attr);
 
 #endif
