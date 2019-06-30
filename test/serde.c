@@ -1,40 +1,39 @@
 #include <assert.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
 #include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <smd.h>
 
-int main(){
-  smd_dtype_t * t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
+int main() {
+  smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
 
   printf("size: %zu extent: %zu\n", smd_type_get_size(t_arr), smd_type_get_extent(t_arr));
 
-  struct test{
+  struct test {
     int16_t val;
-    char * names[4];
+    char *names[4];
     int32_t val2[3];
   };
 
   size_t offsets[3] = {
-      offsetof(struct test, val),
-      offsetof(struct test, names),
-      offsetof(struct test, val2)
-  };
-  char * names[3] = {"testvalvaltest", "nameemam\n", "v12321v"};
-  smd_dtype_t * t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
+  offsetof(struct test, val),
+  offsetof(struct test, names),
+  offsetof(struct test, val2)};
+  char *names[3]     = {"testvalvaltest", "nameemam\n", "v12321v"};
+  smd_dtype_t *t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
 
-  smd_dtype_t * types[3] = {SMD_DTYPE_INT16, t_arr, t_ext};
-  smd_dtype_t * t_struct = smd_type_struct(3, offsets, sizeof(struct test), names, types);
+  smd_dtype_t *types[3] = {SMD_DTYPE_INT16, t_arr, t_ext};
+  smd_dtype_t *t_struct = smd_type_struct(3, offsets, sizeof(struct test), names, types);
 
   char buff[1024];
   size_t count;
   count = smd_type_ser(buff, t_struct);
   printf("%zu: %s\n", count, buff);
-  smd_dtype_t * t_deser = smd_type_from_ser(buff);
-  count = smd_type_print(buff, t_deser);
+  smd_dtype_t *t_deser = smd_type_from_ser(buff);
+  count                = smd_type_print(buff, t_deser);
   printf("SerDe: %zu: %s\n", count, buff);
 
   char buff2[1024];
@@ -44,9 +43,9 @@ int main(){
   assert(count == count2);
   assert(strcmp(buff, buff2) == 0);
 
-  smd_type_unref(& t_struct);
-  smd_type_unref(& t_arr);
-  smd_type_unref(& t_deser);
+  smd_type_unref(&t_struct);
+  smd_type_unref(&t_arr);
+  smd_type_unref(&t_deser);
 
 
   printf("OK\n");

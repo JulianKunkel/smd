@@ -21,16 +21,16 @@
 typedef struct smd_attr_t smd_attr_t;
 
 
-struct smd_attr_t{
-  const char 	* name;
-  smd_dtype_t * type;
-	void 				* value; // if value != NULL, we are the owner of the data
-	int id;
+struct smd_attr_t {
+  const char *name;
+  smd_dtype_t *type;
+  void *value; // if value != NULL, we are the owner of the data
+  int id;
 
-	unsigned int children; // number of child attributes
-	unsigned int childSlots;
-	smd_attr_t * parent;
-  smd_attr_t ** childs;
+  unsigned int children; // number of child attributes
+  unsigned int childSlots;
+  smd_attr_t *parent;
+  smd_attr_t **childs;
 };
 
 /**
@@ -38,40 +38,39 @@ struct smd_attr_t{
  */
 
 
+/**
+ */
+smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val, int id);
+
 
 /**
  */
-smd_attr_t * smd_attr_new(const char * name, smd_dtype_t *type, const void * val, int id);
-
-
-/**
- */
-void smd_attr_destroy(smd_attr_t * attr);
+void smd_attr_destroy(smd_attr_t *attr);
 
 /**
  */
-void smd_iterate(smd_attr_t * attr, void (*iter)(int id, const char*name));
+void smd_iterate(smd_attr_t *attr, void (*iter)(int id, const char *name));
 
-typedef enum{
-	SMD_ATTR_LINKED,
-	SMD_ATTR_REPLACED,
-	SMD_ATTR_EEXIST
+typedef enum {
+  SMD_ATTR_LINKED,
+  SMD_ATTR_REPLACED,
+  SMD_ATTR_EEXIST
 } smd_link_ret_t;
 
 /**
  */
-smd_link_ret_t smd_attr_link(smd_attr_t * parent, smd_attr_t * child, int allow_replace);
+smd_link_ret_t smd_attr_link(smd_attr_t *parent, smd_attr_t *child, int allow_replace);
 
-void smd_attr_unlink_pos(smd_attr_t * parent, unsigned int pos);
+void smd_attr_unlink_pos(smd_attr_t *parent, unsigned int pos);
 
 /**
  * Retrieve a position for an attribute to manipulate the attribute
  */
-int smd_find_position_by_id(const smd_attr_t * attr, int id);
-int smd_find_position_by_name(const smd_attr_t * attr, const char * name);
+int smd_find_position_by_id(const smd_attr_t *attr, int id);
+int smd_find_position_by_name(const smd_attr_t *attr, const char *name);
 
-smd_attr_t * smd_attr_get_child  (const smd_attr_t * attr, unsigned int pos);
-smd_attr_t * smd_attr_get_child_by_name  (const smd_attr_t * attr, const char * name);
+smd_attr_t *smd_attr_get_child(const smd_attr_t *attr, unsigned int pos);
+smd_attr_t *smd_attr_get_child_by_name(const smd_attr_t *attr, const char *name);
 
 /**
  * The function copies the value of the attribute into the pointer of out_val
@@ -79,26 +78,26 @@ smd_attr_t * smd_attr_get_child_by_name  (const smd_attr_t * attr, const char * 
  * if out_val is a complex type (e.g., string), then provides a pointer to the new value
  * TODO clarify semantics, maybe provide a function that copies from one type of attribute to another format of attribute?
  */
-void smd_attr_copy_value(smd_attr_t * attr, void * out_val);
+void smd_attr_copy_value(smd_attr_t *attr, void *out_val);
 
 /**
  * @param[in] attr xx
  * @Return Pointer to the data value, do not modify or free it.
  * This is
  */
-void * smd_attr_get_value(smd_attr_t * attr);
-smd_basic_type_t smd_attr_get_type(smd_attr_t * attr);
+void *smd_attr_get_value(smd_attr_t *attr);
+smd_basic_type_t smd_attr_get_type(smd_attr_t *attr);
 
-const char * smd_attr_get_name(smd_attr_t * attr);
-
-/**
- */
-int    smd_attr_count(const smd_attr_t * attr);
+const char *smd_attr_get_name(smd_attr_t *attr);
 
 /**
  */
-size_t smd_attr_ser_json(char * buff, smd_attr_t * attr);
+int smd_attr_count(const smd_attr_t *attr);
 
-smd_attr_t * smd_attr_create_from_json(char * json, size_t size);
+/**
+ */
+size_t smd_attr_ser_json(char *buff, smd_attr_t *attr);
+
+smd_attr_t *smd_attr_create_from_json(char *json, size_t size);
 
 #endif
