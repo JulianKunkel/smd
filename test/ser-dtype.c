@@ -19,7 +19,7 @@ int main() {
   printf("Attr: %zu: %s\n", count, buff);
 
   smd_attr_t *attr_deser;
-  smd_attr_create_from_json(buff, count, & attr_deser);
+  smd_attr_create_from_json(buff, count, &attr_deser);
   smd_dtype_t *orig_dtype = (smd_dtype_t *)smd_attr_get_value(attr_deser);
   smd_type_print(buff, orig_dtype);
   printf("Retrieved datatype %s\n", buff);

@@ -913,13 +913,13 @@ char *smd_attr_create_from_json_i(char *str, smd_attr_t **attr_out, size_t size)
   return str;
 }
 
-size_t smd_attr_create_from_json(char *str, size_t length, smd_attr_t **out_attr){
-	if(length == 0){
-		*out_attr = NULL;
-		return 0;
-	}
-	char *pos = smd_attr_create_from_json_i(str, out_attr, length);
-	return (pos - str);
+size_t smd_attr_create_from_json(char *str, size_t length, smd_attr_t **out_attr) {
+  if (length == 0) {
+    *out_attr = NULL;
+    return 0;
+  }
+  char *pos = smd_attr_create_from_json_i(str, out_attr, length);
+  return (pos - str);
 }
 
 void smd_iterate(smd_attr_t *attr, void (*iter)(int id, const char *name)) {
