@@ -12,7 +12,6 @@ static void iter(int id, const char *name) {
   count++;
 }
 
-
 int main() {
   int id;
   int id2;

@@ -16,8 +16,8 @@ static void iter(int id, const char *name) {
 
 int main() {
   int id;
-  int id2;
-  int ret;
+  // int id2;
+  // int ret;
 
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
 
@@ -50,7 +50,7 @@ int main() {
 
   printf("struct size: %zu extent: %zu\n", smd_type_get_size(t_struct), smd_type_get_extent(t_struct));
 
-
+  // warning: ‘id’ is used uninitialized in this function
   smd_attr_t *attr = smd_attr_new("root", t_struct, &v, id);
 
   struct test h = {4722, {NULL, NULL, NULL, NULL}, 3434};
@@ -71,7 +71,6 @@ int main() {
 
   smd_type_unref(&t_struct);
   smd_type_unref(&t_arr);
-
 
   printf("OK\n");
 

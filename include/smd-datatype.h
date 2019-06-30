@@ -48,7 +48,6 @@ typedef struct {
 
 typedef struct {
   int size;
-
   const char **names;
   smd_dtype_t **types;
   size_t *offsets;

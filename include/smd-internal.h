@@ -5,7 +5,6 @@
 #include <smd.h>
 #include <string.h>
 
-
 /*
  * Duplicate the string, removing all invalid characters
  */

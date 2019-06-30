@@ -4,7 +4,6 @@
 
 #include <smd-internal.h>
 
-
 #define use_type_ptr(t) (t->type < SMD_TYPE_PRIMITIVE_END || (t->type == SMD_TYPE_EXTENT && t->specifier.u.ext.base->type < SMD_TYPE_PRIMITIVE_END))
 
 // Native Datatypes ///////////////////////////////////////////////////////////
@@ -31,7 +30,6 @@ static size_t smd_sizeof(smd_basic_type_t type) {
       return sizeof(uint32_t);
     case SMD_TYPE_UINT64:
       return sizeof(uint64_t);
-
     case SMD_TYPE_FLOAT:
       return sizeof(float);
     case SMD_TYPE_DOUBLE:
@@ -91,7 +89,6 @@ int smd_find_position_by_id(const smd_attr_t *attr, int id) {
   }
   return -1;
 }
-
 
 static void smd_attr_alloc(void **out, smd_dtype_t *dtype) {
   smd_basic_type_t type = dtype->type;
@@ -215,7 +212,6 @@ static void smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, const void 
       assert(0 && "SMD cannot copy unknown type");
   }
 }
-
 
 static void smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, char *val) {
   smd_basic_type_t type = t->type;
@@ -957,7 +953,6 @@ void smd_attr_copy_value(smd_attr_t *attr, void *out_val) {
     smd_attr_copy_val_to_external(out_val, attr->type, attr->value);
   }
 }
-
 
 int smd_attr_count(const smd_attr_t *attr) {
   return attr->children;

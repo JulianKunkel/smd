@@ -7,7 +7,7 @@
 
 #include <smd.h>
 
-static int count;
+// static int count;
 
 int main() {
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
@@ -26,7 +26,6 @@ int main() {
 
   smd_attr_destroy(attr);
   smd_type_unref(&t_arr);
-
 
   printf("OK\n");
 

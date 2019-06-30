@@ -47,7 +47,6 @@ int main() {
   smd_type_unref(&t_arr);
   smd_type_unref(&t_deser);
 
-
   printf("OK\n");
 
   return 0;

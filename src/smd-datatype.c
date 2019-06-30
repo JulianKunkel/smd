@@ -10,6 +10,7 @@
 
 static smd_dtype_t SMD_DTYPE_UNKNOWN_d = {.type = SMD_TYPE_UNKNOWN, .refcount = 1, .size = -1, .extent = -1};
 smd_dtype_t *SMD_DTYPE_UNKNOWN = &SMD_DTYPE_UNKNOWN_d;
+
 static smd_dtype_t SMD_DTYPE_EMPTY_d = {.type = SMD_TYPE_EMPTY, .refcount = 1, .size = 0, .extent = 0};
 smd_dtype_t *SMD_DTYPE_EMPTY = &SMD_DTYPE_EMPTY_d;
 
@@ -54,9 +55,9 @@ smd_dtype_t *SMD_DTYPE_STRING = &SMD_DTYPE_STRING_d;
 
 static smd_dtype_t SMD_DTYPE_UB_d = {.type = SMD_TYPE_UB, .refcount = 1, .size = 0, .extent = 0};
 smd_dtype_t *SMD_DTYPE_UB = &SMD_DTYPE_UB_d;
+
 static smd_dtype_t SMD_DTYPE_LB_d = {.type = SMD_TYPE_LB, .refcount = 1, .size = 0, .extent = 0};
 smd_dtype_t *SMD_DTYPE_LB = &SMD_DTYPE_LB_d;
-
 
 void smd_type_destroy(smd_dtype_t *type) {
   if (type->refcount > 0) {
@@ -118,7 +119,6 @@ static size_t smd_escaped_str(char *buff, const char *name) {
   }
   return buff - oldb;
 }
-
 
 smd_dtype_t *smd_type_from_ser_i(char **str) {
   char type = **str - 'a';
@@ -348,7 +348,6 @@ size_t smd_type_print(char *buff, smd_dtype_t *t) {
   buff[len] = 0;
   return len + 1;
 }
-
 
 void smd_type_iterate(smd_dtype_t *t, char *buff, void (*iter)(smd_dtype_t *t, void *buff)) {
   smd_basic_type_t type = t->type;

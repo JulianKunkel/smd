@@ -17,9 +17,7 @@
  * The key is always a unique string as part of an attribute, the value can be of any supported datatype.
  */
 
-
 typedef struct smd_attr_t smd_attr_t;
-
 
 struct smd_attr_t {
   const char *name;
@@ -37,11 +35,9 @@ struct smd_attr_t {
  * Constructors
  */
 
-
 /**
  */
 smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val, int id);
-
 
 /**
  */

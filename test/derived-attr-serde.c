@@ -15,7 +15,7 @@ static void iter(int id, const char *name) {
 }
 
 int main() {
-  int id;
+  // int id;
   int ret;
 
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
@@ -46,7 +46,6 @@ int main() {
   smd_attr_t *attr4 = smd_attr_new("unknown", SMD_DTYPE_EMPTY, NULL, 3);
   ret = smd_attr_link(attr, attr4, 0);
 
-
   smd_dtype_t *t_ext = smd_type_extent(4, 12, SMD_DTYPE_INT32);
 
   int32_t val[3] = {11, 22, 33};
@@ -61,7 +60,6 @@ int main() {
   //size = smd_attr_ser_json(buff, attr2);
   size = smd_attr_ser_json(buff, attr);
   printf("ATTR SER: %zu: %s\n", size, buff);
-
 
   char buff2[1024];
   smd_attr_t *attr_deser;
