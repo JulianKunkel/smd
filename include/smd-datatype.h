@@ -111,6 +111,8 @@ smd_dtype_t *smd_type_struct(int nmeb, size_t *offsets, size_t extent, char *con
  */
 void smd_type_unref(smd_dtype_t **type);
 
+#define smd_type_ref(type)  (type->refcount++)
+
 /**
  * Free the datatype, only call this if the datatype is not any more in use!
  */
