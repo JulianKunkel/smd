@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -961,4 +962,35 @@ int smd_attr_count(const smd_attr_t *attr) {
 smd_attr_t *smd_attr_get_child(const smd_attr_t *attr, unsigned int child) {
   assert(attr->children > child);
   return attr->childs[child];
+}
+
+smd_string_stream_t* smd_string_stream_create() {
+  smd_string_stream_t* result = malloc(sizeof(*result));
+  assert(result);
+  *result = (smd_string_stream_t){
+    .string = NULL,
+    .bufferSize = 0,
+    .characterCount = 0,
+    .stream = NULL
+  };
+  result->stream = open_memstream(&result->string, &result->bufferSize);
+  assert(result->stream);
+  return result;
+}
+
+void smd_string_stream_printf(smd_string_stream_t* stream, const char* format, ...) {
+  va_list args;
+  va_start(args, format);
+  int result = vfprintf(stream->stream, format, args);
+  assert(result >= 0);
+  stream->characterCount += result;
+  va_end(args);
+}
+
+char* smd_string_stream_close(smd_string_stream_t* stream, size_t* out_size) {
+  fclose(stream->stream);
+  char* result = stream->string;
+  if(out_size) *out_size = stream->characterCount;
+  free(stream);
+  return result;
 }

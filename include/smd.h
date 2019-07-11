@@ -96,4 +96,11 @@ size_t smd_attr_ser_json(char *buff, smd_attr_t *attr);
 
 size_t smd_attr_create_from_json(char *json, size_t size, smd_attr_t **out_attr);
 
+//smd_string_stream_t is supposed to work as a wrapper that isolates the rest of the code from the question, whether `open_memstream()` is usable.
+//If it were not usable, we can swap out the implementation of smd_string_stream_t, but keep its interface.
+smd_string_stream_t* smd_string_stream_create();
+void smd_string_stream_printf(smd_string_stream_t* stream, const char* format, ...)
+  __attribute__((format(printf, 2, 3)));  //allow the compiler to check the argument types
+char* smd_string_stream_close(smd_string_stream_t* stream, size_t* out_size); //destructs the stream and returns the contained data as a suitably allocated string
+
 #endif

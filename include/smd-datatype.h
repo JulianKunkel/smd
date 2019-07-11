@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 typedef enum smd_type_t {
@@ -128,4 +129,14 @@ size_t smd_type_ser(char *out_buff, smd_dtype_t *type);
 smd_dtype_t *smd_type_from_ser(char *str);
 
 void smd_type_iterate(smd_dtype_t *type, char *buff, void (*iter)(smd_dtype_t *t, void *buff));
+
+//smd_string_stream_t is supposed to work as a wrapper that isolates the rest of the code from the question, whether `open_memstream()` is usable.
+//If it were not usable, we can swap out the implementation of smd_string_stream_t, but keep its interface.
+typedef struct smd_string_stream_t smd_string_stream_t;
+struct smd_string_stream_t {
+  char* string;
+  size_t bufferSize, characterCount;
+  FILE* stream;
+};
+
 #endif
