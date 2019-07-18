@@ -95,6 +95,8 @@ extern smd_dtype_t *SMD_DTYPE_UB;
 size_t smd_type_get_size(smd_dtype_t *type);
 size_t smd_type_get_extent(smd_dtype_t *type);
 
+void smd_copy_value(smd_dtype_t *type, void * to, void * from);
+
 /**
  *
  */

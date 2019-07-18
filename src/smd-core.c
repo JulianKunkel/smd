@@ -41,6 +41,15 @@ static size_t smd_sizeof(smd_basic_type_t type) {
   }
 }
 
+void smd_copy_value(smd_dtype_t *type, void * to, void * from){
+  assert(type);
+  assert(to);
+  assert(from);
+
+  size_t cnt = smd_sizeof(type->type);
+  memcpy(to, from, cnt);
+}
+
 char *smd_dup_escaped_varname(const char *name) {
   //Generate a conform variable name removing all non-printable characters
   int len = strlen(name); // max length
