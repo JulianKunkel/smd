@@ -90,7 +90,10 @@ const char *smd_attr_get_name(smd_attr_t *attr);
  */
 int smd_attr_count(const smd_attr_t *attr);
 
-//size_t smd_type_ser_value_json(smd_string_stream_t* s, smd_attr_t *attr);
+/*
+ Serialize to the stream the value according to the datatype
+ */
+void smd_ser_json_value(smd_string_stream_t*s, void *val, smd_dtype_t *t);
 void smd_copy_value(smd_dtype_t *type, void * to, void * from);
 
 /**

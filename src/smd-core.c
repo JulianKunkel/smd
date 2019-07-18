@@ -50,6 +50,7 @@ void smd_copy_value(smd_dtype_t *type, void * to, void * from){
   memcpy(to, from, cnt);
 }
 
+
 char *smd_dup_escaped_varname(const char *name) {
   //Generate a conform variable name removing all non-printable characters
   int len = strlen(name); // max length
@@ -481,7 +482,7 @@ static void smd_attr_ser_json_str(smd_string_stream_t*s, const char *str) {
   return;
 }
 
-static void smd_attr_ser_json_val(smd_string_stream_t*s, void *val, smd_dtype_t *t) {
+void smd_ser_json_value(smd_string_stream_t*s, void *val, smd_dtype_t *t){
   switch (t->type) {
     case (SMD_TYPE_DTYPE):
       smd_string_stream_printf(s, "\"");
@@ -563,7 +564,7 @@ static void smd_attr_ser_json_val(smd_string_stream_t*s, void *val, smd_dtype_t 
     }
     case (SMD_TYPE_EXTENT): {
       smd_dtype_extent_t *d = &t->specifier.u.ext;
-      smd_attr_ser_json_val(s, val, d->base);
+      smd_ser_json_value(s, val, d->base);
       return;
     }
     case (SMD_TYPE_STRUCT): {
@@ -572,13 +573,13 @@ static void smd_attr_ser_json_val(smd_string_stream_t*s, void *val, smd_dtype_t 
       char *val_pos = val;
       smd_attr_ser_json_str(s, d->names[0]);
       smd_string_stream_printf(s, ":");
-      smd_attr_ser_json_val(s, val_pos, d->types[0]);
+      smd_ser_json_value(s, val_pos, d->types[0]);
       val_pos += d->types[0]->size;
       for (int i = 1; i < d->size; i++) {
         smd_string_stream_printf(s, ",");
         smd_attr_ser_json_str(s, d->names[i]);
         smd_string_stream_printf(s, ":");
-        smd_attr_ser_json_val(s, val_pos, d->types[i]);
+        smd_ser_json_value(s, val_pos, d->types[i]);
         val_pos += d->types[i]->size;
       }
       smd_string_stream_printf(s, "}");
@@ -589,11 +590,11 @@ static void smd_attr_ser_json_val(smd_string_stream_t*s, void *val, smd_dtype_t 
       smd_dtype_array_t *d = &t->specifier.u.arr;
       smd_string_stream_printf(s, "[");
       if (d->count > 0) {
-        smd_attr_ser_json_val(s, val_pos, d->base);
+        smd_ser_json_value(s, val_pos, d->base);
         val_pos += d->base->size;
         for (uint64_t i = 1; i < d->count; i++) {
           smd_string_stream_printf(s, ",");
-          smd_attr_ser_json_val(s, val_pos, d->base);
+          smd_ser_json_value(s, val_pos, d->base);
           val_pos += d->base->size;
         }
       }
@@ -614,9 +615,9 @@ void smd_attr_ser_json(smd_string_stream_t*s, smd_attr_t *attr) {
 
   smd_string_stream_printf(s, ",\"data\":");
   if (use_type_ptr(attr->type)) {
-    smd_attr_ser_json_val(s, (char *)&attr->value, attr->type);
+    smd_ser_json_value(s, (char *)&attr->value, attr->type);
   } else {
-    smd_attr_ser_json_val(s, attr->value, attr->type);
+    smd_ser_json_value(s, attr->value, attr->type);
   }
   if (attr->children) {
     smd_string_stream_printf(s, ",\"childs\":{");
