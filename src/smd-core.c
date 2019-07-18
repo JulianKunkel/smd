@@ -432,225 +432,204 @@ smd_link_ret_t smd_attr_link(smd_attr_t *parent, smd_attr_t *child, int allow_re
   return SMD_ATTR_LINKED;
 }
 
-static size_t smd_attr_ser_json_str(char *buff, const char *str) {
-  //const char * cur = str;
-  //while(*cur != 0){
-  //	printf("STR: %d %c\n", cur - str, *cur);
-  //	cur++;
-  //}
+static void smd_attr_ser_json_str(smd_string_stream_t*s, const char *str) {
   char c;
-  char *buff_p = buff;
-  *buff = '"';
-  buff++;
+  smd_string_stream_printf(s, "\"");
   while ((c = *str) != 0) {
     switch (c) {
       case ('\b'): {
-        *buff = '\\';
-        buff++;
-        *buff = 'b';
-        buff++;
+        smd_string_stream_printf(s,"\\b");
         str++;
         break;
       }
       case ('\f'): {
-        *buff = '\\';
-        buff++;
-        *buff = 'f';
-        buff++;
+        smd_string_stream_printf(s,"\\f");
         str++;
         break;
       }
       case ('\n'): {
-        *buff = '\\';
-        buff++;
-        *buff = 'n';
-        buff++;
+        smd_string_stream_printf(s,"\\n");
         str++;
         break;
       }
       case ('\r'): {
-        *buff = '\\';
-        buff++;
-        *buff = 'r';
-        buff++;
+        smd_string_stream_printf(s,"\\r");
         str++;
         break;
       }
       case ('\t'): {
-        *buff = '\\';
-        buff++;
-        *buff = 't';
-        buff++;
+        smd_string_stream_printf(s,"\\t");
         str++;
         break;
       }
       case ('\"'): {
-        *buff = '\\';
-        buff++;
-        *buff = '"';
-        buff++;
+        smd_string_stream_printf(s,"\\\"");
         str++;
         break;
       }
       case ('\\'): {
-        *buff = '\\';
-        buff++;
-        *buff = '\\';
-        buff++;
+        smd_string_stream_printf(s,"\\\\");
         str++;
         break;
       }
       default:
-        *buff = *str;
+        smd_string_stream_printf(s,"%c", c);
         str++;
-        buff++;
     }
   }
-  *buff = '"';
-  buff++;
-  return buff - buff_p;
+  smd_string_stream_printf(s,"\"");
+  return;
 }
 
-static size_t smd_attr_ser_json_i(char *buff, smd_attr_t *attr);
-
-static size_t smd_attr_ser_json_val(char *buff, void *val, smd_dtype_t *t) {
+static void smd_attr_ser_json_val(smd_string_stream_t*s, void *val, smd_dtype_t *t) {
   switch (t->type) {
     case (SMD_TYPE_DTYPE):
-      buff += sprintf(buff, "\"");
-      int count = smd_type_ser(buff, *(smd_dtype_t **)val);
-      buff += sprintf(buff + count - 1, "\"");
-      return count + 1;
+      smd_string_stream_printf(s, "\"");
+      smd_type_ser(s, *(smd_dtype_t **)val);
+      smd_string_stream_printf(s, "\"");
+      return;
     case (SMD_TYPE_EMPTY):
-      return sprintf(buff, "null");
+      smd_string_stream_printf(s, "null");
+      return;
     case (SMD_TYPE_INT8):
-      return sprintf(buff, "%d", *(int8_t *)val);
+      smd_string_stream_printf(s, "%d", *(int8_t *)val);
+      return;
     case (SMD_TYPE_INT16):
-      return sprintf(buff, "%d", *(int16_t *)val);
+      smd_string_stream_printf(s, "%d", *(int16_t *)val);
+      return;
     case (SMD_TYPE_INT32):
-      return sprintf(buff, "%d", *(int32_t *)val);
+      smd_string_stream_printf(s, "%d", *(int32_t *)val);
+      return;
     case (SMD_TYPE_INT64):
-      return sprintf(buff, "%ld", *(int64_t *)val);
+      smd_string_stream_printf(s, "%ld", *(int64_t *)val);
+      return;
     case (SMD_TYPE_UINT8):
-      return sprintf(buff, "%u", *(uint8_t *)val);
+      smd_string_stream_printf(s, "%u", *(uint8_t *)val);
+      return;
     case (SMD_TYPE_UINT16):
-      return sprintf(buff, "%u", *(uint16_t *)val);
+      smd_string_stream_printf(s, "%u", *(uint16_t *)val);
+      return;
     case (SMD_TYPE_UINT32):
-      return sprintf(buff, "%u", *(uint32_t *)val);
+      smd_string_stream_printf(s, "%u", *(uint32_t *)val);
+      return;
     case (SMD_TYPE_UINT64):
-      return sprintf(buff, "%lu", *(int64_t *)val);
+      smd_string_stream_printf(s, "%lu", *(int64_t *)val);
+      return;
     case (SMD_TYPE_FLOAT):
-      return sprintf(buff, "%.8e", (double)*(float *)val);
+      smd_string_stream_printf(s, "%.8e", (double)*(float *)val);
+      return;
     case (SMD_TYPE_DOUBLE):
-      return sprintf(buff, "%.16e", *(double *)val);
+      smd_string_stream_printf(s, "%.16e", *(double *)val);
+      return;
     case (SMD_TYPE_CHAR): {
       char c = *(char *)val;
       switch (c) {
         case ('\b'): {
-          return sprintf(buff, "\"\\b\"");
+          smd_string_stream_printf(s, "\"\\b\"");
+          return;
         }
         case ('\f'): {
-          return sprintf(buff, "\"\\f\"");
+          smd_string_stream_printf(s, "\"\\f\"");
+          return;
         }
         case ('\n'): {
-          return sprintf(buff, "\"\\n\"");
+          smd_string_stream_printf(s, "\"\\n\"");
+          return;
         }
         case ('\r'): {
-          return sprintf(buff, "\"\\r\"");
+          smd_string_stream_printf(s, "\"\\r\"");
+          return;
         }
         case ('\t'): {
-          return sprintf(buff, "\"\\t\"");
+          smd_string_stream_printf(s, "\"\\t\"");
+          return;
         }
         case ('\"'): {
-          return sprintf(buff, "\"\\\"\"");
+          smd_string_stream_printf(s, "\"\\\"\"");
+          return;
         }
         case ('\\'): {
-          return sprintf(buff, "\"\\\\\"");
+          smd_string_stream_printf(s, "\"\\\\\"");
+          return;
         }
         default:
-          return sprintf(buff, "\"%c\"", c);
+          smd_string_stream_printf(s, "\"%c\"", c);
+          return;
       }
     }
     case (SMD_TYPE_STRING): {
-      return smd_attr_ser_json_str(buff, *(char **)val);
+      smd_attr_ser_json_str(s, *(char **)val);
+      return;
     }
     case (SMD_TYPE_EXTENT): {
       smd_dtype_extent_t *d = &t->specifier.u.ext;
-      return smd_attr_ser_json_val(buff, val, d->base);
+      smd_attr_ser_json_val(s, val, d->base);
+      return;
     }
     case (SMD_TYPE_STRUCT): {
-      char *buff_p = buff;
       smd_dtype_struct_t *d = &t->specifier.u.str;
-      buff += sprintf(buff, "{");
+      smd_string_stream_printf(s, "{");
       char *val_pos = val;
-      buff += smd_attr_ser_json_str(buff, d->names[0]);
-      buff += sprintf(buff, ":");
-      buff += smd_attr_ser_json_val(buff, val_pos, d->types[0]);
+      smd_attr_ser_json_str(s, d->names[0]);
+      smd_string_stream_printf(s, ":");
+      smd_attr_ser_json_val(s, val_pos, d->types[0]);
       val_pos += d->types[0]->size;
       for (int i = 1; i < d->size; i++) {
-        buff += sprintf(buff, ",");
-        buff += smd_attr_ser_json_str(buff, d->names[i]);
-        buff += sprintf(buff, ":");
-        buff += smd_attr_ser_json_val(buff, val_pos, d->types[i]);
+        smd_string_stream_printf(s, ",");
+        smd_attr_ser_json_str(s, d->names[i]);
+        smd_string_stream_printf(s, ":");
+        smd_attr_ser_json_val(s, val_pos, d->types[i]);
         val_pos += d->types[i]->size;
       }
-      buff += sprintf(buff, "}");
-      return buff - buff_p;
+      smd_string_stream_printf(s, "}");
+      return;
     }
     case (SMD_TYPE_ARRAY): {
-      char *buff_p = buff;
       char *val_pos = val;
       smd_dtype_array_t *d = &t->specifier.u.arr;
-      buff += sprintf(buff, "[");
+      smd_string_stream_printf(s, "[");
       if (d->count > 0) {
-        buff += smd_attr_ser_json_val(buff, val_pos, d->base);
+        smd_attr_ser_json_val(s, val_pos, d->base);
         val_pos += d->base->size;
         for (uint64_t i = 1; i < d->count; i++) {
-          buff += sprintf(buff, ",");
-          buff += smd_attr_ser_json_val(buff, val_pos, d->base);
+          smd_string_stream_printf(s, ",");
+          smd_attr_ser_json_val(s, val_pos, d->base);
           val_pos += d->base->size;
         }
       }
-      buff += sprintf(buff, "]");
-      return buff - buff_p;
+      smd_string_stream_printf(s, "]");
+      return;
     }
     default:
       assert(0 && "SMD cannot serialize unknown type");
   }
 }
 
-static size_t smd_attr_ser_json_i(char *buff, smd_attr_t *attr) {
-  char *buff_p = buff;
-  //buff += sprintf(buff, "{");
-  buff += smd_attr_ser_json_str(buff, attr->name);
-  buff += sprintf(buff, ":{\"type\":\"");
-  buff += smd_type_ser_i(buff, attr->type);
-  buff += sprintf(buff, "\"");
+void smd_attr_ser_json(smd_string_stream_t*s, smd_attr_t *attr) {
+  //buff += smd_string_stream_printf(s, "{");
+  smd_attr_ser_json_str(s, attr->name);
+  smd_string_stream_printf(s, ":{\"type\":\"");
+  smd_type_ser(s, attr->type);
+  smd_string_stream_printf(s, "\"");
 
-  buff += sprintf(buff, ",\"data\":");
+  smd_string_stream_printf(s, ",\"data\":");
   if (use_type_ptr(attr->type)) {
-    buff += smd_attr_ser_json_val(buff, (char *)&attr->value, attr->type);
+    smd_attr_ser_json_val(s, (char *)&attr->value, attr->type);
   } else {
-    buff += smd_attr_ser_json_val(buff, attr->value, attr->type);
+    smd_attr_ser_json_val(s, attr->value, attr->type);
   }
   if (attr->children) {
-    buff += sprintf(buff, ",\"childs\":{");
-    buff += smd_attr_ser_json_i(buff, attr->childs[0]);
+    smd_string_stream_printf(s, ",\"childs\":{");
+    smd_attr_ser_json(s, attr->childs[0]);
     for (unsigned int i = 1; i < attr->children; i++) {
-      buff += sprintf(buff, ",");
-      buff += smd_attr_ser_json_i(buff, attr->childs[i]);
+      smd_string_stream_printf(s, ",");
+      smd_attr_ser_json(s, attr->childs[i]);
     }
-    buff += sprintf(buff, "}");
+    smd_string_stream_printf(s, "}");
   }
-  buff += sprintf(buff, "}");
-  //buff += sprintf(buff, "}");
-  return buff - buff_p;
-}
-
-size_t smd_attr_ser_json(char *buff, smd_attr_t *attr) {
-  assert(attr != NULL);
-  size_t size = smd_attr_ser_json_i(buff, attr);
-  buff[size] = 0;
-  return size + 1;
+  smd_string_stream_printf(s, "}");
+  //buff += smd_string_stream_printf(s, "}");
+  return;
 }
 
 static char *smd_attr_string_from_json(char *out, char *str) {

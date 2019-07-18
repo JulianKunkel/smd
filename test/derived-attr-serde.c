@@ -15,7 +15,6 @@ static void iter(int id, const char *name) {
 }
 
 int main() {
-  // int id;
   int ret;
 
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
@@ -42,6 +41,7 @@ int main() {
   char *name = "this is a test";
   smd_attr_t *attr2 = smd_attr_new("child", SMD_DTYPE_STRING, name, 2);
   ret = smd_attr_link(attr, attr2, 0);
+  assert(ret == SMD_ATTR_LINKED);
 
   smd_attr_t *attr4 = smd_attr_new("unknown", SMD_DTYPE_EMPTY, NULL, 3);
   ret = smd_attr_link(attr, attr4, 0);
@@ -55,18 +55,20 @@ int main() {
   count = 0;
   smd_iterate(attr, iter);
 
-  char buff[1024];
-  size_t size;
+  smd_string_stream_t* s = smd_string_stream_create();
   //size = smd_attr_ser_json(buff, attr2);
-  size = smd_attr_ser_json(buff, attr);
+  smd_attr_ser_json(s, attr);
+  size_t size;
+  char * buff = smd_string_stream_close(s, & size);
   printf("ATTR SER: %zu: %s\n", size, buff);
 
-  char buff2[1024];
   smd_attr_t *attr_deser;
   smd_attr_create_from_json(buff, size, &attr_deser);
   assert(attr_deser != NULL);
   size_t size2;
-  size2 = smd_attr_ser_json(buff2, attr_deser);
+  s = smd_string_stream_create();
+  smd_attr_ser_json(s, attr_deser);
+  char * buff2 = smd_string_stream_close(s, & size2);
   printf("ATTR SER: %zu: %s\n", size2, buff2);
   assert(size == size2);
   assert(strcmp(buff, buff2) == 0);

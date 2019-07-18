@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct smd_string_stream_t smd_string_stream_t;
+
 typedef enum smd_type_t {
   SMD_TYPE_UNKNOWN = 0,
   SMD_TYPE_EMPTY,
@@ -95,8 +97,6 @@ extern smd_dtype_t *SMD_DTYPE_UB;
 size_t smd_type_get_size(smd_dtype_t *type);
 size_t smd_type_get_extent(smd_dtype_t *type);
 
-void smd_copy_value(smd_dtype_t *type, void * to, void * from);
-
 /**
  *
  */
@@ -126,19 +126,10 @@ void smd_type_destroy(smd_dtype_t *type);
  */
 size_t smd_type_print(char *out_buff, smd_dtype_t *type);
 
-size_t smd_type_ser(char *out_buff, smd_dtype_t *type);
+void smd_type_ser(smd_string_stream_t* s, smd_dtype_t *type);
 
 smd_dtype_t *smd_type_from_ser(char *str);
 
 void smd_type_iterate(smd_dtype_t *type, char *buff, void (*iter)(smd_dtype_t *t, void *buff));
-
-//smd_string_stream_t is supposed to work as a wrapper that isolates the rest of the code from the question, whether `open_memstream()` is usable.
-//If it were not usable, we can swap out the implementation of smd_string_stream_t, but keep its interface.
-typedef struct smd_string_stream_t smd_string_stream_t;
-struct smd_string_stream_t {
-  char* string;
-  size_t bufferSize, characterCount;
-  FILE* stream;
-};
 
 #endif

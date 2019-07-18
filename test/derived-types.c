@@ -7,17 +7,8 @@
 
 #include <smd.h>
 
-static int count;
-
-static void iter(int id, const char *name) {
-  printf("%d: %s\n", id, name);
-  count++;
-}
-
 int main() {
-  int id;
-  // int id2;
-  // int ret;
+  int id = 0;
 
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
 
@@ -37,7 +28,7 @@ int main() {
   {"hans", "fritz", "rudolf", "mayer"},
   48812,
   {2, 44, 88}};
-  smd_attr_t *testArray = smd_attr_new("root", t_arr_ints, v.ints, 0);
+  //smd_attr_t *testArray = smd_attr_new("root", t_arr_ints, v.ints, 0);
 
   size_t offsets[4] = {
   offsetof(struct test, val),
@@ -61,8 +52,9 @@ int main() {
   assert(strcmp(h.names[1], v.names[1]) == 0);
 
   size_t count;
-  char buff[2048];
-  count = smd_attr_ser_json(buff, attr);
+  smd_string_stream_t * s = smd_string_stream_create();
+  smd_attr_ser_json(s, attr);
+  char * buff = smd_string_stream_close(s, & count);
   printf("Attr: %zu: %s\n", count, buff);
 
   smd_attr_destroy(attr);

@@ -218,9 +218,9 @@ smd_dtype_t *smd_type_from_ser(char *str) {
   return smd_type_from_ser_i(&str);
 }
 
-size_t smd_type_ser_i(char *buff, smd_dtype_t *t) {
+void smd_type_ser(smd_string_stream_t*s, smd_dtype_t *t) {
   smd_basic_type_t type = t->type;
-  *buff = type + 'a';
+  smd_string_stream_printf(s,"%c", type + 'a');
   switch (type) {
     case (SMD_TYPE_DTYPE):
     case (SMD_TYPE_EMPTY):
@@ -236,46 +236,34 @@ size_t smd_type_ser_i(char *buff, smd_dtype_t *t) {
     case (SMD_TYPE_CHAR):
     case (SMD_TYPE_STRING):
     case (SMD_TYPE_INT8):
-      return 1;
+      return;
     case (SMD_TYPE_EXTENT): {
-      char *oldb = buff;
-      buff++;
-      smd_dtype_extent_t *d = &t->specifier.u.ext;
-      buff += sprintf(buff, "%zu@%zu,", d->lb, t->extent);
-      buff += smd_type_ser_i(buff, d->base);
-      return buff - oldb;
+      smd_dtype_extent_t *d = &t->specifier.u.ext;      smd_string_stream_printf(s,"%zu@%zu,", d->lb, t->extent);
+      smd_type_ser(s, d->base);
+      return;
     }
     case (SMD_TYPE_STRUCT): {
-      char *oldb = buff;
-      buff++;
       smd_dtype_struct_t *d = &t->specifier.u.str;
-      buff += sprintf(buff, "%d@%zu@", d->size, t->extent);
-      buff += sprintf(buff, "%s@%zu,", d->names[0], d->offsets[0]);
-      buff += smd_type_ser_i(buff, d->types[0]);
+      smd_string_stream_printf(s,"%d@%zu@", d->size, t->extent);
+      smd_string_stream_printf(s,"%s@%zu,", d->names[0], d->offsets[0]);
+      smd_type_ser(s, d->types[0]);
       for (int i = 1; i < d->size; i++) {
-        buff += sprintf(buff, "%s@%zu,", d->names[i], d->offsets[i]);
-        buff += smd_type_ser_i(buff, d->types[i]);
+        smd_string_stream_printf(s,"%s@%zu,", d->names[i], d->offsets[i]);
+        smd_type_ser(s, d->types[i]);
       }
-      return buff - oldb;
+      return;
     }
     case (SMD_TYPE_ARRAY): {
-      char *oldb = buff;
-      buff++;
       smd_dtype_array_t *d = &t->specifier.u.arr;
-      buff += sprintf(buff, "%zu@", d->count);
-      buff += smd_type_ser_i(buff, d->base);
-      return buff - oldb;
+      smd_string_stream_printf(s, "%zu@", d->count);
+      smd_type_ser(s, d->base);
+      return;
     }
     default:
       assert(0 && "SMD cannot serialize unknown type");
   }
 }
 
-size_t smd_type_ser(char *buff, smd_dtype_t *t) {
-  size_t len = smd_type_ser_i(buff, t);
-  buff[len] = 0;
-  return len + 1;
-}
 
 static size_t smd_type_print_i(char *buff, smd_dtype_t *t) {
   smd_basic_type_t type = t->type;

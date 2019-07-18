@@ -28,9 +28,11 @@ int main() {
   smd_dtype_t *types[3] = {SMD_DTYPE_INT16, t_arr, t_ext};
   smd_dtype_t *t_struct = smd_type_struct(3, offsets, sizeof(struct test), names, types);
 
-  char buff[1024];
   size_t count;
-  count = smd_type_ser(buff, t_struct);
+  smd_string_stream_t * s = smd_string_stream_create();
+  smd_type_ser(s, t_struct);
+  char * buff = smd_string_stream_close(s, & count);
+
   printf("%zu: %s\n", count, buff);
   smd_dtype_t *t_deser = smd_type_from_ser(buff);
   count = smd_type_print(buff, t_deser);
