@@ -553,6 +553,10 @@ void smd_ser_json_value(smd_string_stream_t*s, void *val, smd_dtype_t *t){
           smd_string_stream_printf(s, "\"\\\\\"");
           return;
         }
+        case ('\0'):{
+          smd_string_stream_printf(s, "null");
+          return;
+        }
         default:
           smd_string_stream_printf(s, "\"%c\"", c);
           return;
@@ -634,6 +638,14 @@ void smd_attr_ser_json(smd_string_stream_t*s, smd_attr_t *attr) {
 }
 
 static char *smd_attr_string_from_json(char *out, char *str) {
+  if( *str == 'n'){
+    // could be null in JSON
+    if (strncmp(str, "null", 4) == 0){
+      *out = 0;
+      return str + 4;
+    }
+    return NULL;
+  }
   if (*str != '\"') return NULL;
   str++;
   // parse the JSON encoded string
@@ -767,7 +779,7 @@ static char *smd_attr_val_from_json(char *val, smd_dtype_t *t, char *str) {
     case (SMD_TYPE_CHAR): {
       char buff[4096];
       str = smd_attr_string_from_json(buff, str);
-      if (buff[1] != 0) return NULL;
+      if (buff[0] != 0 && buff[1] != 0) return NULL;
       char *c = (char *)val;
       *c = buff[0];
       return str;
@@ -775,7 +787,11 @@ static char *smd_attr_val_from_json(char *val, smd_dtype_t *t, char *str) {
     case (SMD_TYPE_STRING): {
       char buff[4096];
       str = smd_attr_string_from_json(buff, str);
-      *(char **)val = strdup(buff);
+      if(str[0] != 0){
+        *(char **)val = strdup(buff);
+      }else{
+        *(char **)val = 0;
+      }
       return str;
     }
     case (SMD_TYPE_EXTENT): {
@@ -968,6 +984,7 @@ smd_string_stream_t* smd_string_stream_create() {
 }
 
 void smd_string_stream_printf(smd_string_stream_t* stream, const char* format, ...) {
+  assert(format);
   va_list args;
   va_start(args, format);
   int result = vfprintf(stream->stream, format, args);
