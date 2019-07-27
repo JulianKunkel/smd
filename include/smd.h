@@ -96,6 +96,11 @@ smd_basic_type_t smd_attr_get_type(smd_attr_t *attr);
 
 const char *smd_attr_get_name(smd_attr_t *attr);
 
+/*
+ * Return the number of elements
+ */
+uint64_t smd_attr_elems(smd_attr_t const *attr);
+
 /**
  */
 int smd_attr_count(const smd_attr_t *attr);

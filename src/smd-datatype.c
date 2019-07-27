@@ -476,3 +476,16 @@ size_t smd_type_get_size(smd_dtype_t *type) {
 size_t smd_type_get_extent(smd_dtype_t *type) {
   return type->extent;
 }
+
+uint64_t smd_attr_elems(smd_attr_t const *a){
+  // TODO check for subelements
+  if(a->type->type == SMD_TYPE_ARRAY){
+    return a->type->specifier.u.arr.count;
+  }
+  if(a->type->type == SMD_TYPE_STRING){
+    if(a->value == NULL){
+      return 0;
+    }
+  }
+  return 1;
+}
