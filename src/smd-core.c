@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #include <smd-internal.h>
 
@@ -138,7 +139,18 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
     }
     case (SMD_TYPE_INT32): {
       int32_t *p = (int32_t *)out;
-      *p = *(int32_t *)val;
+      if (memtype->type == SMD_TYPE_INT32){
+        *p = *(int32_t *)val;
+        return 0;
+      }
+      if (memtype->type == SMD_TYPE_DOUBLE){
+        double ov = *(double*)val;
+        // check if accuracy is precise enough, well, we will always loose some
+        if(ov < INT_MIN || ov > INT_MAX){
+          return 1;
+        }
+        *p = (int32_t) ov;
+      }
       return 0;
     }
     case (SMD_TYPE_INT64): {
@@ -173,7 +185,18 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
     }
     case (SMD_TYPE_DOUBLE): {
       double *p = (double *)out;
-      *p = *(double *)val;
+      if (memtype->type == SMD_TYPE_DOUBLE){
+        *p = *(double *)val;
+        return 0;
+      }
+      if (memtype->type == SMD_TYPE_INT32){
+        int32_t ov = *(int32_t *)val;
+        // check if accuracy is precise enough, well, we will always loose some
+        // if(ov < DOUBLE_MIN || ov > DOUBLE_MAX){
+          // return 1;
+        // }
+        *p = (double) ov;
+      }
       return 0;
     }
     case (SMD_TYPE_CHAR): {
@@ -228,7 +251,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t *memtype, char *val) {
   smd_basic_type_t type = t->type;
   //printf("I=>E %d %lld %lld\n", type, val, out);
-
   switch (type) {
     case (SMD_TYPE_INT8): {
       int8_t *p = (int8_t *)val;
@@ -242,8 +264,18 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
     case (SMD_TYPE_INT32): {
       int32_t *p = (int32_t *)val;
-      *(int32_t *)out = *p;
-      return 0;
+      if (memtype->type == SMD_TYPE_INT32){
+        *(int32_t *)out = *p;
+        return 0;
+      }
+      if (memtype->type == SMD_TYPE_DOUBLE){
+        double ov = (double)(*p);
+        // check if accuracy is precise enough
+        // if((int32_t) ov != *p){
+          // return 1;
+        // }
+        *(double *)out = ov;
+      }
     }
     case (SMD_TYPE_INT64): {
       int64_t *p = (int64_t *)val;
@@ -277,8 +309,18 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
     case (SMD_TYPE_DOUBLE): {
       double *p = (double *)val;
-      *(double *)out = *p;
-      return 0;
+      if (memtype->type == SMD_TYPE_DOUBLE){
+        *(double *)out = *p;
+        return 0;
+      }
+      if (memtype->type == SMD_TYPE_INT32){
+        int32_t ov = (int32_t)(*p);
+        // check if accuracy is precise enough
+        // if((int32_t) ov != *p){
+          // return 1;
+        // }
+        *(int32_t *)out = ov;
+      }
     }
     case (SMD_TYPE_CHAR): {
       char *p = (char *)val;
