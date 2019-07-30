@@ -146,12 +146,12 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       if (memtype->type == SMD_TYPE_DOUBLE){
         double ov = *(double*)val;
         // check if accuracy is precise enough, well, we will always loose some
-        if(ov < INT_MIN || ov > INT_MAX){
-          return 1;
-        }
+        // if(ov < INT_MIN || ov > INT_MAX){
+        //   return 1;
+        // }
         *p = (int32_t) ov;
+        return 0;
       }
-      return 0;
     }
     case (SMD_TYPE_INT64): {
       int64_t *p = (int64_t *)out;
@@ -196,8 +196,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           // return 1;
         // }
         *p = (double) ov;
+        return 0;
       }
-      return 0;
     }
     case (SMD_TYPE_CHAR): {
       char *p = (char *)out;
@@ -317,6 +317,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           // return 1;
         // }
         *(int32_t *)out = ov;
+        return 0;
       }
     }
     case (SMD_TYPE_CHAR): {
