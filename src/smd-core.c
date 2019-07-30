@@ -270,11 +270,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
       }
       if (memtype->type == SMD_TYPE_DOUBLE){
         double ov = (double)(*p);
-        // check if accuracy is precise enough
-        // if((int32_t) ov != *p){
-          // return 1;
-        // }
         *(double *)out = ov;
+        return 0;
       }
     }
     case (SMD_TYPE_INT64): {
