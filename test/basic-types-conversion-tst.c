@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <smd.h>
 
@@ -15,10 +16,8 @@ int main() {
   smd_attr_copy_value(attr, &ptr);
   assert(strcmp(ptr, "this is a test") == 0);
 
-  for (int i = 0; i < 1; i++) {
     // int a = i;
     char buff[100];
-    sprintf(buff, "child%d", i);
 
     // int8_t i8 = -120;
     // int16_t i16 = -30000;
@@ -56,35 +55,39 @@ int main() {
 
     {
       printf("\n\nint8_t!\n");
+      smd_attr_t *attr1;
 
-      smd_attr_t *attr1 = smd_attr_new_memtype(buff, SMD_DTYPE_INT8, SMD_DTYPE_DOUBLE, &d, id);
+      attr1 = smd_attr_new_memtype(buff, SMD_DTYPE_INT8, SMD_DTYPE_DOUBLE, &d, id);
+      assert(attr1 == NULL);
+
+      d=128.0;
+      attr1 = smd_attr_new_memtype(buff, SMD_DTYPE_INT8, SMD_DTYPE_DOUBLE, &d, id);
+      assert(attr1 == NULL);
+
+      d=127.0;
+      attr1 = smd_attr_new_memtype(buff, SMD_DTYPE_INT8, SMD_DTYPE_DOUBLE, &d, id);
+      assert(attr1 != NULL);
+
       ret = smd_attr_link(attr, attr1, 0);
       assert(ret == SMD_ATTR_LINKED);
 
       printf("\nsmd_attr_new_memtype(int8_t, double) = %lf", d);
 
-      // void *val_a1 = smd_attr_get_value(attr1);
-      // int8_t *a1 = (int8_t *)&val_a1;
-
-      ret = smd_attr_copy_value_memtype(attr1, SMD_DTYPE_INT8, (void **)&i8_);
-      if (ret) {
-        printf("\nSorry... :(\n");
-        return(0);
-      }
-      ret = smd_attr_copy_value_memtype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
-      if (ret) {
-        printf("\nSorry... :(\n");
-        return(0);
-      }
-
+      ret = smd_attr_copy_value_memtype(attr1, SMD_DTYPE_INT8, & i8_);
       printf("\nsmd_attr_copy_value_memtype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
+
+      ret = smd_attr_copy_value_memtype(attr1, SMD_DTYPE_DOUBLE, & d_);
+      if (ret) {
+        printf("\nSorry... :(\n");
+        return(0);
+      }
+
       printf("\nsmd_attr_copy_value_memtype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
 
       smd_attr_destroy(attr1);
       smd_attr_unlink_pos(attr, 0);
 
     }
-
     {
       printf("\n\nint16_t!\n");
 
@@ -400,8 +403,6 @@ int main() {
     }
 
     printf("\n\nDouble OK!\n\n");
-
-}
 
 }
 

@@ -214,7 +214,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
           // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          if(ov < INT8_MIN || ov > INT8_MAX){
             return 1;
           }
           *p = (int8_t) ov;
