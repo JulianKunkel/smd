@@ -34,7 +34,7 @@ int main() {
   // **************************************************************************************
   // SMD_DTYPE_DOUBLE
   {
-    printf("\n\nTesting Double!\n");
+    printf("\n\nTesting DOUBLE!\n");
 
     // double d = 3.14;
     // double d = 1500.0;
@@ -425,7 +425,7 @@ int main() {
       }
     }
 
-    printf("\n\nDouble Results!\n\n");
+    printf("\n\nSummary of DOUBLE Conversions\n");
 
     i = 0;
 
