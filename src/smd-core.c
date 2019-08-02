@@ -214,10 +214,19 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
           // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT8_MIN || ov > INT8_MAX){
+          // if(ov < INT8_MIN || ov > INT8_MAX){ check it later
+
+          if(*(double*)val < SCHAR_MIN || *(double*)val > SCHAR_MAX){
+            printf("Numbers: %lf %d %d\n\n", *(double*)val, SCHAR_MIN, SCHAR_MAX);
+
             return 1;
           }
-          *p = (int8_t) ov;
+          int8_t ov = *(int8_t*)val;
+          // check if accuracy is precise enough, well, we will always loose some
+          // if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          //   return 1;
+          // }
+          *p = (double) ov;
           return 0;
         }
         case (SMD_TYPE_CHAR): {
@@ -1086,11 +1095,15 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type){
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          if(*(double*)val < SCHAR_MIN || *(double*)val > SCHAR_MAX){
+            printf("Numbers: %lf %d %d\n\n", *(double*)val, SCHAR_MIN, SCHAR_MAX);
             return 1;
           }
+          int8_t ov = *(int8_t*)val;
+          // check if accuracy is precise enough, well, we will always loose some
+          // if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          //   return 1;
+          // }
           *p = (double) ov;
           return 0;
         }

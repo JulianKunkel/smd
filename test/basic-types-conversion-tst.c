@@ -37,8 +37,9 @@ int main() {
 
   printf("\n\nTesting Double!\n");
 
-  double d = 1.7e300;
-  // double d = 3.14;
+    // double d = 1.7e300;
+    // double d = 3.14;
+    double d = 130;
 
   // SMD_DTYPE_INT8
 
