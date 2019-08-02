@@ -42,7 +42,7 @@ smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val, i
 /*
  Return NULL if data cannot be converted lossless
  */
-smd_attr_t *smd_attr_new_memtype(const char *name, smd_dtype_t *type, smd_dtype_t *memtype, const void *val, int id);
+smd_attr_t *smd_attr_new_usertype(const char *name, smd_dtype_t *type, smd_dtype_t *usertype, const void *val, int id);
 
 /**
  */
@@ -84,7 +84,7 @@ void smd_attr_copy_value(smd_attr_t *attr, void *out_val);
 /*
  Converts the data, return 1 if overflow
  */
-int smd_attr_copy_value_memtype(smd_attr_t *attr, smd_dtype_t *mem_type, void *out_val);
+int smd_attr_copy_value_usertype(smd_attr_t *attr, smd_dtype_t *usertype, void *out_val);
 
 /**
  * @param[in] attr xx
