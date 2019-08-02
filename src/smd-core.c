@@ -141,8 +141,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -150,8 +150,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT_MIN || ov > INT_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -159,8 +159,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -168,8 +168,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -177,8 +177,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -186,8 +186,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -195,8 +195,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -204,8 +204,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -213,26 +213,17 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          // if(ov < INT8_MIN || ov > INT8_MAX){ check it later
-
-          if(*(double*)val < SCHAR_MIN || *(double*)val > SCHAR_MAX){
-            printf("Numbers: %lf %d %d\n\n", *(double*)val, SCHAR_MIN, SCHAR_MAX);
-
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
-          int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          // if(ov < SCHAR_MIN || ov > SCHAR_MAX){
-          //   return 1;
-          // }
           *p = (double) ov;
           return 0;
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
           *p = (int8_t) ov;
@@ -252,8 +243,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -265,8 +256,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT_MIN || ov > INT_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -274,8 +265,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -283,8 +274,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -292,8 +283,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -301,8 +292,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -310,8 +301,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -319,8 +310,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -328,8 +319,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -337,8 +328,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < SHRT_MIN || ov > SHRT_MAX){
             return 1;
           }
           *p = (int16_t) ov;
@@ -358,8 +349,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -367,8 +358,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -380,8 +371,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -389,8 +380,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -398,8 +389,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -407,8 +398,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -416,8 +407,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -425,8 +416,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -434,8 +425,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -443,8 +434,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < INT_MIN || ov > INT_MAX){
             return 1;
           }
           *p = (int32_t) ov;
@@ -464,8 +455,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -473,8 +464,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -482,8 +473,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT_MIN || ov > INT_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -495,8 +486,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -504,8 +495,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -513,8 +504,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -522,8 +513,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -531,8 +522,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -540,8 +531,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -549,8 +540,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -569,8 +560,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -578,8 +569,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -587,8 +578,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > INT_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -596,8 +587,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -609,8 +600,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -618,8 +609,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -627,8 +618,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -636,8 +627,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -645,8 +636,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -654,8 +645,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > UCHAR_MAX){
             return 1;
           }
           *p = (uint8_t) ov;
@@ -674,8 +665,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -683,8 +674,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -692,8 +683,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > INT_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -701,8 +692,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -710,8 +701,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -723,8 +714,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -732,8 +723,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -741,8 +732,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -750,8 +741,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -759,8 +750,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > USHRT_MAX){
             return 1;
           }
           *p = (uint16_t) ov;
@@ -779,8 +770,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -788,8 +779,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -797,8 +788,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > INT_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -806,8 +797,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -815,8 +806,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -824,7 +815,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
+          // check the range
           if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
@@ -837,8 +828,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -846,8 +837,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -855,8 +846,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -864,8 +855,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > UINT_MAX){
             return 1;
           }
           *p = (uint32_t) ov;
@@ -884,8 +875,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -893,8 +884,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -902,8 +893,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT_MIN || ov > INT_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -911,8 +902,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -920,8 +911,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -929,8 +920,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -938,8 +929,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -951,8 +942,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -960,8 +951,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -969,8 +960,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < 0 || ov > ULONG_MAX){
             return 1;
           }
           *p = (int64_t) ov;
@@ -990,8 +981,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -999,8 +990,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1008,8 +999,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT_MIN || ov > INT_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1017,8 +1008,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1026,8 +1017,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1035,8 +1026,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1044,8 +1035,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1053,8 +1044,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1066,8 +1057,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < (double) FLT_MIN || ov > (double)FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1075,8 +1066,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < FLT_MIN || ov > FLT_MAX){
             return 1;
           }
           *p = (float) ov;
@@ -1095,22 +1086,18 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type){
 
         case (SMD_TYPE_INT8): {
-          if(*(double*)val < SCHAR_MIN || *(double*)val > SCHAR_MAX){
-            printf("Numbers: %lf %d %d\n\n", *(double*)val, SCHAR_MIN, SCHAR_MAX);
+          int8_t ov = *(int8_t*)val;
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
-          int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          // if(ov < SCHAR_MIN || ov > SCHAR_MAX){
-          //   return 1;
-          // }
           *p = (double) ov;
           return 0;
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1118,8 +1105,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t *)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT_MIN || ov > INT_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1127,8 +1114,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1136,8 +1123,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1145,8 +1132,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1154,8 +1141,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1163,8 +1150,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1172,8 +1159,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < (float) DBL_MIN || ov > (float) DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1185,8 +1172,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_CHAR): {
           char ov = *(char*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < CHAR_MIN || ov > CHAR_MAX){
+          // check the range
+          if(ov < DBL_MIN || ov > DBL_MAX){
             return 1;
           }
           *p = (double) ov;
@@ -1206,8 +1193,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SCHAR_MIN || ov > SCHAR_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1215,8 +1202,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT16): {
           int16_t ov = *(int16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < SHRT_MIN || ov > SHRT_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1224,8 +1211,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < INT_MIN || ov > INT_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1233,8 +1220,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < LONG_MIN || ov > LONG_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1242,8 +1229,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT8): {
           uint8_t ov = *(uint8_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UCHAR_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1251,8 +1238,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT16): {
           uint16_t ov = *(uint16_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > USHRT_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1260,8 +1247,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > UINT_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1269,8 +1256,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < 0 || ov > ULONG_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1278,8 +1265,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_FLOAT): {
           float ov = *(float*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < FLT_MIN || ov > FLT_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -1287,8 +1274,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
         case (SMD_TYPE_DOUBLE): {
           double ov = *(double*)val;
-          // check if accuracy is precise enough, well, we will always loose some
-          if(ov < DBL_MIN || ov > DBL_MAX){
+          // check the range
+          if(ov < CHAR_MIN || ov > CHAR_MAX){
             return 1;
           }
           *p = (char) ov;
@@ -2599,7 +2586,7 @@ static void smd_attr_free_value(void *val, smd_dtype_t *dtype) {
   }
 }
 
-smd_attr_t *smd_attr_new_memtype(const char *name, smd_dtype_t *type, smd_dtype_t *memtype, const void *val, int id){
+smd_attr_t *smd_attr_new_usertype(const char *name, smd_dtype_t *type, smd_dtype_t *usertype, const void *val, int id){
   smd_attr_t *attr = malloc(sizeof(smd_attr_t));
   assert(attr != NULL);
   memset(attr, 0, sizeof(smd_attr_t));
@@ -2613,10 +2600,10 @@ smd_attr_t *smd_attr_new_memtype(const char *name, smd_dtype_t *type, smd_dtype_
     if (type->type == SMD_TYPE_STRING) {
       attr->value = strdup((char *)val);
     } else if (use_type_ptr(t)) {
-      ret = smd_attr_copy_val_to_internal((char *)&attr->value, type, memtype, val);
+      ret = smd_attr_copy_val_to_internal((char *)&attr->value, type, usertype, val);
     } else {
       smd_attr_alloc(&attr->value, type);
-      ret = smd_attr_copy_val_to_internal((char *)attr->value, type, memtype, val);
+      ret = smd_attr_copy_val_to_internal((char *)attr->value, type, usertype, val);
     }
   }
 
@@ -2631,7 +2618,7 @@ smd_attr_t *smd_attr_new_memtype(const char *name, smd_dtype_t *type, smd_dtype_
 }
 
 smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val, int id) {
-  return smd_attr_new_memtype(name, type, type, val, id);
+  return smd_attr_new_usertype(name, type, type, val, id);
 }
 
 void smd_attr_unlink_pos(smd_attr_t *p, unsigned int pos) {
@@ -3205,12 +3192,12 @@ void smd_attr_copy_value(smd_attr_t *attr, void *out_val) {
   }
 }
 
-int smd_attr_copy_value_memtype(smd_attr_t *attr, smd_dtype_t *mem_type, void *out_val) {
+int smd_attr_copy_value_usertype(smd_attr_t *attr, smd_dtype_t *usertype, void *out_val) {
   assert(attr != NULL);
   if (use_type_ptr(attr->type)) {
-    return smd_attr_copy_val_to_external(out_val, attr->type, mem_type, (char *)&attr->value);
+    return smd_attr_copy_val_to_external(out_val, attr->type, usertype, (char *)&attr->value);
   } else {
-    return smd_attr_copy_val_to_external(out_val, attr->type, mem_type, attr->value);
+    return smd_attr_copy_val_to_external(out_val, attr->type, usertype, attr->value);
   }
 }
 
