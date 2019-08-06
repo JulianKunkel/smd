@@ -24,7 +24,10 @@ int main() {
   {
     printf("\n\nTesting UINT16!\n");
 
-    uint16_t ui16 = 50000;
+    // uint16_t ui16 = 120;
+    // uint16_t ui16 = 240;
+    // uint16_t ui16 = 30000;
+    uint16_t ui16 = 60000;
 
     int i = 0, conv[11];
 
@@ -61,15 +64,13 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT16, (void **)&ui16_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT16, uint_16) = %d", ui16_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT16, uint_16) = %d", ui16_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);

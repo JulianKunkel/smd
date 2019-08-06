@@ -16,20 +16,8 @@ int main() {
   smd_attr_copy_value(attr, &ptr);
   assert(strcmp(ptr, "this is a test") == 0);
 
-  // int a = i;
   char buff[100];
   strcpy(buff, "child");
-
-  // int8_t i8 = -120;
-  // int16_t i16 = -30000;
-  // int32_t i32 = -20000000;
-  // int64_t i64 = -2^60;
-  // uint8_t ui8 = 200;
-  // uint16_t ui16 = 50000;
-  // uint32_t ui32 = 200000000;
-  // uint64_t ui64 = 2^60;
-  // float f = 1.0e35;
-  // char c = 'c';
 
   // **************************************************************************************
   // SMD_DTYPE_UINT8
@@ -40,7 +28,8 @@ int main() {
 
     // SMD_DTYPE_UINT8
 
-    uint8_t ui8 = 200;
+    // uint8_t ui8 = 120;
+    uint8_t ui8 = 240;
 
     int8_t i8_ = 0;
     int16_t i16_ = 0;
@@ -71,12 +60,10 @@ int main() {
 
         printf("\nsmd_attr_new_usertype(int8_t, uint8_t) = %d", ui8);
 
-        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT8, (void **)&ui8_);
+        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT8, (void **)&i8_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT8, (void **)&ui8_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
@@ -406,9 +393,9 @@ int main() {
     i = 0;
 
     if (conv[i++] == 0)
-      printf("\nThe conversion from uint8_t to uint8_t was not possible!");
+      printf("\nThe conversion from uint8_t to int8_t was not possible!");
     else
-      printf("\nThe conversion from uint8_t to uint8_t was successull!");
+      printf("\nThe conversion from uint8_t to int8_t was successull!");
 
     if (conv[i++] == 0)
       printf("\nThe conversion from uint8_t to int16_t was not possible!");

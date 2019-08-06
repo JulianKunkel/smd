@@ -19,8 +19,8 @@ int main() {
   char buff[100];
   strcpy(buff, "child");
 
-  // SMD_DTYPE_FLOAT
   // **************************************************************************************
+  // SMD_DTYPE_FLOAT
   {
     printf("\n\nTesting FLOAT!\n");
 
@@ -38,7 +38,7 @@ int main() {
     uint64_t ui64_ = 0;
     float f_ = 0;
     double d_ = 0;
-    char c_ = 'a';
+    char c_ = ' ';
 
     {
       printf("\n\nint8_t!\n");
@@ -62,8 +62,6 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_FLOAT, (void **)&f_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");

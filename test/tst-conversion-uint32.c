@@ -24,7 +24,11 @@ int main() {
   {
     printf("\n\nTesting UINT32!\n");
 
-    uint32_t ui32 = 200000000;
+    uint32_t ui32 = 120;
+    // uint32_t ui32 = 240;
+    // uint32_t ui32 = 30000;
+    // uint32_t ui32 = 60000;
+    // uint32_t ui32 = 2000000000;
 
     int i = 0, conv[11];
 
@@ -61,15 +65,13 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT32, (void **)&ui32_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT32, uint32) = %d", ui32_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT32, uint32) = %d", ui32_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -326,9 +328,9 @@ int main() {
     }
 
     {
-      printf("\n\nuint32!\n");
+      printf("\n\ndouble!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT32, SMD_DTYPE_UINT32, &ui32, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_UINT32, &ui32, id);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -337,7 +339,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint32, uint32) = %d", ui32);
+        printf("\nsmd_attr_new_usertype(double, uint32) = %d", ui32);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
@@ -368,7 +370,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint32, uint32) = %d", ui32);
+        printf("\nsmd_attr_new_usertype(char, uint32) = %d", ui32);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_CHAR, (void **)&c_);
         if (ret) {

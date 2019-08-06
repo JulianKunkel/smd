@@ -61,15 +61,13 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT32, (void **)&i32_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT32, int32) = %d", i32_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT32, int32) = %d", i32_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);

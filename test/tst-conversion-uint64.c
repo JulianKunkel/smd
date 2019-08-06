@@ -68,8 +68,8 @@ int main() {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -326,9 +326,9 @@ int main() {
     }
 
     {
-      printf("\n\nuint64!\n");
+      printf("\n\ndouble!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT64, SMD_DTYPE_UINT64, &ui64, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_UINT64, &ui64, id);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -337,7 +337,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint64, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(double, uint64) = %ld", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
@@ -368,7 +368,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint64, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(char, uint64) = %ld", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_CHAR, (void **)&c_);
         if (ret) {

@@ -19,22 +19,16 @@ int main() {
   char buff[100];
   strcpy(buff, "child");
 
-  // int8_t i8 = -120;
-  // int16_t i16 = -30000;
-  // int32_t i32 = -20000000;
-  // int64_t i64 = -2^60;
-  // uint8_t ui8 = 200;
-  // uint16_t ui16 = 50000;
-  // uint32_t ui32 = 200000000;
-  // uint64_t ui64 = 2^60;
-  // float f = 1.0e35;
-  // char c = 'c';
-
   // **************************************************************************************
   // SMD_DTYPE_INT16
   {
     printf("\n\nTesting INT16!\n");
 
+    // int16_t i16 = 120;
+    // int16_t i16 = 240;
+    // int16_t i16 = 30000;
+    // int16_t i16 = -120;
+    // int16_t i16 = -240;
     int16_t i16 = -30000;
 
     int i = 0, conv[11];
@@ -72,15 +66,13 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT16, (void **)&i16_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT16, int16) = %d", i16_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT16, int16) = %d", i16_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -337,9 +329,9 @@ int main() {
     }
 
     {
-      printf("\n\nint16!\n");
+      printf("\n\ndouble!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT16, SMD_DTYPE_INT16, &i16, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_INT16, &i16, id);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");

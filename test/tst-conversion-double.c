@@ -19,17 +19,6 @@ int main() {
   char buff[100];
   strcpy(buff, "child");
 
-  // int8_t i8 = -120;
-  // int16_t i16 = -30000;
-  // int32_t i32 = -20000000;
-  // int64_t i64 = -2^60;
-  // uint8_t ui8 = 200;
-  // uint16_t ui16 = 50000;
-  // uint32_t ui32 = 200000000;
-  // uint64_t ui64 = 2^60;
-  // float f = 1.0e35;
-  // char c = 'c';
-
   // **************************************************************************************
   // SMD_DTYPE_DOUBLE
   {
@@ -75,15 +64,13 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
