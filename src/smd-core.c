@@ -187,6 +187,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
           // check the range
+
           if(ov < SCHAR_MIN || ov > SCHAR_MAX){
             return 1;
           }
@@ -233,7 +234,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
         }
       }
-
     }
 
     case (SMD_TYPE_INT16): {
@@ -339,7 +339,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
         }
       }
-
     }
 
     case (SMD_TYPE_INT32): {
@@ -445,7 +444,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
         }
       }
-
     }
 
     case (SMD_TYPE_INT64): {
@@ -472,7 +470,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
         case (SMD_TYPE_INT32): {
-          uint32_t ov = *(uint32_t*)val;
+          int32_t ov = *(int32_t*)val;
           // check the range
           if(ov < LONG_MIN || ov > LONG_MAX){
             return 1;
@@ -971,7 +969,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
         }
       }
-
     }
 
     case (SMD_TYPE_FLOAT): {
@@ -1107,7 +1104,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
         }
       }
-
     }
 
     case (SMD_TYPE_DOUBLE): {
@@ -1243,7 +1239,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
         }
       }
-
     }
 
     case (SMD_TYPE_CHAR): {
@@ -1349,7 +1344,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
         }
       }
-
     }
     case (SMD_TYPE_STRING): {
       char **p = (char **)out;
