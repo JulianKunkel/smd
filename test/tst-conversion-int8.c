@@ -7,6 +7,7 @@
 #include <smd.h>
 
 int main() {
+
   int id = 0;
   int ret;
 
