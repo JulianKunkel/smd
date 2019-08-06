@@ -16,7 +16,6 @@ int main() {
   smd_attr_copy_value(attr, &ptr);
   assert(strcmp(ptr, "this is a test") == 0);
 
-  // int a = i;
   char buff[100];
   strcpy(buff, "child");
 
@@ -42,8 +41,6 @@ int main() {
     double d = 1.7e300;
 
     int i = 0, conv[11];
-
-    // SMD_DTYPE_INT8
 
     int8_t i8_ = 0;
     int16_t i16_ = 0;
@@ -74,20 +71,19 @@ int main() {
 
         printf("\nsmd_attr_new_usertype(int8_t, double) = %lf", d);
 
-        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT8, &i8_);
+        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT8, (void **)&i8_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
 
-        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, &d_);
+        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -110,13 +106,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT16, (void **)&i16_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT16, int16_t) = %d", i16_);
@@ -143,13 +137,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT32, (void **)&i32_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT32, int32_t) = %d", i32_);
@@ -176,13 +168,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT64, (void **)&i64_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT64, int64_t) = %ld", i64_);
@@ -209,13 +199,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT8, (void **)&ui8_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT8, uint8_t) = %d", ui8_);
@@ -242,13 +230,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT16, (void **)&ui16_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT16, uint16_t) = %d", ui16_);
@@ -275,13 +261,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT32, (void **)&ui32_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT32, uint32_t) = %d", ui32_);
@@ -308,13 +292,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT64, (void **)&ui64_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64_t) = %ld", ui64_);
@@ -341,13 +323,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_FLOAT, (void **)&f_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         float x = f_;
 
@@ -375,13 +355,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
@@ -408,13 +386,11 @@ int main() {
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_CHAR, (void **)&c_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
-          printf("\nSorry... :(\n");
-          return (0);
+          printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_CHAR, char) = %c", c_);
@@ -430,57 +406,57 @@ int main() {
     i = 0;
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to int8_t was not possible!");
+      printf("\nThe conversion from double to int8_t was not possible!");
     else
       printf("\nThe conversion from double to int8_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to int16_t was not possible!");
+      printf("\nThe conversion from double to int16_t was not possible!");
     else
       printf("\nThe conversion from double to int16_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to int32_t was not possible!");
+      printf("\nThe conversion from double to int32_t was not possible!");
     else
       printf("\nThe conversion from double to int32_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to int64_t was not possible!");
+      printf("\nThe conversion from double to int64_t was not possible!");
     else
       printf("\nThe conversion from double to int64_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to uint8_t was not possible!");
+      printf("\nThe conversion from double to uint8_t was not possible!");
     else
       printf("\nThe conversion from double to uint8_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to uint16_t was not possible!");
+      printf("\nThe conversion from double to uint16_t was not possible!");
     else
       printf("\nThe conversion from double to uint16_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to uint32_t was not possible!");
+      printf("\nThe conversion from double to uint32_t was not possible!");
     else
       printf("\nThe conversion from double to uint32_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to uint64_t was not possible!");
+      printf("\nThe conversion from double to uint64_t was not possible!");
     else
       printf("\nThe conversion from double to uint64_t was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to float was not possible!");
+      printf("\nThe conversion from double to float was not possible!");
     else
       printf("\nThe conversion from double to float was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to double was not possible!");
+      printf("\nThe conversion from double to double was not possible!");
     else
       printf("\nThe conversion from double to double was successull!");
 
     if (conv[i++] == 0)
-      printf("\nThis conversion from double to char was not possible!\n\n");
+      printf("\nThe conversion from double to char was not possible!\n\n");
     else
       printf("\nThe conversion from double to char was successull!\n\n");
   }
