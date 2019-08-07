@@ -24,10 +24,22 @@ int main() {
   {
     printf("\n\nTesting DOUBLE!\n");
 
-    // double d = 3.14;
-    // double d = 1500.0;
-    // double d = 13000000000;
-    double d = 1.7e300;
+    // double d = 120;
+    // double d = -120;
+    // double d = 240;
+    // double d = -240;
+    // double d = 30000;
+    // double d = -30000;
+    // double d = 60000;
+    // double d = -60000;
+    // double d = 2000000000;
+    // double d = -2000000000;
+    // double d = 9000000000000000000; // Changes to 9000000202358128640!
+    // double d = -9000000000000000000; // Changes to -9000000202358128640! (At lesaty is consistent!)
+    // double d = 1.0e35; // Changes to 100000004091847875962975319375216640 and 99999999999999996863366107917975552
+    // double d = -1.0e35; // Changes to -100000004091847875962975319375216640 and -99999999999999996863366107917975552
+    // double d = 1.7e300;
+    double d = -1.7e300;
 
     int i = 0, conv[11];
 
@@ -318,7 +330,8 @@ int main() {
         }
         float x = f_;
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %d.%.6d", (int)x, (int)((x - (int)x) * 1000000));
+        // printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %d.%.6d", (int)x, (int)((x - (int)x) * 1000000));
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %f", x);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
 
         smd_attr_destroy(attr1);
