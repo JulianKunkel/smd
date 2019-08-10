@@ -23,7 +23,6 @@ int main() {
   // SMD_DTYPE_UINT32
   {
     printf("\n\nTesting UINT32!\n");
-    printf("\n\nTest is failing for int8, int16, int32 and char with ui32 = 120!!!\n");
 
     uint32_t ui32 = 120;
     // uint32_t ui32 = 240;
