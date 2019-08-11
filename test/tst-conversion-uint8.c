@@ -28,8 +28,8 @@ int main() {
 
     // SMD_DTYPE_UINT8
 
-    // uint8_t ui8 = 120;
-    uint8_t ui8 = 240;
+    uint8_t ui8 = 120;
+    // uint8_t ui8 = 240;
 
     int8_t i8_ = 0;
     int16_t i16_ = 0;

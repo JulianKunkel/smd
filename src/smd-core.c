@@ -477,6 +477,13 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
           *p = (int64_t) ov;
+          // check if accuracy is precise enough
+          if((int64_t)ov != *p){
+            printf("\nAccuracy is not precise enough!");
+            printf("\nStored number = %ld", (int64_t)ov);
+            printf("\nRetrieved number = %ld\n", *p);
+            return 1;
+          }
           return 0;
         }
 
@@ -1025,6 +1032,10 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_INT32): {
           int32_t ov = *(int32_t*)val;
           *p = (float) ov;
+          // check if accuracy is precise enough
+          if(ov != (int32_t)*p){
+            return 1;
+          }
           return 0;
         }
 
@@ -1033,9 +1044,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (float) ov;
           // check if accuracy is precise enough
           if(ov != (int64_t)*p){
-            printf("\nAccuracy is not precise enough!");
-            printf("\nOriginal number = %ld", *(int64_t*)val);
-            printf("\nStored number = %ld\n", (int64_t)*p);
             return 1;
           }
           return 0;
@@ -1056,6 +1064,10 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t*)val;
           *p = (float) ov;
+          // check if accuracy is precise enough
+          if(ov != (uint32_t)*p){
+            return 1;
+          }
           return 0;
         }
 
@@ -1064,9 +1076,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (float) ov;
           // check if accuracy is precise enough
           if(ov != (uint64_t)*p){
-            printf("\nAccuracy is not precise enough!");
-            printf("\nOriginal number = %ld", *(uint64_t*)val);
-            printf("\nStored number = %ld\n", (uint64_t)*p);
             return 1;
           }
           return 0;
@@ -1087,6 +1096,10 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
             return 1;
           }
           *p = (float) ov;
+          // check if accuracy is precise enough
+          if(ov != (float)*p){
+            return 1;
+          }
           return 0;
         }
 
@@ -1134,9 +1147,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (double) ov;
           // check if accuracy is precise enough
           if(ov != (int64_t)*p){
-            printf("\nAccuracy is not precise enough!");
-            printf("\nOriginal number = %ld", *(int64_t*)val);
-            printf("\nStored number = %ld\n", (int64_t)*p);
             return 1;
           }
           return 0;
@@ -1165,9 +1175,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (double) ov;
           // check if accuracy is precise enough
           if(ov != (uint64_t)*p){
-            printf("\nAccuracy is not precise enough!");
-            printf("\nOriginal number = %ld", *(uint64_t*)val);
-            printf("\nStored number = %ld\n", (uint64_t)*p);
             return 1;
           }
           return 0;
@@ -1367,11 +1374,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
   //printf("I=>E %d %lld %lld\n", type, val, out);
   switch (type) {
 
-    // // check if accuracy is precise enough
-    // if((int8_t) ov != *p){
-    //   return 1;
-    // }
-
     case (SMD_TYPE_INT8): {
 
       int8_t *p = (int8_t *)val;
@@ -1560,6 +1562,13 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           case (SMD_TYPE_INT64): {
             int64_t ov = (int64_t)(*p);
             *(int64_t *)out = ov;
+            // check if accuracy is precise enough
+            if((int32_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(int32_t*)val);
+              printf("\nRetrieved number = %ld\n", (int32_t)*p);
+              return 1;
+            }
             return 0;
           }
 
@@ -1584,18 +1593,39 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           case (SMD_TYPE_UINT64): {
             uint64_t ov = (uint64_t)(*p);
             *(uint64_t *)out = ov;
+            // check if accuracy is precise enough
+            if((int32_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(int32_t*)val);
+              printf("\nRetrieved number = %ld\n", (int32_t)*p);
+              return 1;
+            }
             return 0;
           }
 
           case (SMD_TYPE_FLOAT): {
             float ov = (float)(*p);
             *(float *)out = ov;
+            // check if accuracy is precise enough
+            if((int32_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(int32_t*)val);
+              printf("\nRetrieved number = %ld\n", (int32_t)*p);
+              return 1;
+            }
             return 0;
           }
 
           case (SMD_TYPE_DOUBLE): {
             double ov = (double)(*p);
             *(double *)out = ov;
+            // check if accuracy is precise enough
+            if((int32_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(int32_t*)val);
+              printf("\nRetrieved number = %ld\n", (int32_t)*p);
+              return 1;
+            }
             return 0;
           }
 
@@ -1676,6 +1706,13 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           case (SMD_TYPE_DOUBLE): {
             double ov = (double)(*p);
             *(double *)out = ov;
+            // check if accuracy is precise enough
+            if((int64_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(int64_t*)val);
+              printf("\nRetrieved number = %ld\n", (int64_t)*p);
+              return 1;
+            }
             return 0;
           }
 
@@ -1910,12 +1947,26 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           case (SMD_TYPE_FLOAT): {
             float ov = (float)(*p);
             *(float *)out = ov;
+            // check if accuracy is precise enough
+            if((uint32_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(uint32_t*)val);
+              printf("\nRetrieved number = %ld\n", (uint32_t)*p);
+              return 1;
+            }
             return 0;
           }
 
           case (SMD_TYPE_DOUBLE): {
             double ov = (double)(*p);
             *(double *)out = ov;
+            // check if accuracy is precise enough
+            if((uint32_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(uint32_t*)val);
+              printf("\nRetrieved number = %ld\n", (uint32_t)*p);
+              return 1;
+            }
             return 0;
           }
 
@@ -1996,6 +2047,13 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           case (SMD_TYPE_DOUBLE): {
             double ov = (double)(*p);
             *(double *)out = ov;
+            // check if accuracy is precise enough
+            if((uint64_t)ov != *p){
+              printf("\nAccuracy is not precise enough!");
+              printf("\nStored number = %ld", *(uint64_t*)val);
+              printf("\nRetrieved number = %ld\n", (uint64_t)*p);
+              return 1;
+            }
             return 0;
           }
 

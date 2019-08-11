@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #include <smd.h>
 
@@ -24,12 +25,12 @@ int main() {
   {
     printf("\n\nTesting UINT64!\n");
 
-    uint64_t ui64 = 120;
+    // uint64_t ui64 = 120;
     // uint64_t ui64 = 240;
     // uint64_t ui64 = 30000;
     // uint64_t ui64 = 60000;
     // uint64_t ui64 = 2000000000;
-    // uint64_t ui64 = 9000000000000000000; // Changes to 9000000202358128640!
+    uint64_t ui64 = 9000000000000000000; // Changes to 9000000202358128640!
     // uint64_t ui64 = 18446744073709551610; // It doesn't work! No clue!
 
     int i = 0, conv[11];

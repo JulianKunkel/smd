@@ -26,20 +26,18 @@ int main() {
 
     printf("\n\nProblems with float. The conversion is generating a different number and the code is not being able to catch it. The command to print without warning is not working in this case!!!\n");
 
-    int64_t i64 = 1234567890;
+    // int64_t i64 = 1234567890;
 
     // int64_t i64 = 120;
-    // int64_t i64 = -120;
     // int64_t i64 = 240;
-    // int64_t i64 = -240;
     // int64_t i64 = 30000;
-    // int64_t i64 = -30000;
     // int64_t i64 = 60000;
-    // int64_t i64 = -60000;
     // int64_t i64 = 2000000000;
-    // int64_t i64 = -2000000000;
     // int64_t i64 = 9000000000000000000; // Changes to 9000000202358128640!
-    // int64_t i64 = -9000000000000000000; // Changes to -9000000202358128640! (At leasty is consistent!)
+    // int64_t i64 = -120;
+    // int64_t i64 = -240;
+    // int64_t i64 = -2000000000;
+    int64_t i64 = -9000000000000000000; // Changes to -9000000202358128640! (At leasty is consistent!)
 
     int i = 0, conv[11];
 

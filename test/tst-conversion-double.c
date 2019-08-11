@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <float.h>
 
 #include <smd.h>
 
@@ -25,21 +26,20 @@ int main() {
     printf("\n\nTesting DOUBLE!\n");
 
     // double d = 120;
-    // double d = -120;
     // double d = 240;
-    // double d = -240;
     // double d = 30000;
-    // double d = -30000;
     // double d = 60000;
-    // double d = -60000;
     // double d = 2000000000;
-    // double d = -2000000000;
-    // double d = 9000000000000000000; // Changes to 9000000202358128640!
-    // double d = -9000000000000000000; // Changes to -9000000202358128640! (At lesaty is consistent!)
+    double d = 9000000000000000000; // Changes to 9000000202358128640!
     // double d = 1.0e35; // Changes to 100000004091847875962975319375216640 and 99999999999999996863366107917975552
-    // double d = -1.0e35; // Changes to -100000004091847875962975319375216640 and -99999999999999996863366107917975552
     // double d = 1.7e300;
-    double d = -1.7e300;
+    // double d = -120;
+    // double d = -240;
+    // double d = -2000000000;
+    // double d = -9000000000000000000; // Changes to -9000000202358128640! (At lesaty is consistent!)
+    // double d = -1.0e35; // Changes to -100000004091847875962975319375216640 and -99999999999999996863366107917975552
+    // double d = -1.7e300;
+    // double d = DBL_MAX;
 
     int i = 0, conv[11];
 

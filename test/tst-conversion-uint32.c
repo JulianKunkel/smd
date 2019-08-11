@@ -24,11 +24,11 @@ int main() {
   {
     printf("\n\nTesting UINT32!\n");
 
-    uint32_t ui32 = 120;
+    // uint32_t ui32 = 120;
     // uint32_t ui32 = 240;
     // uint32_t ui32 = 30000;
     // uint32_t ui32 = 60000;
-    // uint32_t ui32 = 2000000000;
+    uint32_t ui32 = 2000000000;
 
     int i = 0, conv[11];
 
