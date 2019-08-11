@@ -14,6 +14,9 @@ smd_dtype_t *SMD_DTYPE_UNKNOWN = &SMD_DTYPE_UNKNOWN_d;
 static smd_dtype_t SMD_DTYPE_EMPTY_d = {.type = SMD_TYPE_EMPTY, .refcount = 1, .size = 0, .extent = 0};
 smd_dtype_t *SMD_DTYPE_EMPTY = &SMD_DTYPE_EMPTY_d;
 
+static smd_dtype_t SMD_DTYPE_AS_EXPECTED_d = {.type = SMD_TYPE_AS_EXPECTED, .refcount = 1, .size = 0, .extent = 0};
+smd_dtype_t *SMD_DTYPE_AS_EXPECTED = &SMD_DTYPE_AS_EXPECTED_d;
+
 static smd_dtype_t SMD_DTYPE_DTYPE_d = {.type = SMD_TYPE_DTYPE, .refcount = 1, .size = 0, .extent = 0};
 smd_dtype_t *SMD_DTYPE_DTYPE = &SMD_DTYPE_DTYPE_d;
 
