@@ -546,7 +546,7 @@ printf("\n\nOriginal Type: FLOAT!");
 printf("\nStorage Type: UINT32!\n");
 
 printf("\nFrom GDB!");
-printf("\nOriginal number = %d", ui32);
+printf("\nOriginal number = %lu", ui32);
 printf("\nStored number = 4294967294");
 printf("\nRetrieved number = 0");
 printf("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
