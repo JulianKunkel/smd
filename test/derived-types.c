@@ -52,9 +52,9 @@ int main() {
   assert(strcmp(h.names[1], v.names[1]) == 0);
 
   size_t count;
-  smd_string_stream_t * s = smd_string_stream_create();
+  smd_string_stream_t *s = smd_string_stream_create();
   smd_attr_ser_json(s, attr);
-  char * buff = smd_string_stream_close(s, & count);
+  char *buff = smd_string_stream_close(s, &count);
   printf("Attr: %zu: %s\n", count, buff);
 
   smd_attr_destroy(attr);
