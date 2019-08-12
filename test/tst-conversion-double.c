@@ -298,7 +298,7 @@ int main() {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64_t) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64_t) = %lu", ui64_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
 
         smd_attr_destroy(attr1);
@@ -328,10 +328,8 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        float x = f_;
 
-        // printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %d.%.6d", (int)x, (int)((x - (int)x) * 1000000));
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %f", x);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %f", (double)f_);
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
 
         smd_attr_destroy(attr1);

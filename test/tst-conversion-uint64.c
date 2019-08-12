@@ -30,8 +30,8 @@ int main() {
     // uint64_t ui64 = 30000;
     // uint64_t ui64 = 60000;
     // uint64_t ui64 = 2000000000;
-    uint64_t ui64 = 9000000000000000000; // Changes to 9000000202358128640!
-    // uint64_t ui64 = 18446744073709551610; // It doesn't work! No clue!
+    // uint64_t ui64 = 9000000000000000000; // Changes to 9000000202358128640!
+    uint64_t ui64 = 18446744073709551610ull;
 
     int i = 0, conv[11];
 
@@ -62,7 +62,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(int8_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(int8_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT8, (void **)&i8_);
         if (ret) {
@@ -74,7 +74,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -93,7 +93,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(int16_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(int16_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT16, (void **)&i16_);
         if (ret) {
@@ -105,7 +105,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT16, int16_t) = %d", i16_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -124,7 +124,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint32_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(uint32_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT32, (void **)&i32_);
         if (ret) {
@@ -136,7 +136,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT32, int32_t) = %d", i32_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -155,7 +155,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(int64_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(int64_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT64, (void **)&i64_);
         if (ret) {
@@ -167,7 +167,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT64, int64_t) = %ld", i64_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -186,7 +186,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint8_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(uint8_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT8, (void **)&ui8_);
         if (ret) {
@@ -198,7 +198,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT8, uint8_t) = %d", ui8_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -217,7 +217,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint16_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(uint16_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT16, (void **)&ui16_);
         if (ret) {
@@ -229,7 +229,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT16, uint16_t) = %d", ui16_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -248,7 +248,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint32_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(uint32_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT32, (void **)&ui32_);
         if (ret) {
@@ -260,7 +260,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT32, uint32_t) = %d", ui32_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -279,7 +279,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(uint64_t, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(uint64_t, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_UINT64, (void **)&ui64_);
         if (ret) {
@@ -290,8 +290,8 @@ int main() {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
 
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64_t) = %ld", ui64_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64_t) = %lu", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -310,7 +310,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(float, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(float, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_FLOAT, (void **)&f_);
         if (ret) {
@@ -320,11 +320,9 @@ int main() {
         if (ret) {
           printf("\nSorry... Something is really messed up!!! :(\n");
         }
-        float x = f_;
 
-        // printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %d.%.6d", (int)x, (int)((x - (int)x) * 1000000));
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %f", x);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_FLOAT, float) = %f", (double)f_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -343,7 +341,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(double, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(double, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_DOUBLE, (void **)&d_);
         if (ret) {
@@ -355,7 +353,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_DOUBLE, double) = %lf", d_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
@@ -374,7 +372,7 @@ int main() {
         ret = smd_attr_link(attr, attr1, 1);
         assert(ret == SMD_ATTR_LINKED);
 
-        printf("\nsmd_attr_new_usertype(char, uint64) = %ld", ui64);
+        printf("\nsmd_attr_new_usertype(char, uint64) = %lu", ui64);
 
         ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_CHAR, (void **)&c_);
         if (ret) {
@@ -386,7 +384,7 @@ int main() {
         }
 
         printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_CHAR, char) = %c", c_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %ld", ui64_);
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_UINT64, uint64) = %lu", ui64_);
 
         smd_attr_destroy(attr1);
         smd_attr_unlink_pos(attr, 0);
