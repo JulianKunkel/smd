@@ -35,15 +35,16 @@ int main() {
 
   printf("%zu: %s\n", count, buff);
   smd_dtype_t *t_deser = smd_type_from_ser(buff);
-  count = smd_type_print(buff, t_deser);
-  printf("SerDe: %zu: %s\n", count, buff);
+  char cbuff[1024];
+  count = smd_type_print(cbuff, t_deser);
+  printf("SerDe: %zu: %s\n", count, cbuff);
 
   char buff2[1024];
   size_t count2;
   count2 = smd_type_print(buff2, t_struct);
   printf("%zu: %s\n", count2, buff2);
   assert(count == count2);
-  assert(strcmp(buff, buff2) == 0);
+  assert(strcmp(cbuff, buff2) == 0);
 
   smd_type_unref(&t_struct);
   smd_type_unref(&t_arr);
