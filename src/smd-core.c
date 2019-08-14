@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include <smd-internal.h>
 
@@ -416,12 +417,12 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = *(float *)val;
+          float ov = roundf(*(float *) val);
           // check the range
-          if (ov <= INT32_MIN || ov >= INT32_MAX) {
+          if ( (ov < (float)(INT32_MIN + 100)) || ov > (float) (INT32_MAX - 100)) {
             return 1;
           }
-          *p = (int32_t)ov;
+          *p = (int32_t) ov;
           return 0;
         }
 

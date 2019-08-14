@@ -27,7 +27,7 @@ int main() {
 
     // float f = INT32_MAX;
     // float f = 2147483648;
-    float f = 2147483600;
+    float f = INT32_MAX;
     // float f = 2147480000;
 
     int32_t i32_ = 0;
