@@ -394,7 +394,8 @@ int main() {
     printf("\nTesting cases in which the accuracy is not acceptable!");
     printf("\n****************************************************************");
 
-    int32_t i32 = INT32_MIN + 1;
+    int32_t i32 = INT32_MAX;
+    // int32_t i32 = INT32_MIN + 1;
     // int32_t i32 = -2000000000;
     int64_t si32 = 2000000000;
     float fi32 = 2000000000;

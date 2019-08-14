@@ -37,7 +37,8 @@ int main() {
     // float f = -2000000000;
     // float f = -9000000000000000000; // Changes to -9000000202358128640! (At lesaty is consistent!)
     // float f = -1.0e35; // Changes to 100000004091847875962975319375216640
-    float f = FLT_MAX; //
+    // float f = FLT_MAX; //
+    float f = INT32_MAX; //
 
     int i = 0, conv[11];
 
