@@ -12,28 +12,32 @@ int main() {
   printf("\n\nTesting UINT64 to DOUBLE!\n");
 
   uint64_t t;
-  double f;
+  double d;
 
-  printf("\nUINT64_MAX = %lu\n\n", UINT64_MAX);
+  printf("\nUINT64_MAX = %lu\n", UINT64_MAX);
+
+  printf("\nFAILURE\n");
 
   for (uint64_t i = 0; i < UINT64_MAX; i++){
-    f = t = UINT64_MAX - i;
-    if (f == UINT64_MAX) {
-      // printf("\nFAILURE ");
-      // printf("\nValue (double) = %lf", f);
-      // printf("\nValue (uint64_t) = %lu\n", t);
+    d = t = UINT64_MAX - i;
+    if (d == UINT64_MAX) {
+      // printf("\nFAILURE");
+      // printf("\nValue (double) = %lf", d);
+      // printf("\nReal Value (uint64_t) = %lu", t);
+      printf("\nConverted Value (uint64_t) = %lu", (uint64_t)d);
     } else {
-      printf("\nSUCCESS");
-      printf("\nValue = %lf", f);
-      printf("\nValue = %lu\n", t);
+      printf("\n\nSUCCESS\n");
+      printf("\nValue (double) = %lf", d);
+      printf("\nReal Value (uint64_t) = %lu", t);
+      printf("\nConverted Value (uint64_t) = %lu", (uint64_t)d);
       break;
     }
   }
 
   uint64_t uint64_max = t;
-  double dbl_max = f;
+  double dbl_max = d;
 
-  printf("\n\nFinal Results - UINT64 to DOUBLE\n\n");
+  printf("\n\n\nFinal Results - UINT64 to DOUBLE\n\n");
 
   printf("********************************************");
   printf("\nUINT64_MAX = %lu", UINT64_MAX);

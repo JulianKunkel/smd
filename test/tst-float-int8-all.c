@@ -9,67 +9,67 @@
 
 int main() {
 
-  printf("\n\nTesting INT32 to FLOAT!\n");
+  printf("\n\nTesting INT8 to FLOAT!\n");
 
-  int32_t t;
+  int8_t t;
   float f;
 
-  printf("\nINT32_MAX = %d\n", INT32_MAX);
+  printf("\nINT8_MAX = %d\n", INT8_MAX);
 
-  for (int32_t i = 0; i < INT32_MAX; i++){
-    f = t = INT32_MAX - i;
-    if (f == INT32_MAX) {
+  for (int8_t i = 0; i < INT8_MAX; i++){
+    f = t = INT8_MAX - i;
+    if (f == INT8_MAX) {
       printf("\nFAILURE\n");
       printf("\nValue (float) = %f", (double)f);
-      printf("\nReal Value (int32_t) = %d", t);
-      printf("\nConverted Value (int32_t) = %d\n", (int32_t)f);
+      printf("\nReal Value (int8_t) = %d", t);
+      printf("\nConverted Value (int8_t) = %d\n", (int8_t)f);
     } else {
       printf("\nSUCCESS\n");
       printf("\nValue (float) = %f", (double)f);
-      printf("\nReal Value (int32_t) = %d", t);
-      printf("\nConverted Value (int32_t) = %d\n", (int32_t)f);
+      printf("\nReal Value (int8_t) = %d", t);
+      printf("\nConverted Value (int8_t) = %d\n", (int8_t)f);
       break;
     }
   }
 
-  int32_t int32_max = t;
+  int8_t int8_max = t;
   float flt_max = f;
 
-  printf("\nINT32_MIN = %d\n", INT32_MIN);
+  printf("\nINT8_MIN = %d\n", INT8_MIN);
 
-  for (int32_t i = 0; i > INT32_MIN; i++){
-    f = t = INT32_MIN + i;
-    if (f == INT32_MIN) {
+  for (int8_t i = 0; i > INT8_MIN; i++){
+    f = t = INT8_MIN + i;
+    if (f == INT8_MIN) {
       printf("\nFAILURE\n");
       printf("\nValue (float) = %f", (double)f);
-      printf("\nReal Value (int32_t) = %d", t);
-      printf("\nConverted Value (int32_t) = %d\n", (int32_t)f);
+      printf("\nReal Value (int8_t) = %d", t);
+      printf("\nConverted Value (int8_t) = %d\n", (int8_t)f);
     } else {
       printf("\nSUCCESS\n");
       printf("\nValue (float) = %f", (double)f);
-      printf("\nReal Value (int32_t) = %d", t);
-      printf("\nConverted Value (int32_t) = %d\n", (int32_t)f);
+      printf("\nReal Value (int8_t) = %d", t);
+      printf("\nConverted Value (int8_t) = %d\n", (int8_t)f);
       break;
     }
   }
 
-  int32_t int32_min = t;
+  int8_t int8_min = t;
   float flt_min = f;
 
-  printf("\n\nFinal Results - INT32 to FLOAT\n\n");
+  printf("\n\nFinal Results - INT8 to FLOAT\n\n");
 
   printf("********************************************");
-  printf("\nINT32_MAX = %d", INT32_MAX);
+  printf("\nINT8_MAX = %d", INT8_MAX);
   printf("\nMaximum FLOAT = %f", (double)flt_max);
-  printf("\nMaximum INT32 = %d\n", int32_max);
+  printf("\nMaximum INT8 = %d\n", int8_max);
   printf("********************************************");
 
   printf("\n\n");
 
   printf("********************************************");
-  printf("\nINT32_MIN = %d", INT32_MIN);
+  printf("\nINT8_MIN = %d", INT8_MIN);
   printf("\nMinimum FLOAT = %f", (double)flt_min);
-  printf("\nMinimum INT32 = %d\n", int32_min);
+  printf("\nMinimum INT8 = %d\n", int8_min);
   printf("********************************************");
 
   printf("\n\n");

@@ -12,47 +12,51 @@ int main() {
   printf("\n\nTesting INT32 to DOUBLE!\n");
 
   int32_t t;
-  double f;
+  double d;
 
-  printf("\nINT32_MAX = %d\n\n", INT32_MAX);
+  printf("\nINT32_MAX = %d\n", INT32_MAX);
 
   for (int32_t i = 0; i < INT32_MAX; i++){
-    f = t = INT32_MAX - i;
-    if (f == INT32_MAX) {
-      // printf("\nFAILURE ");
-      // printf("\nValue (float) = %lf", f);
-      // printf("\nValue (int32_t) = %ld\n", t);
+    d = t = INT32_MAX - i;
+    if (d == INT32_MAX) {
+      printf("\nFAILURE\n");
+      printf("\nValue (double) = %lf", d);
+      printf("\nReal Value (int32_t) = %d", t);
+      printf("\nConverted Value (int32_t) = %d", (int32_t)d);
     } else {
-      printf("\nSUCCESS");
-      printf("\nValue = %lf", f);
-      printf("\nValue = %d\n", t);
+      printf("\n\nSUCCESS\n");
+      printf("\nValue (double) = %lf", d);
+      printf("\nReal Value (int32_t) = %d", t);
+      printf("\nConverted Value (int32_t) = %d\n", (int32_t)d);
       break;
     }
   }
 
   int32_t int32_max = t;
-  double dbl_max = f;
+  double dbl_max = d;
 
-  printf("\n\n\nINT32_MIN = %d\n\n", INT32_MIN);
+  printf("\nINT32_MIN = %d\n", INT32_MIN);
 
   for (int32_t i = 0; i > INT32_MIN; i++){
-    f = t = INT32_MIN + i;
-    if (f == INT32_MIN) {
-      // printf("\nFAILURE ");
-      // printf("\nValue (float) = %lf", f);
-      // printf("\nValue (int32_t) = %ld\n", t);
+    d = t = INT32_MIN + i;
+    if (d == INT32_MIN) {
+      printf("\nFAILURE\n");
+      printf("\nValue (double) = %lf", d);
+      printf("\nReal Value (int32_t) = %d", t);
+      printf("\nConverted Value (int32_t) = %d", (int32_t)d);
     } else {
-      printf("\nSUCCESS");
-      printf("\nValue = %lf", f);
-      printf("\nValue = %d\n", t);
+      printf("\n\nSUCCESS\n");
+      printf("\nValue (double) = %lf", d);
+      printf("\nReal Value (int32_t) = %d", t);
+      printf("\nConverted Value (int32_t) = %d", (int32_t)d);
       break;
     }
   }
 
   int32_t int32_min = t;
-  double dbl_min = f;
+  double dbl_min = d;
 
-  printf("\n\nFinal Results - INT32 to DOUBLE\n\n");
+  printf("\n\n\nFinal Results - INT32 to DOUBLE\n\n");
 
   printf("********************************************");
   printf("\nINT32_MAX = %d", INT32_MAX);

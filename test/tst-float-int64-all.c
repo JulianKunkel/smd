@@ -14,19 +14,23 @@ int main() {
   int64_t t;
   float f;
 
-  printf("\nINT64_MAX = %ld\n\n", INT64_MAX);
+  printf("\nINT64_MAX = %ld\n", INT64_MAX);
+
+  printf("\nFAILURE\n");
 
   // for (int64_t i = 0; i < INT64_MAX; i++){
   for (int64_t i = 0; i < INT64_MAX; i+=10000){
     f = t = INT64_MAX - i;
     if (f == INT64_MAX) {
-      // printf("\nFAILURE ");
+      // printf("\nFAILURE");
       // printf("\nValue (float) = %f", (double)f);
-      // printf("\nValue (int64_t) = %ld\n", t);
+      // printf("\nReal Value (int64_t) = %ld", t);
+      // printf("\nConverted Value (int64_t) = %ld", (int64_t)f);
     } else {
-      printf("\nSUCCESS");
-      printf("\nValue = %f", (double)f);
-      printf("\nValue = %ld\n", t);
+      printf("\nSUCCESS\n");
+      printf("\nValue (float) = %f", (double)f);
+      printf("\nReal Value (int64_t) = %ld", t);
+      printf("\nConverted Value (int64_t) = %ld\n", (int64_t)f);
       break;
     }
   }
@@ -34,19 +38,23 @@ int main() {
   int64_t int64_max = t;
   float flt_max = f;
 
-  printf("\n\n\nINT64_MIN = %ld\n\n", INT64_MIN);
+  printf("\nINT64_MIN = %ld\n", INT64_MIN);
+
+  printf("\nFAILURE\n");
 
   // for (int64_t i = 0; i > INT64_MIN; i++){
   for (int64_t i = 0; i > INT64_MIN; i+=10000){
     f = t = INT64_MIN + i;
     if (f == INT64_MIN) {
-      // printf("\nFAILURE ");
+      // printf("\nFAILURE");
       // printf("\nValue (float) = %f", (double)f);
-      // printf("\nValue (int64_t) = %ld\n", t);
+      // printf("\nReal Value (int64_t) = %ld", t);
+      // printf("\nConverted Value (int64_t) = %ld", (int64_t)f);
     } else {
-      printf("\nSUCCESS");
-      printf("\nValue = %f", (double)f);
-      printf("\nValue = %ld\n", t);
+      printf("\nSUCCESS\n");
+      printf("\nValue (float) = %f", (double)f);
+      printf("\nReal Value (int64_t) = %ld", t);
+      printf("\nConverted Value (int64_t) = %ld\n", (int64_t)f);
       break;
     }
   }

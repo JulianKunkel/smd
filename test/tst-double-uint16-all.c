@@ -9,38 +9,38 @@
 
 int main() {
 
-  printf("\n\nTesting UINT32 to DOUBLE!\n");
+  printf("\n\nTesting UINT16 to DOUBLE!\n");
 
-  uint32_t t;
+  uint16_t t;
   double d;
 
-  printf("\nUINT32_MAX = %u\n", UINT32_MAX);
+  printf("\nUINT16_MAX = %u\n", UINT16_MAX);
 
-  for (uint32_t i = 0; i < UINT32_MAX; i++){
-    d = t = UINT32_MAX - i;
-    if (d == UINT32_MAX) {
+  for (uint16_t i = 0; i < UINT16_MAX; i++){
+    d = t = UINT16_MAX - i;
+    if (d == UINT16_MAX) {
       printf("\nFAILURE\n");
       printf("\nValue (double) = %lf", d);
-      printf("\nReal Value (uint32_t) = %u", t);
-      printf("\nConverted Value (uint32_t) = %u", (uint32_t)d);
+      printf("\nReal Value (uint16_t) = %u", t);
+      printf("\nConverted Value (uint16_t) = %u", (uint16_t)d);
     } else {
       printf("\n\nSUCCESS\n");
       printf("\nValue (double) = %lf", d);
-      printf("\nReal Value (uint32_t) = %u", t);
-      printf("\nConverted Value (uint32_t) = %u", (uint32_t)d);
+      printf("\nReal Value (uint16_t) = %u", t);
+      printf("\nConverted Value (uint16_t) = %u", (uint16_t)d);
       break;
     }
   }
 
-  uint32_t uint32_max = t;
+  uint16_t uint16_max = t;
   double dbl_max = d;
 
-  printf("\n\n\nFinal Results - UINT32 to DOUBLE\n\n");
+  printf("\n\n\nFinal Results - UINT16 to DOUBLE\n\n");
 
   printf("********************************************");
-  printf("\nUINT32_MAX = %u", UINT32_MAX);
+  printf("\nUINT16_MAX = %u", UINT16_MAX);
   printf("\nMaximum DOUBLE = %lf", dbl_max);
-  printf("\nMaximum UINT32 = %u\n", uint32_max);
+  printf("\nMaximum UINT16 = %u\n", uint16_max);
   printf("********************************************");
 
   printf("\n\n");
