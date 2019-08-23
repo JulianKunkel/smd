@@ -399,7 +399,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_UINT32): {
           uint32_t ov = *(uint32_t *)val;
           // check the range
-          if (ov >= INT32_MAX) {
+          if (ov > INT32_MAX) {
             return 1;
           }
           *p = (int32_t)ov;
@@ -409,7 +409,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t *)val;
           // check the range
-          if (ov >= INT32_MAX) {
+          if (ov > INT32_MAX) {
             return 1;
           }
           *p = (int32_t)ov;
@@ -501,7 +501,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t *)val;
           // check the range
-          if (ov >= INT64_MAX) { // Not
+          if (ov > INT64_MAX) {
 
             return 1;
           }
@@ -512,7 +512,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_FLOAT): {
           float ov = *(float *)val;
           // check the range
-          if (ov < INT64_MIN || ov >= INT64_MAX) {
+          if (ov <= INT64_MIN || ov >= INT64_MAX) {
             return 1;
           }
           *p = (int64_t)ov;
@@ -816,7 +816,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_INT64): {
           int64_t ov = *(int64_t *)val;
           // check the range
-          if (ov < 0 || ov >= UINT32_MAX) {
+          if (ov < 0 || ov > UINT32_MAX) {
             return 1;
           }
           *p = (uint32_t)ov;
@@ -843,7 +843,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_UINT64): {
           uint64_t ov = *(uint64_t *)val;
           // check the range
-          if (ov >= UINT32_MAX) {
+          if (ov > UINT32_MAX) {
             return 1;
           }
           *p = (uint32_t)ov;
@@ -960,7 +960,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_FLOAT): {
           float ov = *(float *)val;
           // check the range
-          if (ov < 0 || ov > UINT64_MAX) {
+          if (ov < 0 || ov >= UINT64_MAX) {
             return 1;
           }
           *p = (uint64_t)ov;
@@ -1162,10 +1162,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_FLOAT): {
           float ov = *(float *)val;
           *p = (double)ov;
-          // check if accuracy is precise enough
-          if (ov != (float)*p) {
-            return 1;
-          }
           return 0;
         }
 
