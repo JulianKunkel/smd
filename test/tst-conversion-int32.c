@@ -6,6 +6,42 @@
 
 #include <smd.h>
 
+#define test(VARTYPE, VARDTYPE) \\
+    {\\
+      printf("\n\n"VARTYPE"!\n");\\
+      smd_attr_t *attr1;\\
+      VARTYPE var;\\
+\\
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT8, VARDTYPE, &var, id);\\
+      if (attr1 == NULL) {\\
+        conv[i++] = 0;\\
+        printf("\nSorry... It's not possible to make this conversion! :(\n");\\
+        // return(0);\\
+      } else {\\
+        conv[i++] = 1;\\
+\\
+        ret = smd_attr_link(attr, attr1, 1);\\
+        assert(ret == SMD_ATTR_LINKED);\\
+\\
+        printf("\nsmd_attr_new_usertype(int8_t, int32) = %d", i32);\\
+\\
+        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT8, (void **)&i8_);\\
+        if (ret) {\\
+          printf("\nSorry... Something is really messed up!!! :(\n");\\
+        }\\
+        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT32, (void **)&i32_);\\
+        if (ret) {\\
+          printf("\nSorry... Something is really messed up!!! :(\n");\\
+        }\\
+\\
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);\\
+        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT32, int32) = %d", i32_);\\
+\\
+        smd_attr_destroy(attr1);\\
+        smd_attr_unlink_pos(attr, 0);\\
+      }\\
+    }
+
 int main() {
   int id = 0;
   int ret;
@@ -19,20 +55,14 @@ int main() {
   char buff[100];
   strcpy(buff, "child");
 
+  test();
+
   // **************************************************************************************
   // SMD_DTYPE_INT32
   {
     printf("\n\nTesting INT32!\n");
 
     int32_t i32 = 120;
-    // int32_t i32 = 240;
-    // int32_t i32 = 30000;
-    // int32_t i32 = 60000;
-    // int32_t i32 = 2000000000;
-    // int32_t i32 = -120;
-    // int32_t i32 = -240;
-    // int32_t i32 = -2000000000;
-
     int i = 0, conv[11];
 
     int8_t i8_ = 0;
@@ -47,39 +77,6 @@ int main() {
     double d_ = 0;
     char c_ = ' ';
 
-    {
-      printf("\n\nint8_t!\n");
-      smd_attr_t *attr1;
-
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT8, SMD_DTYPE_INT32, &i32, id);
-      if (attr1 == NULL) {
-        conv[i++] = 0;
-        printf("\nSorry... It's not possible to make this conversion! :(\n");
-        // return(0);
-      } else {
-        conv[i++] = 1;
-
-        ret = smd_attr_link(attr, attr1, 1);
-        assert(ret == SMD_ATTR_LINKED);
-
-        printf("\nsmd_attr_new_usertype(int8_t, int32) = %d", i32);
-
-        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT8, (void **)&i8_);
-        if (ret) {
-          printf("\nSorry... Something is really messed up!!! :(\n");
-        }
-        ret = smd_attr_copy_value_usertype(attr1, SMD_DTYPE_INT32, (void **)&i32_);
-        if (ret) {
-          printf("\nSorry... Something is really messed up!!! :(\n");
-        }
-
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT8, int8_t) = %d", i8_);
-        printf("\nsmd_attr_copy_value_usertype(SMD_DTYPE_INT32, int32) = %d", i32_);
-
-        smd_attr_destroy(attr1);
-        smd_attr_unlink_pos(attr, 0);
-      }
-    }
 
     {
       printf("\n\nint16_t!\n");
