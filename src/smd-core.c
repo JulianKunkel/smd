@@ -1353,7 +1353,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
   //printf("I=>E %d %lld %lld\n", type, val, out);
   switch (type) {
     case (SMD_TYPE_INT8): {
-      int8_t *p = (int8_t *)val;
+      int8_t ov = *(int8_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -1361,87 +1361,73 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          *(int8_t *)out = *p;
+          *(int8_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
-          // check the range
-          if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
-            return 1;
-          }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -1452,7 +1438,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_INT16): {
-      int16_t *p = (int16_t *)val;
+      int16_t ov = *(int16_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -1460,91 +1446,81 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          *(int16_t *)out = *p;
+          *(int16_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT8_MAX) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -1555,7 +1531,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_INT32): {
-      int32_t *p = (int32_t *)val;
+      int32_t ov = *(int32_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -1563,95 +1539,85 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
           // check the range
           if (ov < INT16_MIN || ov > INT16_MAX) {
             return 1;
           }
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          *(int32_t *)out = *p;
+          *(int32_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT8_MAX) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT16_MAX) {
             return 1;
           }
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -1662,7 +1628,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_INT64): {
-      int64_t *p = (int64_t *)val;
+      int64_t ov = *(int64_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -1670,98 +1636,89 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
           // check the range
           if (ov < INT16_MIN || ov > INT16_MAX) {
             return 1;
           }
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
           // check the range
           if (ov < INT32_MIN || ov > INT32_MAX) {
             return 1;
           }
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          *(int64_t *)out = *p;
+          *(int64_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT8_MAX) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT16_MAX) {
             return 1;
-          }          *(uint16_t *)out = ov;
+          }
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT32_MAX) {
             return 1;
           }
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
           // check the range
           if (ov < 0) {
             return 1;
           }
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -1772,7 +1729,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_UINT8): {
-      uint8_t *p = (uint8_t *)val;
+      uint8_t ov = *(uint8_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -1780,75 +1737,65 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          *(uint8_t *)out = *p;
+          *(uint8_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -1859,7 +1806,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_UINT16): {
-      uint16_t *p = (uint16_t *)val;
+      uint16_t ov = *(uint16_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -1867,83 +1814,73 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
           // check the range
           if (ov > INT16_MAX) {
             return 1;
           }
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov > UINT8_MAX) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          *(uint16_t *)out = *p;
+          *(uint16_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -1954,7 +1891,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_UINT32): {
-      uint32_t *p = (uint32_t *)val;
+      uint32_t ov = *(uint32_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -1962,90 +1899,81 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
           // check the range
           if (ov > INT16_MAX) {
             return 1;
           }
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
           // check the range
           if (ov > INT32_MAX) {
             return 1;
           }
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov > UINT8_MAX) {
             return 1;
-          }          *(uint8_t *)out = ov;
+          }
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov > UINT16_MAX) {
             return 1;
           }
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          *(uint32_t *)out = *p;
+          *(uint32_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -2056,7 +1984,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_UINT64): {
-      uint64_t *p = (uint64_t *)val;
+      uint64_t ov = *(uint64_t *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -2064,99 +1992,89 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
           // check the range
           if (ov > INT16_MAX) {
             return 1;
           }
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
           // check the range
           if (ov > INT32_MAX) {
             return 1;
           }
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
           // check the range
           if (ov > INT64_MAX) {
             return 1;
           }
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov > UINT8_MAX) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov > UINT16_MAX) {
             return 1;
           }
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
           // check the range
           if (ov > UINT32_MAX) {
             return 1;
           }
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          *(uint64_t *)out = *p;
+          *(uint64_t *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -2167,7 +2085,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_FLOAT): {
-      float *p = (float *)val;
+      float ov = *(float *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -2175,103 +2093,93 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
           // check the range
           if (ov < INT16_MIN || ov > INT16_MAX) {
             return 1;
           }
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
           // check the range
           if (ov < INT32_MIN || ov > INT32_MAX) {
             return 1;
           }
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
           // check the range
           if (ov < INT64_MIN || ov > INT64_MAX) {
             return 1;
           }
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT8_MAX) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT16_MAX) {
             return 1;
           }
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT32_MAX) {
             return 1;
           }
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT64_MAX) {
             return 1;
           }
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          *(float *)out = *p;
+          *(float *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -2282,7 +2190,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_DOUBLE): {
-      double *p = (double *)val;
+      double ov = *(double *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -2290,110 +2198,97 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
             return 1;
           }
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
           // check the range
           if (ov < INT16_MIN || ov > INT16_MAX) {
             return 1;
           }
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
           // check the range
           if (ov < INT32_MIN || ov > INT32_MAX) {
             return 1;
           }
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
           // check the range
           if (ov < INT64_MIN || ov > INT64_MAX) {
             return 1;
           }
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT8_MAX) {
             return 1;
           }
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT16_MAX) {
             return 1;
           }
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT32_MAX) {
             return 1;
           }
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
           // check the range
           if (ov < 0 || ov > UINT64_MAX) {
             return 1;
           }
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
           // check the range
-          if (ov > 0 && (ov < (double)FLT_MIN || ov > (double)FLT_MAX)) {
+          if (ov < (double)FLT_MIN || ov > (double)FLT_MAX) {
             return 1;
           }
-          if (ov < 0 && (ov > -(double)FLT_MIN || ov < -(double)FLT_MAX)) {
-            return 1;
-          }
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          *(double *)out = *p;
+          *(double *)out = ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          char ov = (char)(*p);
           // check the range
           if (ov < SCHAR_MIN || ov > SCHAR_MAX) {
             return 1;
           }
-          *(char *)out = ov;
+          *(char *)out = (char)ov;
           return 0;
         }
 
@@ -2404,7 +2299,7 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
     }
 
     case (SMD_TYPE_CHAR): {
-      char *p = (char *)val;
+      char ov = *(char *)val;
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
@@ -2412,67 +2307,57 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
         case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
-          int8_t ov = (int8_t)(*p);
-          *(int8_t *)out = ov;
+          *(int8_t *)out = (int8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT16): {
-          int16_t ov = (int16_t)(*p);
-          *(int16_t *)out = ov;
+          *(int16_t *)out = (int16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT32): {
-          int32_t ov = (int32_t)(*p);
-          *(int32_t *)out = ov;
+          *(int32_t *)out = (int32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_INT64): {
-          int64_t ov = (int64_t)(*p);
-          *(int64_t *)out = ov;
+          *(int64_t *)out = (int64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT8): {
-          uint8_t ov = (uint8_t)(*p);
-          *(uint8_t *)out = ov;
+          *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT16): {
-          uint16_t ov = (uint16_t)(*p);
-          *(uint16_t *)out = ov;
+          *(uint16_t *)out = (uint16_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT32): {
-          uint32_t ov = (uint32_t)(*p);
-          *(uint32_t *)out = ov;
+          *(uint32_t *)out = (uint32_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_UINT64): {
-          uint64_t ov = (uint64_t)(*p);
-          *(uint64_t *)out = ov;
+          *(uint64_t *)out = (uint64_t)ov;
           return 0;
         }
 
         case (SMD_TYPE_FLOAT): {
-          float ov = (float)(*p);
-          *(float *)out = ov;
+          *(float *)out = (float)ov;
           return 0;
         }
 
         case (SMD_TYPE_DOUBLE): {
-          double ov = (double)(*p);
-          *(double *)out = ov;
+          *(double *)out = (double)ov;
           return 0;
         }
 
         case (SMD_TYPE_CHAR): {
-          *(char *)out = *p;
+          *(char *)out = ov;
           return 0;
         }
 
