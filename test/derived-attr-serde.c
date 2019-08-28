@@ -55,11 +55,11 @@ int main() {
   count = 0;
   smd_iterate(attr, iter);
 
-  smd_string_stream_t* s = smd_string_stream_create();
+  smd_string_stream_t *s = smd_string_stream_create();
   //size = smd_attr_ser_json(buff, attr2);
   smd_attr_ser_json(s, attr);
   size_t size;
-  char * buff = smd_string_stream_close(s, & size);
+  char *buff = smd_string_stream_close(s, &size);
   printf("ATTR SER: %zu: %s\n", size, buff);
 
   smd_attr_t *attr_deser;
@@ -68,7 +68,7 @@ int main() {
   size_t size2;
   s = smd_string_stream_create();
   smd_attr_ser_json(s, attr_deser);
-  char * buff2 = smd_string_stream_close(s, & size2);
+  char *buff2 = smd_string_stream_close(s, &size2);
   printf("ATTR SER: %zu: %s\n", size2, buff2);
   assert(size == size2);
   assert(strcmp(buff, buff2) == 0);

@@ -29,9 +29,9 @@ int main() {
   smd_dtype_t *t_struct = smd_type_struct(3, offsets, sizeof(struct test), names, types);
 
   size_t count;
-  smd_string_stream_t * s = smd_string_stream_create();
+  smd_string_stream_t *s = smd_string_stream_create();
   smd_type_ser(s, t_struct);
-  char * buff = smd_string_stream_close(s, & count);
+  char *buff = smd_string_stream_close(s, &count);
 
   printf("%zu: %s\n", count, buff);
   smd_dtype_t *t_deser = smd_type_from_ser(buff);
