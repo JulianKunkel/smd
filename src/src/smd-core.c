@@ -132,12 +132,14 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       return 0;
     }
 
-    case (SMD_TYPE_AS_EXPECTED):
-
     case (SMD_TYPE_INT8): {
       int8_t *p = (int8_t *)out;
 
       switch (usertype->type) {
+        case (SMD_TYPE_EMPTY):
+
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_INT8): {
           *p = *(int8_t *)val;
           return 0;
@@ -251,13 +253,13 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
           *p = (int16_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT16): {
           *p = *(int16_t *)val;
@@ -358,8 +360,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
           *p = (int32_t)ov;
@@ -371,6 +371,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (int32_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT32): {
           *p = *(int32_t *)val;
@@ -458,8 +460,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
           *p = (int64_t)ov;
@@ -477,6 +477,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (int64_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT64): {
           *p = *(int64_t *)val;
@@ -550,8 +552,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
           // check the range
@@ -591,6 +591,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (uint8_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_UINT8): {
           *p = *(uint8_t *)val;
@@ -669,8 +671,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
           // check the range
@@ -716,6 +716,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (uint16_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_UINT16): {
           *p = *(uint16_t *)val;
@@ -784,8 +786,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
           // check the range
@@ -837,6 +837,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (uint32_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_UINT32): {
           *p = *(uint32_t *)val;
@@ -894,8 +896,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
@@ -955,6 +955,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
 
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_UINT64): {
           *p = *(uint64_t *)val;
           return 0;
@@ -1001,8 +1003,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
@@ -1068,6 +1068,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
 
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_FLOAT): {
           *p = *(float *)val;
           return 0;
@@ -1103,8 +1105,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
@@ -1168,6 +1168,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
 
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_DOUBLE): {
           *p = *(double *)val;
           return 0;
@@ -1190,8 +1192,6 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           int8_t ov = *(int8_t *)val;
@@ -1288,6 +1288,8 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
           *p = (char)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_CHAR): {
           *p = *(char *)val;
@@ -1443,8 +1445,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
@@ -1453,6 +1453,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           *(int8_t *)out = (int8_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT16): {
           *(int16_t *)out = ov;
@@ -1536,8 +1538,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
@@ -1555,6 +1555,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           *(int16_t *)out = (int16_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT32): {
           *(int32_t *)out = ov;
@@ -1633,8 +1635,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           // check the range
           if (ov < INT8_MIN || ov > INT8_MAX) {
@@ -1661,6 +1661,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           *(int32_t *)out = (int32_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT64): {
           *(int64_t *)out = ov;
@@ -1734,8 +1736,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           // check the range
           if (ov > INT8_MAX) {
@@ -1759,6 +1759,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           *(int64_t *)out = (int64_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_UINT8): {
           *(uint8_t *)out = ov;
@@ -1811,8 +1813,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
 
-        case (SMD_TYPE_AS_EXPECTED):
-
         case (SMD_TYPE_INT8): {
           // check the range
           if (ov > INT8_MAX) {
@@ -1849,6 +1849,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           *(uint8_t *)out = (uint8_t)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_UINT16): {
           *(uint16_t *)out = ov;
@@ -1895,8 +1897,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           // check the range
@@ -1948,6 +1948,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
 
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_UINT32): {
           *(uint32_t *)out = ov;
           return 0;
@@ -1988,8 +1990,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           // check the range
@@ -2054,6 +2054,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
 
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_UINT64): {
           *(uint64_t *)out = ov;
           return 0;
@@ -2089,8 +2091,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           // check the range
@@ -2164,6 +2164,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
 
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_FLOAT): {
           *(float *)out = ov;
           return 0;
@@ -2194,8 +2196,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           // check the range
@@ -2278,6 +2278,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           return 0;
         }
 
+        case (SMD_TYPE_AS_EXPECTED):
+
         case (SMD_TYPE_DOUBLE): {
           *(double *)out = ov;
           return 0;
@@ -2303,8 +2305,6 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
 
       switch (usertype->type) {
         case (SMD_TYPE_EMPTY):
-
-        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_INT8): {
           *(int8_t *)out = (int8_t)ov;
@@ -2355,6 +2355,8 @@ static int smd_attr_copy_val_to_external(char *out, smd_dtype_t *t, smd_dtype_t 
           *(double *)out = (double)ov;
           return 0;
         }
+
+        case (SMD_TYPE_AS_EXPECTED):
 
         case (SMD_TYPE_CHAR): {
           *(char *)out = ov;
