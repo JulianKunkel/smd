@@ -9,10 +9,8 @@
 typedef struct smd_string_stream_t smd_string_stream_t;
 
 typedef enum smd_type_t {
+  SMD_TYPE_AS_EXPECTED = -1,
   SMD_TYPE_UNKNOWN = 0,
-  SMD_TYPE_AS_EXPECTED,
-  SMD_TYPE_EMPTY,
-  SMD_TYPE_DTYPE,
   SMD_TYPE_INT8,
   SMD_TYPE_INT16,
   SMD_TYPE_INT32,
@@ -29,6 +27,8 @@ typedef enum smd_type_t {
   SMD_TYPE_CHAR, // 1 byte
   SMD_TYPE_STRING,
   SMD_TYPE_PRIMITIVE_END, // marker
+  SMD_TYPE_EMPTY,
+  SMD_TYPE_DTYPE,
   SMD_TYPE_ARRAY,
   SMD_TYPE_STRUCT,
   SMD_TYPE_EXTENT,
