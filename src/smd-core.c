@@ -11,7 +11,7 @@
 
 #pragma GCC diagnostic ignored "-Wdouble-promotion"
 
-#define use_type_ptr(t) (t->type < SMD_TYPE_PRIMITIVE_END || (t->type == SMD_TYPE_EXTENT && t->specifier.u.ext.base->type < SMD_TYPE_PRIMITIVE_END))
+#define use_type_ptr(t) (t->type < SMD_TYPE_PRIMITIVE_END || (t->type == SMD_TYPE_EXTENT && t->specifier.u.ext.base->type < SMD_TYPE_PRIMITIVE_END) || t->type == SMD_TYPE_DTYPE)
 
 // Native Datatypes ///////////////////////////////////////////////////////////
 static size_t smd_sizeof(smd_basic_type_t type) {
@@ -126,6 +126,7 @@ static int smd_attr_copy_val_to_internal(char *out, smd_dtype_t *t, smd_dtype_t 
   //printf("E=>I %d %lld %lld\n", type, out, val);
   switch (type) {
     case (SMD_TYPE_DTYPE): {
+      assert(out);
       smd_dtype_t **p = (smd_dtype_t **)out;
       *p = (smd_dtype_t *)val;
       (*p)->refcount++;
