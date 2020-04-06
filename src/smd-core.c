@@ -2980,7 +2980,7 @@ char *smd_attr_create_from_json_i(char *str, smd_attr_t **attr_out, size_t size)
   smd_attr_t *attr;
   attr = smd_attr_new(aname, type, NULL, 0);
 
-  void *val;
+  void *val = NULL;
   if (use_type_ptr(attr->type)) {
     str = smd_attr_val_from_json((char *)&val, type, str);
   } else {
