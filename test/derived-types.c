@@ -11,7 +11,6 @@ int main() {
   int id = 0;
 
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
-
   smd_dtype_t *t_arr_ints = smd_type_array(SMD_DTYPE_INT64, 3);
 
   printf("size: %zu extent: %zu\n", smd_type_get_size(t_arr), smd_type_get_extent(t_arr));
@@ -63,6 +62,29 @@ int main() {
 
   smd_type_unref(&t_struct);
   smd_type_unref(&t_arr);
+
+  // character test
+  t_arr = smd_type_array(SMD_DTYPE_CHAR, 12);
+  attr = smd_attr_new("str", t_arr, "thisisatest", 0);
+  s = smd_string_stream_create();
+  smd_attr_ser_json(s, attr);
+  buff = smd_string_stream_close(s, &count);
+  printf("Attr: %zu: %s\n", count, buff);
+
+  smd_attr_t *attr_deser;
+  smd_attr_create_from_json(buff, count, &attr_deser);
+  char *orig_dtype = (char *) smd_attr_get_value(attr_deser);
+  printf("Retrieved info %s\n", orig_dtype);
+
+
+  t_arr = smd_type_array(SMD_DTYPE_CHAR, 0);
+  attr = smd_attr_new("str", t_arr, "", 0);
+  s = smd_string_stream_create();
+  smd_attr_ser_json(s, attr);
+  buff = smd_string_stream_close(s, &count);
+  printf("Attr: %zu: %s\n", count, buff);
+
+  smd_attr_create_from_json(buff, count, &attr_deser);
 
   printf("OK\n");
 

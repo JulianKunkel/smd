@@ -2535,11 +2535,27 @@ smd_link_ret_t smd_attr_link(smd_attr_t *parent, smd_attr_t *child, int allow_re
   return SMD_ATTR_LINKED;
 }
 
-static void smd_attr_ser_json_str(smd_string_stream_t *s, const char *str) {
-  char c;
+static void smd_attr_ser_json_str(smd_string_stream_t *s, const char *str, int len) {
+  char const * end;
+  if(len < 0) end = NULL;
+  else end = str + len;
+
+  if((end == NULL && *str == '\0') || (end != NULL && end == str)) {
+    smd_string_stream_printf(s, "null");
+    return;
+  }
+
   smd_string_stream_printf(s, "\"");
-  while ((c = *str) != 0) {
+  char c = *str;
+  while (1) {
+    if(end == NULL && c == '\0') break;
+
     switch (c) {
+      case ('\0'): {
+        smd_string_stream_printf(s, "\\0");
+        str++;
+        break;
+      }
       case ('\b'): {
         smd_string_stream_printf(s, "\\b");
         str++;
@@ -2579,6 +2595,8 @@ static void smd_attr_ser_json_str(smd_string_stream_t *s, const char *str) {
         smd_string_stream_printf(s, "%c", c);
         str++;
     }
+    if(end != NULL && end == str) break;
+    c = *str;
   }
   smd_string_stream_printf(s, "\"");
   return;
@@ -2665,7 +2683,7 @@ void smd_ser_json_value(smd_string_stream_t *s, void *val, smd_dtype_t *t) {
       }
     }
     case (SMD_TYPE_STRING): {
-      smd_attr_ser_json_str(s, *(char **)val);
+      smd_attr_ser_json_str(s, *(char **)val, -1);
       return;
     }
     case (SMD_TYPE_EXTENT): {
@@ -2677,13 +2695,13 @@ void smd_ser_json_value(smd_string_stream_t *s, void *val, smd_dtype_t *t) {
       smd_dtype_struct_t *d = &t->specifier.u.str;
       smd_string_stream_printf(s, "{");
       char *val_pos = val;
-      smd_attr_ser_json_str(s, d->names[0]);
+      smd_attr_ser_json_str(s, d->names[0], -1);
       smd_string_stream_printf(s, ":");
       smd_ser_json_value(s, val_pos, d->types[0]);
       val_pos += d->types[0]->size;
       for (int i = 1; i < d->size; i++) {
         smd_string_stream_printf(s, ",");
-        smd_attr_ser_json_str(s, d->names[i]);
+        smd_attr_ser_json_str(s, d->names[i], -1);
         smd_string_stream_printf(s, ":");
         smd_ser_json_value(s, val_pos, d->types[i]);
         val_pos += d->types[i]->size;
@@ -2694,6 +2712,11 @@ void smd_ser_json_value(smd_string_stream_t *s, void *val, smd_dtype_t *t) {
     case (SMD_TYPE_ARRAY): {
       char *val_pos = val;
       smd_dtype_array_t *d = &t->specifier.u.arr;
+      if(d->base->type == SMD_TYPE_CHAR){
+        smd_attr_ser_json_str(s, val_pos, d->count);
+        return;
+      }
+
       smd_string_stream_printf(s, "[");
       if (d->count > 0) {
         smd_ser_json_value(s, val_pos, d->base);
@@ -2714,7 +2737,7 @@ void smd_ser_json_value(smd_string_stream_t *s, void *val, smd_dtype_t *t) {
 
 void smd_attr_ser_json(smd_string_stream_t *s, smd_attr_t *attr) {
   //buff += smd_string_stream_printf(s, "{");
-  smd_attr_ser_json_str(s, attr->name);
+  smd_attr_ser_json_str(s, attr->name, -1);
   smd_string_stream_printf(s, ":{\"type\":\"");
   smd_type_ser(s, attr->type);
   smd_string_stream_printf(s, "\"");
@@ -2739,23 +2762,37 @@ void smd_attr_ser_json(smd_string_stream_t *s, smd_attr_t *attr) {
   return;
 }
 
-static char *smd_attr_string_from_json(char *out, char *str) {
+static char *smd_attr_string_from_json(char *out, char *str, int len) {
+  char const * end;
+  if(len < 0) end = NULL;
+  else end = out + len;
+
   if (*str == 'n') {
     // could be null in JSON
     if (strncmp(str, "null", 4) == 0) {
-      *out = 0;
+      if(end == NULL) *out = 0;
       return str + 4;
     }
     return NULL;
   }
   if (*str != '\"') return NULL;
   str++;
+  if(end != NULL && out == end) {
+    // empty array!
+    if (*str != '\"') return NULL;
+    str++;
+    return str;
+  }
+
   // parse the JSON encoded string
   while (*str != '\"' && *str != 0) {
     if (*str == '\\') {
       // escape character
       str++;
       switch (*str) {
+        case ('0'):
+          *out = '\0';
+          break;
         case ('b'):
           *out = '\b';
           break;
@@ -2782,16 +2819,18 @@ static char *smd_attr_string_from_json(char *out, char *str) {
       }
       str++;
       out++;
+      if(end != NULL && out == end) break;
       continue;
     }
     *out = *str;
     out++;
     str++;
+    if(end != NULL && out == end) break;
   }
 
   if (*str != '\"') return NULL;
   str++;
-  *out = 0;
+  if(end == NULL) *out = 0;
   return str;
 }
 
@@ -2880,7 +2919,7 @@ static char *smd_attr_val_from_json(char *val, smd_dtype_t *t, char *str) {
     }
     case (SMD_TYPE_CHAR): {
       char buff[4096];
-      str = smd_attr_string_from_json(buff, str);
+      str = smd_attr_string_from_json(buff, str, 1);
       if (buff[0] != 0 && buff[1] != 0) return NULL;
       char *c = (char *)val;
       *c = buff[0];
@@ -2888,7 +2927,7 @@ static char *smd_attr_val_from_json(char *val, smd_dtype_t *t, char *str) {
     }
     case (SMD_TYPE_STRING): {
       char buff[4096];
-      str = smd_attr_string_from_json(buff, str);
+      str = smd_attr_string_from_json(buff, str, -1);
       if (str[0] != 0) {
         *(char **)val = strdup(buff);
       } else {
@@ -2930,6 +2969,11 @@ static char *smd_attr_val_from_json(char *val, smd_dtype_t *t, char *str) {
     case (SMD_TYPE_ARRAY): {
       smd_dtype_array_t *d = &t->specifier.u.arr;
       char *out_pos = (char *)val;
+      if(d->base->type == SMD_TYPE_CHAR){
+        str = smd_attr_string_from_json(out_pos, str, d->count);
+        return str;
+      }
+
       if (*str != '[') return NULL;
       str++;
       if (d->count > 0) {
@@ -2960,7 +3004,7 @@ char *smd_attr_create_from_json_i(char *str, smd_attr_t **attr_out, size_t size)
   //printf("%d: \"%s\"\n", __LINE__, str);
 
   char aname[4096];
-  str = smd_attr_string_from_json(aname, str);
+  str = smd_attr_string_from_json(aname, str, -1);
   if (str == NULL) return NULL;
   if (*str != ':') return NULL;
   str++;
