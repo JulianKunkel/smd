@@ -8,8 +8,6 @@
 #include <smd.h>
 
 int main() {
-  int id = 0;
-
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
   smd_dtype_t *t_arr_ints = smd_type_array(SMD_DTYPE_INT64, 3);
 
@@ -41,7 +39,7 @@ int main() {
   printf("struct size: %zu extent: %zu\n", smd_type_get_size(t_struct), smd_type_get_extent(t_struct));
 
   // warning: ‘id’ is used uninitialized in this function
-  smd_attr_t *attr = smd_attr_new("root", t_struct, &v, id);
+  smd_attr_t *attr = smd_attr_new("root", t_struct, &v);
 
   struct test h = {4722, {NULL, NULL, NULL, NULL}, 3434};
   smd_attr_copy_value(attr, &h);
@@ -65,7 +63,7 @@ int main() {
 
   // character test
   t_arr = smd_type_array(SMD_DTYPE_CHAR, 12);
-  attr = smd_attr_new("str", t_arr, "thisisatest", 0);
+  attr = smd_attr_new("str", t_arr, "thisisatest");
   s = smd_string_stream_create();
   smd_attr_ser_json(s, attr);
   buff = smd_string_stream_close(s, &count);
@@ -78,7 +76,7 @@ int main() {
 
 
   t_arr = smd_type_array(SMD_DTYPE_CHAR, 0);
-  attr = smd_attr_new("str", t_arr, "", 0);
+  attr = smd_attr_new("str", t_arr, "");
   s = smd_string_stream_create();
   smd_attr_ser_json(s, attr);
   buff = smd_string_stream_close(s, &count);

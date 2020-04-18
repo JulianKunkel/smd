@@ -13,7 +13,7 @@ strcpy(buff, "child");                                                          
 int i = 0, j = 0;                                                                                     \
 {                                                                                                     \
                                                                                                       \
-  smd_attr_t *attr1 = smd_attr_new_usertype(buff, smd_type, smd_usertype, &value_usertype, id);       \
+  smd_attr_t *attr1 = smd_attr_new_usertype(buff, smd_type, smd_usertype, &value_usertype);       \
   if (attr1 == NULL) {                                                                                \
     conv[j++][i] = 0;                                                                                 \
     printf("\nSorry... It's not possible to make this conversion! :(");                               \
@@ -45,7 +45,7 @@ int main() {
   int ret;
 
   char *name = "SMD Test for Conversions";
-  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_STRING, name, id);
+  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_STRING, name);
   char *ptr = (char *)16;
   smd_attr_copy_value(attr, &ptr);
   assert(strcmp(ptr, "SMD Test for Conversions") == 0);

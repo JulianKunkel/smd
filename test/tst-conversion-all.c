@@ -14,7 +14,7 @@
 #define check_conversion_err(smd_type, smd_usertype, var_usertype, value)                           \
 {                                                                                                   \
   var_usertype orig = value;                                                                        \
-  smd_attr_t *attr1 = smd_attr_new_usertype("tst", smd_type, smd_usertype, & orig, 1);              \
+  smd_attr_t *attr1 = smd_attr_new_usertype("tst", smd_type, smd_usertype, & orig);              \
   if (attr1 != NULL) {                                                                              \
     printf("\nSorry... The conversion "#smd_type" <- "#smd_usertype" shouldn't have worked\n");     \
     exit(1);                                                                                        \
@@ -25,7 +25,7 @@
 {                                                                                                           \
   var_usertype orig = value;                                                                                \
   printf(#smd_type" <- "#smd_usertype);                                                  \
-  smd_attr_t *attr1 = smd_attr_new_usertype("tst", smd_type, smd_usertype, & orig, 1);                      \
+  smd_attr_t *attr1 = smd_attr_new_usertype("tst", smd_type, smd_usertype, & orig);                      \
   if (attr1 == NULL) {                                                                                      \
     printf(" Error1\n");                                                                                    \
     exit(1);                                                                                                \

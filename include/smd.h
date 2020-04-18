@@ -23,7 +23,6 @@ struct smd_attr_t {
   const char *name;
   smd_dtype_t *type;
   void *value; // if value != NULL, we are the owner of the data
-  int id;
 
   unsigned int children; // number of child attributes
   unsigned int childSlots;
@@ -37,12 +36,12 @@ struct smd_attr_t {
 
 /**
  */
-smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val, int id);
+smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val);
 
 /*
  Return NULL if data cannot be converted lossless
  */
-smd_attr_t *smd_attr_new_usertype(const char *name, smd_dtype_t *type, smd_dtype_t *usertype, const void *val, int id);
+smd_attr_t *smd_attr_new_usertype(const char *name, smd_dtype_t *type, smd_dtype_t *usertype, const void *val);
 
 /**
  */
@@ -50,7 +49,7 @@ void smd_attr_destroy(smd_attr_t *attr);
 
 /**
  */
-void smd_iterate(smd_attr_t *attr, void (*iter)(int id, const char *name));
+void smd_iterate(smd_attr_t *attr, void (*iter)(const char *name));
 
 typedef enum {
   SMD_ATTR_LINKED,
@@ -67,7 +66,6 @@ void smd_attr_unlink_pos(smd_attr_t *parent, unsigned int pos);
 /**
  * Retrieve a position for an attribute to manipulate the attribute
  */
-int smd_find_position_by_id(const smd_attr_t *attr, int id);
 int smd_find_position_by_name(const smd_attr_t *attr, const char *name);
 
 smd_attr_t *smd_attr_get_child(const smd_attr_t *attr, unsigned int pos);

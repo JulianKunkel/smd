@@ -97,15 +97,6 @@ smd_attr_t *smd_attr_get_child_by_name(const smd_attr_t *attr, const char *name)
   return NULL;
 }
 
-int smd_find_position_by_id(const smd_attr_t *attr, int id) {
-  for (unsigned int i = 0; i < attr->children; i++) {
-    if (attr->childs[i]->id == id) {
-      return i;
-    }
-  }
-  return -1;
-}
-
 static void smd_attr_alloc(void **out, smd_dtype_t *dtype) {
   smd_basic_type_t type = dtype->type;
   switch (type) {
@@ -2456,11 +2447,10 @@ static void smd_attr_free_value(void *val, smd_dtype_t *dtype) {
   }
 }
 
-smd_attr_t *smd_attr_new_usertype(const char *name, smd_dtype_t *type, smd_dtype_t *usertype, const void *val, int id) {
+smd_attr_t *smd_attr_new_usertype(const char *name, smd_dtype_t *type, smd_dtype_t *usertype, const void *val) {
   smd_attr_t *attr = malloc(sizeof(smd_attr_t));
   assert(attr != NULL);
   memset(attr, 0, sizeof(smd_attr_t));
-  attr->id = id;
   attr->type = type;
   assert(name != NULL);
   int ret = 0;
@@ -2487,8 +2477,8 @@ smd_attr_t *smd_attr_new_usertype(const char *name, smd_dtype_t *type, smd_dtype
   return attr;
 }
 
-smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val, int id) {
-  return smd_attr_new_usertype(name, type, SMD_DTYPE_AS_EXPECTED, val, id);
+smd_attr_t *smd_attr_new(const char *name, smd_dtype_t *type, const void *val) {
+  return smd_attr_new_usertype(name, type, SMD_DTYPE_AS_EXPECTED, val);
 }
 
 void smd_attr_unlink_pos(smd_attr_t *p, unsigned int pos) {
@@ -3022,7 +3012,7 @@ char *smd_attr_create_from_json_i(char *str, smd_attr_t **attr_out, size_t size)
   str += 9;
 
   smd_attr_t *attr;
-  attr = smd_attr_new(aname, type, NULL, 0);
+  attr = smd_attr_new(aname, type, NULL);
 
   void *val = NULL;
   if (use_type_ptr(attr->type)) {
@@ -3070,8 +3060,8 @@ size_t smd_attr_create_from_json(char *str, size_t length, smd_attr_t **out_attr
   return (pos - str);
 }
 
-void smd_iterate(smd_attr_t *attr, void (*iter)(int id, const char *name)) {
-  iter(attr->id, attr->name);
+void smd_iterate(smd_attr_t *attr, void (*iter)(const char *name)) {
+  iter(attr->name);
   for (unsigned int i = 0; i < attr->children; i++) {
     smd_iterate(attr->childs[i], iter);
   }

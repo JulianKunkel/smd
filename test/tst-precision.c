@@ -8,11 +8,10 @@
 #include <smd.h>
 
 int main() {
-  int id = 0;
   int ret;
 
   char *name = "this is a test";
-  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_STRING, name, id);
+  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_STRING, name);
   char *ptr = (char *)16;
   smd_attr_copy_value(attr, &ptr);
   assert(strcmp(ptr, "this is a test") == 0);
@@ -71,7 +70,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT32, &ti32, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT32, &ti32);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -118,7 +117,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT64, &ti64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT64, &ti64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -167,7 +166,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT32, &tui32, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT32, &tui32);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -216,7 +215,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT64, &tui64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT64, &tui64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -263,7 +262,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_INT64, &ti64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_INT64, &ti64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -310,7 +309,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_UINT64, &tui64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_UINT64, &tui64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -364,7 +363,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_FLOAT, &tf, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_FLOAT, &tf);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -444,7 +443,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT32, &i32, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT32, &i32);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -491,7 +490,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT64, &i64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_INT64, &i64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -541,7 +540,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT32, &ui32, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT32, &ui32);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -591,7 +590,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT64, &ui64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_UINT64, &ui64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -640,7 +639,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_INT64, &i64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_INT64, &i64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -690,7 +689,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_UINT64, &ui64, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_UINT64, &ui64);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -737,7 +736,7 @@ int main() {
 
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_FLOAT, &f, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_FLOAT, &f);
       if (attr1 == NULL) {
         printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
       } else {
@@ -815,7 +814,7 @@ int main() {
     //
     //   smd_attr_t *attr1;
     //
-    //   attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT32, SMD_DTYPE_FLOAT, &f, id);
+    //   attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT32, SMD_DTYPE_FLOAT, &f);
     //   if (attr1 == NULL) {
     //     printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
     //   } else {
@@ -895,7 +894,7 @@ int main() {
     //
     //   smd_attr_t *attr1;
     //
-    //   attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT64, SMD_DTYPE_DOUBLE, &d, id);
+    //   attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT64, SMD_DTYPE_DOUBLE, &d);
     //   if (attr1 == NULL) {
     //     printf("\n\nSorry... It's not possible to make this conversion! :(\n\n");
     //   } else {

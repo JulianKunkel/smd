@@ -11,7 +11,7 @@ int main() {
   int ret;
 
   char *name = "this is a test";
-  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_STRING, name, id);
+  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_STRING, name);
   char *ptr = (char *)16;
   smd_attr_copy_value(attr, &ptr);
   assert(strcmp(ptr, "this is a test") == 0);
@@ -61,7 +61,7 @@ int main() {
       printf("\n\nint8_t!\n");
       smd_attr_t *attr1;
 
-      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT8, SMD_DTYPE_DOUBLE, &d, id);
+      attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT8, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -97,7 +97,7 @@ int main() {
     {
       printf("\n\nint16_t!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT16, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT16, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -130,7 +130,7 @@ int main() {
     {
       printf("\n\nint32_t!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT32, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT32, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -163,7 +163,7 @@ int main() {
     {
       printf("\n\nint64_t!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT64, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_INT64, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -196,7 +196,7 @@ int main() {
     {
       printf("\n\nuint8_t!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT8, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT8, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -229,7 +229,7 @@ int main() {
     {
       printf("\n\nuint16_t!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT16, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT16, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -262,7 +262,7 @@ int main() {
     {
       printf("\n\nuint32_t!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT32, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT32, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -295,7 +295,7 @@ int main() {
     {
       printf("\n\nuint64_t!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT64, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_UINT64, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -328,7 +328,7 @@ int main() {
     {
       printf("\n\nfloat!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_FLOAT, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -362,7 +362,7 @@ int main() {
     {
       printf("\n\ndouble!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_DOUBLE, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");
@@ -395,7 +395,7 @@ int main() {
     {
       printf("\n\nchar!\n");
 
-      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_CHAR, SMD_DTYPE_DOUBLE, &d, id);
+      smd_attr_t *attr1 = smd_attr_new_usertype(buff, SMD_DTYPE_CHAR, SMD_DTYPE_DOUBLE, &d);
       if (attr1 == NULL) {
         conv[i++] = 0;
         printf("\nSorry... It's not possible to make this conversion! :(\n");

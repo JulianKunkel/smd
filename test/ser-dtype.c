@@ -11,7 +11,7 @@
 
 int main() {
   smd_dtype_t *t_arr = smd_type_array(SMD_DTYPE_STRING, 4);
-  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_DTYPE, t_arr, 0);
+  smd_attr_t *attr = smd_attr_new("root", SMD_DTYPE_DTYPE, t_arr);
 
   size_t count;
   smd_string_stream_t *s = smd_string_stream_create();
