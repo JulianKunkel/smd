@@ -2910,7 +2910,7 @@ static char *smd_attr_val_from_json(char *val, smd_dtype_t *t, char *str) {
     case (SMD_TYPE_CHAR): {
       char buff[4096];
       str = smd_attr_string_from_json(buff, str, 1);
-      if (buff[0] != 0 && buff[1] != 0) return NULL;
+      if (str == NULL || buff[0] == 0) return NULL;
       char *c = (char *)val;
       *c = buff[0];
       return str;
