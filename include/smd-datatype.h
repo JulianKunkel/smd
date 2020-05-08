@@ -96,6 +96,19 @@ extern smd_dtype_t *SMD_DTYPE_STRING;
 extern smd_dtype_t *SMD_DTYPE_LB;
 extern smd_dtype_t *SMD_DTYPE_UB;
 
+#define smd_c_to_smd_type(type) _Generic( \
+  int8_t: SMD_DTYPE_INT8, \
+  int16_t: SMD_DTYPE_INT16, \
+  int32_t: SMD_DTYPE_INT32, \
+  int64_t: SMD_DTYPE_INT64, \
+  uint8_t: SMD_DTYPE_UINT8, \
+  uint16_t: SMD_DTYPE_UINT16, \
+  uint32_t: SMD_DTYPE_UINT32, \
+  uint64_t: SMD_DTYPE_UINT64, \
+  float: SMD_DTYPE_FLOAT, \
+  double: SMD_DTYPE_DOUBLE \
+)
+
 size_t smd_type_get_size(smd_dtype_t *type);
 size_t smd_type_get_extent(smd_dtype_t *type);
 
