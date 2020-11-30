@@ -17,6 +17,10 @@
  * The key is always a unique string as part of an attribute, the value can be of any supported datatype.
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct smd_attr_t smd_attr_t;
 
 struct smd_attr_t {
@@ -121,5 +125,10 @@ smd_string_stream_t* smd_string_stream_create();
 void smd_string_stream_printf(smd_string_stream_t* stream, const char* format, ...)
   __attribute__((format(printf, 2, 3)));  //allow the compiler to check the argument types
 char* smd_string_stream_close(smd_string_stream_t* stream, size_t* out_size); //destructs the stream and returns the contained data as a suitably allocated string
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif

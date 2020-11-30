@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 typedef struct smd_string_stream_t smd_string_stream_t;
 
 typedef enum smd_type_t {
@@ -36,6 +37,8 @@ typedef enum smd_type_t {
   SMD_TYPE_UB,
   SMD_TYPE_DERIVED_END // marker
 } smd_basic_type_t;
+
+
 
 typedef struct smd_dtype_t smd_dtype_t;
 
@@ -96,6 +99,65 @@ extern smd_dtype_t *SMD_DTYPE_STRING;
 extern smd_dtype_t *SMD_DTYPE_LB;
 extern smd_dtype_t *SMD_DTYPE_UB;
 
+
+#ifdef __cplusplus
+
+template <class T>
+inline smd_dtype_t* smd_c_to_smd_type(T & var){
+  return SMD_DTYPE_UNKNOWN;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(int8_t & var){
+  return SMD_DTYPE_INT8;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(int16_t & var){
+  return SMD_DTYPE_INT16;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(int32_t & var){
+  return SMD_DTYPE_INT32;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(int64_t & var){
+  return SMD_DTYPE_INT64;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(uint8_t & var){
+  return SMD_DTYPE_UINT8;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(uint16_t & var){
+  return SMD_DTYPE_UINT16;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(uint32_t & var){
+  return SMD_DTYPE_UINT32;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(uint64_t & var){
+  return SMD_DTYPE_UINT64;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(float & var){
+  return SMD_DTYPE_FLOAT;
+}
+
+template <>
+inline smd_dtype_t* smd_c_to_smd_type(double & var){
+  return SMD_DTYPE_DOUBLE;
+}
+#else
+// no support in C++11
 #define smd_c_to_smd_type(type) _Generic(type, \
   int8_t: SMD_DTYPE_INT8, \
   int16_t: SMD_DTYPE_INT16, \
@@ -108,6 +170,13 @@ extern smd_dtype_t *SMD_DTYPE_UB;
   float: SMD_DTYPE_FLOAT, \
   double: SMD_DTYPE_DOUBLE \
 )
+
+#endif
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 size_t smd_type_get_size(smd_dtype_t *type);
 size_t smd_type_get_extent(smd_dtype_t *type);
@@ -146,5 +215,10 @@ void smd_type_ser(smd_string_stream_t* s, smd_dtype_t *type);
 smd_dtype_t *smd_type_from_ser(char *str);
 
 void smd_type_iterate(smd_dtype_t *type, char *buff, void (*iter)(smd_dtype_t *t, void *buff));
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
