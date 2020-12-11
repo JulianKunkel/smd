@@ -7,8 +7,9 @@
 
 #include <smd.h>
 
+
+#define kRepetitions 1000
 const int kCharacterCount = 100000;
-const int kRepetitions = 1000;
 const int kAllocSize = 100; //for the snprintf() test
 
 static struct timespec curTime() {
